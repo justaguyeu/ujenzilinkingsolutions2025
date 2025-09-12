@@ -63,12 +63,12 @@ const App = () => {
     <>
       <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/benefits/:id" element={<BenefitDetail />} />
-          <Route path="/aboutus" element={<AboutUs/>} />
-          <Route path="/serviceses" element={<Serviceses/>} />
+  <Route path="/" element={<Home />} />
+  <Route path="/benefits/:id" element={<BenefitDetail />} />
+  <Route path="/aboutus" element={<AboutUs />} />
+  <Route path="/serviceses" element={<Serviceses />} />
+</Routes>
 
-        </Routes>
       </div>
 
       <ButtonGradient />
