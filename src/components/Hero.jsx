@@ -29,7 +29,7 @@ const Hero = () => {
       <div className="container relative" ref={parallaxRef}>
         <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
           <h1 className="h1 mb-6">
-          Transforming Challenges into Opportunities with,{` `}
+          Transforming Challenges into Opportunities, with{` `}
             {/* Explore the Possibilities of&nbsp;AI&nbsp;Chatting with {` `} */}
             <span className="inline-block relative">
               UJENZI LINKING SOLUTIONS{" "}
@@ -170,7 +170,7 @@ const Hero = () => {
               {/* <Gradient /> */}
             </div></div>
 
-<p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">Beyond business growth, we are passionate about tackling youth unemployment 
+<p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center mt-6">Beyond business growth, we are passionate about tackling youth unemployment 
 in Tanzania. Through practical Sales & Marketing Training, on-the-job 
 experience, and job placement services, we equip young people with the 
 skills they need to secure employment while helping companies find skilled 

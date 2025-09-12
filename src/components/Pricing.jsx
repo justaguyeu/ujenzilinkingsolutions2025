@@ -34,13 +34,14 @@ const Pricing = () => {
           tag="Get started with Ujenzi Linking Solutions"
           title="Choose Us, Choose forever"
           text=""
+          className="text-center"
         />
 
-        <div className="relative">
-          {/* <PricingList />
+        {/* <div className="relative">
+          <PricingList />
           <LeftLine />
-          <RightLine /> */}
-        </div>
+          <RightLine />
+        </div> */}
 
         {/* <div className="flex justify-center mt-10">
           <a
@@ -51,14 +52,15 @@ const Pricing = () => {
           </a>
           
         </div> */}
-        <div className="flex justify-center mt-40 lg:flex">
-      <div className="flex-col items-center max-w-[50rem] mx-auto mb-12 lg:mb-20 md:text-center">
-        <Heading title="Get In Touch"/>
+        <div className="flex justify-center mt-10 lg:flex">
+      <div className="flex-col items-center max-w-[50rem] mx-auto mb-3 lg:mb-20 md:text-center">
+        <Heading className="text-center" title="Get In Touch"/>
         <a className=" flex-col flex items-center max-w-[50rem] mx-auto mb-12 lg:mb-20 md:text-center" >
           <FontAwesomeIcon icon={faMapMarkerAlt} size="lg" className="mr-2 mb-1"/> 
           <h5  style={{ fontSize: '1.3rem' }}className="mb-6">Dar es Salaam, Tanzania</h5>
           <FontAwesomeIcon icon={faPhone} size="lg" className="mr-2 mb-1" /> 
-          <h5 style={{ fontSize: '1.3rem' }}className="mb-6">(+255) 755 753 883 | (+255) 789 345 845</h5>
+          <h5 style={{ fontSize: '1.3rem' }}className="mb-6">(+255) 755 753 883 </h5>
+          <h5 style={{ fontSize: '1.3rem' }}className="mb-6">(+255) 789 345 845</h5>
           <FontAwesomeIcon icon={faEnvelope}  size="lg" className="mr-2 mb-1" /> 
           <h5 style={{ fontSize: '1.3rem' }}className="mb-6">ujenzilinkingsolutions@gmail.com</h5>
         </a>
