@@ -88,14 +88,14 @@ export const navigation2 = [
   {
     id: "0",
     title: "SERVICES",
-    url: "/serviceses",
+    url: `/serviceses`,
   },
  
   {
     id: "2",
     title: "ABOUT US",
     
-    url: "/aboutus",
+    url: `/aboutus`,
   },
   // {
   //   id: "3",
