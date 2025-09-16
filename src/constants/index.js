@@ -35,7 +35,20 @@ import {
   telegram,
   twitter,
   yourlogo,
-  loading
+  loading,
+  log01,
+   log02,
+    log03,
+     log04,
+      log05,
+       log06,
+        log07,
+         log08,
+          log09,
+           log10,
+            log11,
+             log13,
+              log14,
 
 } from "../assets";
 
@@ -128,11 +141,11 @@ export const brainwaveServices = [
 ];
 
 export const brainwaveServicesIcons = [
-  recording03,
-  recording01,
-  disc02,
-  chromecast,
-  sliders04,
+  log09,
+  log10,
+  log11,
+  log13,
+  log14,
 ];
 
 export const roadmap = [
@@ -201,60 +214,63 @@ export const collabContent = [
 export const collabApps = [
   {
     id: "0",
-    title: "Figma",
-    icon: figma,
-    width: 26,
-    height: 36,
+    title: "log01",
+    icon: log01,
+    width: 100,
+    height: 100,
   },
   {
-    id: "1",
-    title: "Notion",
-    icon: notion,
-    width: 34,
-    height: 36,
+    id: "0",
+    title: "log02",
+    icon: log02,
+    width: 100,
+    height: 100,
   },
   {
-    id: "2",
-    title: "Discord",
-    icon: discord,
-    width: 36,
-    height: 28,
+    id: "0",
+    title: "log03",
+    icon: log03,
+    width: 100,
+    height: 100,
   },
   {
-    id: "3",
-    title: "Slack",
-    icon: slack,
-    width: 34,
-    height: 35,
+    id: "0",
+    title: "log04",
+    icon: log04,
+    width: 100,
+    height: 100,
   },
   {
-    id: "4",
-    title: "Photoshop",
-    icon: photoshop,
-    width: 34,
-    height: 34,
+    id: "0",
+    title: "log05",
+    icon: log05,
+    width: 100,
+    height: 100,
   },
   {
-    id: "5",
-    title: "Protopie",
-    icon: protopie,
-    width: 34,
-    height: 34,
+    id: "0",
+    title: "log06",
+    icon: log06,
+    width: 100,
+    height: 100,
   },
   {
-    id: "6",
-    title: "Framer",
-    icon: framer,
-    width: 26,
-    height: 34,
+    id: "0",
+    title: "log07",
+    icon: log07,
+    width: 100,
+    height: 100,
   },
   {
-    id: "7",
-    title: "Raindrop",
-    icon: raindrop,
-    width: 38,
-    height: 32,
+    id: "0",
+    title: "log08",
+    icon: log08,
+    width: 100,
+    height: 100,
   },
+ 
+
+  
 ];
 
 export const pricing = [

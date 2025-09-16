@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import Section from "./Section";
 import { Phone } from "lucide-react";
 import { curve } from "../assets";
+import { robot } from "../assets";
 
 const BenefitDetail = () => {
   const { id } = useParams();
@@ -39,9 +40,20 @@ const BenefitDetail = () => {
                       />
                     </span>
                   </h1>
-        <h1 className="text-3xl font-bold mb-4 mt-10">{benefit.title}</h1>
+                  
+           <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-n-8 p-6 rounded-lg shadow">      
+        <img 
+          src={benefit.imageUrl} 
+          alt="" 
+          width={300}
+          height={28}/>
+        <h1 className="text-3xl font-bold ">
+          
+                
+          
+          {benefit.title}</h1>
         
-        <p className="mb-8 text-lg">{benefit.text}</p>
+        <p className=" text-lg">{benefit.text}</p></div> 
 
         {benefit.companies && benefit.companies.length > 0 ? (
           <div className="space-y-6">

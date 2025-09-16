@@ -50,7 +50,7 @@ const Collaboration = () => {
               </div>
             </div>
 
-            {/* <ul>
+            <ul>
               {collabApps.map((app, index) => (
                 <li
                   key={app.id}
@@ -59,7 +59,7 @@ const Collaboration = () => {
                   }`}
                 >
                   <div
-                    className={`relative -top-[1.6rem] flex w-[3.2rem] h-[3.2rem] bg-n-7 border border-n-1/15 rounded-xl -rotate-${
+                    className={`relative -top-[1.6rem] flex w-[3.2rem] h-[3.2rem] -rotate-${
                       index * 45
                     }`}
                   >
@@ -73,25 +73,25 @@ const Collaboration = () => {
                   </div>
                 </li>
               ))}
-            </ul> */}
+            </ul>
 
-            <LeftCurve />
-            <RightCurve />
+            {/* <LeftCurve />
+            <RightCurve /> */}
           </div>
-          {/* <ul className="flex items-center justify-between">
+          {/* <ul className="flex items-center justify-between mt-12">
                   {brainwaveServicesIcons.map((item, index) => (
                     <li
                       key={index}
                       className={`rounded-2xl flex items-center justify-center ${
-                        index === 2
+                        index * 45
                           ? "w-[3rem] h-[3rem] p-0.25 bg-conic-gradient md:w-[4.5rem] md:h-[4.5rem]"
-                          : "flex w-10 h-10 bg-n-6 md:w-15 md:h-15"
+                          : "flex w-10 h-10  md:w-15 md:h-15"
                       }`}
                     >
                       <div
                         className={
-                          index === 2
-                            ? "flex items-center justify-center w-full h-full bg-n-7 rounded-[1rem]"
+                          index * 45
+                            ? "flex items-center justify-center w-full h-full  rounded-[1rem]"
                             : ""
                         }
                       >

@@ -26,6 +26,23 @@ import robot from "./hero/robot.jpg";
 import heroBackground from "./hero/hero-background.jpg";
 
 import curve1 from "./collaboration/curve-1.svg";
+import log01 from "./collaboration/log01.jpg";
+import log02 from "./collaboration/log02.jpg";
+import log03 from "./collaboration/log03.jpg";
+import log04 from "./collaboration/log04.jpg";
+import log05 from "./collaboration/log05.jpg";
+import log06 from "./collaboration/log06.jpg";
+import log07 from "./collaboration/log07.jpg";
+import log08 from "./collaboration/log08.jpg";
+import log09 from "./collaboration/log09.jpg";
+import log10 from "./collaboration/log10.jpg";
+import log11 from "./collaboration/log11.jpg";
+import log13 from "./collaboration/log13.jpg";
+import log14 from "./collaboration/log14.jpg";
+import service from "./collaboration/service.jpg";
+import home2 from "./collaboration/home2.jpg";
+
+
 import curve2 from "./collaboration/curve-2.svg";
 import discord from "./collaboration/discord.png";
 import figma from "./collaboration/figma.png";
@@ -145,5 +162,20 @@ export {
   instagram,
   telegram,
   twitter,
+  log01,
+  log02,
+  log03,
+  log04,
+  log05,
+  log06,
+  log07,
+  log08,
+  log09,
+  log10,
+  log11,
+  log13,
+  log14,
+  service,
+  home2,
   
 };
