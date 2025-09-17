@@ -50,6 +50,24 @@ import {
              log13,
               log14,
 
+
+               ARR ,
+   BCMM ,
+  CI ,
+  CM ,
+  CN ,
+  COC,
+  COE ,
+  FR, 
+  HD ,
+ LD ,
+ PM ,
+  QS ,
+  RE ,
+  SOOO,
+  STORE,
+  WOR,
+
 } from "../assets";
 
 export const navigation = [
@@ -316,7 +334,7 @@ export const benefits = [
     text: "Our network of trusted real estate agents connects buyers, sellers, and investors with the right opportunities. Whether you’re looking for a home, commercial space, or land, we ensure smooth transactions and expert guidance every step of the way.",
     backgroundUrl: "./src/assets/benefits/card-1.svg",
     iconUrl: benefitIcon1,
-    imageUrl: benefitImage2,
+    imageUrl: RE,
     companies: [
       {
         name: "Prime Realty",
@@ -342,7 +360,7 @@ export const benefits = [
     text: "We partner with reputable manufacturers to provide high-quality, durable, and affordable construction materials. From cement and steel to finishing products, we ensure your project is built on a foundation of strength and reliability.",
     backgroundUrl: "./src/assets/benefits/card-2.svg",
     iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
+    imageUrl: BCMM,
     light: true,
   },
   {
@@ -351,7 +369,7 @@ export const benefits = [
     text: "Our civil and consulting engineers bring expertise in planning, designing, and supervising construction projects. With technical precision and innovative solutions, they guarantee strong, safe, and sustainable structures.",
     backgroundUrl: "./src/assets/benefits/card-3.svg",
     iconUrl: benefitIcon3,
-    imageUrl: benefitImage2,
+    imageUrl: CI,
   },
   {
     id: "3",
@@ -359,7 +377,7 @@ export const benefits = [
     text: "Through our platform, we link clients with reliable construction companies that deliver end-to-end building solutions. Whether it’s residential, commercial, or industrial development, we ensure projects are executed to the highest standards.",
     backgroundUrl: "./src/assets/benefits/card-4.svg",
     iconUrl: benefitIcon4,
-    imageUrl: benefitImage2,
+    imageUrl: COC,
     light: true,
   },
   {
@@ -368,7 +386,7 @@ export const benefits = [
     text: "Our architects design innovative, functional, and aesthetically pleasing spaces, while our quantity surveyors ensure cost control and value for money. Together, they bring creativity and efficiency to every project.",
     backgroundUrl: "./src/assets/benefits/card-5.svg",
     iconUrl: benefitIcon1,
-    imageUrl: benefitImage2,
+    imageUrl: ARR,
   },
   {
     id: "5",
@@ -376,7 +394,7 @@ export const benefits = [
     text: "Our consulting engineers provide expert advice and innovative solutions to ensure the success of every project. From feasibility studies and structural analysis to project supervision, they bring technical knowledge and problem-solving skills that guarantee safe, efficient, and sustainable construction outcomes.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
+    imageUrl: COE,
   },
   {
     id: "6",
@@ -384,7 +402,7 @@ export const benefits = [
     text: "Our experienced quantity surveyors ensure cost-effective project delivery by managing budgets, preparing accurate estimates, and controlling expenses throughout the construction process. With their expertise, clients are guaranteed transparency, value for money, and financial efficiency from project start to completion.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
+    imageUrl: QS,
   },
   {
     id: "7",
@@ -392,7 +410,7 @@ export const benefits = [
     text: "We collaborate with landscape developers who transform outdoor spaces into beautiful, functional, and eco-friendly environments. From gardens to large-scale developments, they create lasting impressions.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
+    imageUrl: LD,
   },
   {
     id: "8",
@@ -400,7 +418,7 @@ export const benefits = [
     text: "Skilled artisans are the backbone of every successful project. We connect you with professional fundis who bring craftsmanship, dedication, and experience to ensure flawless finishing in every build.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
+    imageUrl: WOR,
   },
   {
     id: "9",
@@ -408,7 +426,7 @@ export const benefits = [
     text: "Our network of hardware stores ensures you have access to every essential tool and material. Convenient, reliable, and stocked with quality products, they keep your project moving without delays.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
+    imageUrl: STORE,
   },
   {
     id: "10",
@@ -416,7 +434,7 @@ export const benefits = [
     text: "We make construction machinery and tools accessible at affordable rates. From heavy equipment to specialized tools, our partners ensure your projects run efficiently without unnecessary investment costs.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
+    imageUrl: CM,
   },
   {
     id: "11",
@@ -424,7 +442,7 @@ export const benefits = [
     text: "Our project managers oversee every stage of construction, ensuring timelines, budgets, and quality standards are met. With their leadership, projects are delivered smoothly and successfully.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
+    imageUrl: PM,
   },
   {
     id: "12",
@@ -432,7 +450,7 @@ export const benefits = [
     text: "We link you to expert decorators who transform houses into stylish and welcoming homes. From interior designs to exterior finishes, they blend creativity and functionality to match your vision.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
+    imageUrl: HD,
   },
   {
     id: "13",
@@ -440,7 +458,7 @@ export const benefits = [
     text: "Our cleaning services ensure every space is spotless after construction or renovation. With professional post-construction and maintenance cleaning, we leave your property polished and ready for use.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
+    imageUrl: CN,
   },
 ];
 

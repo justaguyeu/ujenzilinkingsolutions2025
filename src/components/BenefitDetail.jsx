@@ -24,10 +24,11 @@ const BenefitDetail = () => {
   return (
     <>
       <Header2 />
-      <Section id="features">
+      <Section >
       <div className="container relative z-2">
 
       <div className="container mx-auto p-10">
+    
         <h1 className="h1 mb-6">
                     <span className="inline-block relative">
                       UJENZI LINKING SOLUTIONS{" "}
@@ -42,18 +43,24 @@ const BenefitDetail = () => {
                   </h1>
                   
            <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-n-8 p-6 rounded-lg shadow">      
-        <img 
-          src={benefit.imageUrl} 
-          alt="" 
-          width={300}
-          height={28}/>
+        
+          
         <h1 className="text-3xl font-bold ">
           
                 
           
           {benefit.title}</h1>
+          <img 
+          src={benefit.imageUrl} 
+          className="border-2 border-n-9 rounded-full"
+          alt="" 
+          width={200}
+          height={28}/>
         
         <p className=" text-lg">{benefit.text}</p></div> 
+
+
+
 
         {benefit.companies && benefit.companies.length > 0 ? (
           <div className="space-y-6">

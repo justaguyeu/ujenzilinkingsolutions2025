@@ -53,6 +53,24 @@ import protopie from "./collaboration/protopie.png";
 import raindrop from "./collaboration/raindrop.png";
 import slack from "./collaboration/slack.png";
 
+
+import ARR from "./companies/ARR.jpg";
+import BCMM from "./companies/BCMM.jpg";
+import CI from "./companies/CI.jpg";
+import CM from "./companies/CM.jpg";
+import CN from "./companies/CN.jpg";
+import COC from "./companies/COC.jpg";
+import COE from "./companies/COE.jpg";
+import FR from "./companies/FR.jpg";
+import HD from "./companies/HD.jpg";
+import LD from "./companies/LD.jpg";
+import PM from "./companies/PM.jpg";
+import QS from "./companies/QS.jpg";
+import RE from "./companies/RE.jpg";
+import SOOO from "./companies/SOOO.jpg";
+import STORE from "./companies/STORE.jpg";
+import WOR from "./companies/WOR.jpg";
+
 import service1 from "./services/service-1.png";
 import service2 from "./services/service-2.png";
 // import service3 from "./services/service-3.png";
@@ -177,5 +195,21 @@ export {
   log14,
   service,
   home2,
+   ARR ,
+   BCMM ,
+  CI ,
+  CM ,
+  CN ,
+  COC,
+  COE ,
+  FR, 
+  HD ,
+ LD ,
+ PM ,
+  QS ,
+  RE ,
+  SOOO,
+  STORE,
+  WOR,
   
 };
