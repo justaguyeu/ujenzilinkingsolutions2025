@@ -37,33 +37,33 @@ import {
   yourlogo,
   loading,
   log01,
-   log02,
-    log03,
-     log04,
-      log05,
-       log06,
-        log07,
-         log08,
-          log09,
-           log10,
-            log11,
-             log13,
-              log14,
+  log02,
+  log03,
+  log04,
+  log05,
+  log06,
+  log07,
+  log08,
+  log09,
+  log10,
+  log11,
+  log13,
+  log14,
 
 
-               ARR ,
-   BCMM ,
-  CI ,
-  CM ,
-  CN ,
+  ARR,
+  BCMM,
+  CI,
+  CM,
+  CN,
   COC,
-  COE ,
-  FR, 
-  HD ,
- LD ,
- PM ,
-  QS ,
-  RE ,
+  COE,
+  FR,
+  HD,
+  LD,
+  PM,
+  QS,
+  RE,
   SOOO,
   STORE,
   WOR,
@@ -89,7 +89,7 @@ export const navigation = [
   {
     id: "2",
     title: "ABOUT US",
-    
+
     url: "/#pricing",
   },
   // {
@@ -116,16 +116,16 @@ export const navigation2 = [
     title: "HOME",
     url: "/",
   },
- {
-  id: "2",
-  title: "ABOUT US",
-  url: "/aboutus",
-},
-{
-  id: "0",
-  title: "SERVICES",
-  url: "/serviceses",
-},
+  {
+    id: "2",
+    title: "ABOUT US",
+    url: "/aboutus",
+  },
+  {
+    id: "0",
+    title: "SERVICES",
+    url: "/serviceses",
+  },
 
   // {
   //   id: "3",
@@ -150,12 +150,12 @@ export const heroIcons = [homeSmile, file02, searchMd, plusSquare];
 
 export const notificationImages = [notification4, notification3, notification2];
 
-export const companyLogos = [yourlogo, ];
+export const companyLogos = [yourlogo,];
 
 export const brainwaveServices = [
   "Tailor-Made Business Solutions",
   "Youth Empowerment Impact",
-  "Trusted by Businesses",
+  // "Trusted by Businesses",
 ];
 
 export const brainwaveServicesIcons = [
@@ -205,10 +205,10 @@ export const roadmap = [
 export const collabText =
   "Helping businesses of all sizes discover new markets, increase visibility, and grow sales volumes through customized solutions.";
 
-  export const collabText1 =
+export const collabText1 =
   "Equipping youth and professionals with practical sales and marketing skills through hands-on training and on-the-job experience.";
 
-  export const collabText2 =
+export const collabText2 =
   "Bridging the gap between businesses and skilled salespeople by providing recruitment and placement services that drive measurable results.";
 
 export const collabContent = [
@@ -234,61 +234,53 @@ export const collabApps = [
     id: "0",
     title: "log01",
     icon: log01,
-    width: 100,
-    height: 100,
+   
   },
   {
     id: "0",
     title: "log02",
     icon: log02,
-    width: 100,
-    height: 100,
+    
   },
   {
     id: "0",
     title: "log03",
     icon: log03,
-    width: 100,
-    height: 100,
+    
   },
   {
     id: "0",
     title: "log04",
     icon: log04,
-    width: 100,
-    height: 100,
+    
   },
   {
     id: "0",
     title: "log05",
     icon: log05,
-    width: 100,
-    height: 100,
+    
   },
   {
     id: "0",
     title: "log06",
     icon: log06,
-    width: 100,
-    height: 100,
+    
   },
   {
     id: "0",
     title: "log07",
     icon: log07,
-    width: 100,
-    height: 100,
+    
   },
   {
     id: "0",
     title: "log08",
     icon: log08,
-    width: 100,
-    height: 100,
+   
   },
- 
 
-  
+
+
 ];
 
 export const pricing = [

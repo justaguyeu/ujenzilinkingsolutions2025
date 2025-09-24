@@ -86,3 +86,14 @@
 .-rotate-360 {
   @apply rotate-[-360deg]
 }
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* move half since we duplicated */
+}
+
+.animate-scroll {
+  display: flex;
+  width: max-content;
+  animation: scroll 20s linear infinite;
+}

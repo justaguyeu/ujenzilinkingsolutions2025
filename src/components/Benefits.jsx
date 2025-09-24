@@ -38,7 +38,7 @@ Meet with"
                   />
                   <Link
                     to={`/benefits/${item.id}`} // ✅ fixed
-                    className="ml-auto flex items-center font-code text-xs font-bold text-color-1 uppercase tracking-wider hover:underline"
+                    className="ml-auto flex items-center font-code text-xs font-bold text-color-1 uppercase tracking-wider hover:text-n-1"
                   >
                     View All
                     <Arrow />
@@ -49,10 +49,10 @@ Meet with"
               {item.light && <GradientLight />}
 
               <div
-                className="absolute inset-0.5 bg-n-8"
+                className="absolute inset-0.5 group bg-n-8"
                 style={{ clipPath: "url(#benefits)" }}
               >
-                <div className="absolute inset-0 opacity-0 transition-opacity hover:opacity-10">
+                <div className="absolute inset-0 bg-black opacity-30 transition-opacity duration-300 group-hover:opacity-60">
                   {item.imageUrl && (
                     <img
                       src={item.imageUrl}

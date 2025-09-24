@@ -33,7 +33,7 @@ const Services = () => {
               />
             </div>
 
-            <div className="relative z-1 max-w-[17rem] ml-auto bg-n-8">
+            <div className="relative z-1 max-w-[17rem] ml-auto bg-blur ">
               <h4 className="h4 mb-4 text-color-1 text-center">At Ujenzi Linking Solutions,</h4>
               <p className="body-2 mb-[3rem] text-n-3 text-center">
                  Our quality experience is built on delivering tailor-made business strategies that drive measurable growth, empowering youth through practical training and job placement, and earning the trust of businesses across Tanzania. We pride ourselves on combining innovation, affordability, and impact to create sustainable solutions that benefit both entrepreneurs and skilled professionals.
@@ -51,7 +51,7 @@ const Services = () => {
               </ul>
             </div>
 
-            <Generating className="absolute left-4 right-4 bottom-4 border-n-1/10 border lg:left-1/2 lg-right-auto lg:bottom-8 lg:-translate-x-1/2" />
+            {/* <Generating className="absolute left-4 right-4 bottom-4 border-n-1/10 border lg:left-1/2 lg-right-auto lg:bottom-8 lg:-translate-x-1/2" /> */}
           </div>
 
           <div className="relative z-1  gap-5 lg:grid-cols-2"> 

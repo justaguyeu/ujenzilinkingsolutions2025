@@ -1,9 +1,9 @@
 import { brainwaveSymbol, check } from "../assets";
 // eslint-disable-next-line no-unused-vars
 import { collabApps, collabContent, collabText,brainwaveServices, brainwaveServicesIcons, } from "../constants";
-import Button from "./Button";
+// import Button from "./Button";
 import Section from "./Section";
-import { LeftCurve, RightCurve } from "./design/Collaboration";
+// import { LeftCurve, RightCurve } from "./design/Collaboration";
 
 const Collaboration = () => {
   return (
@@ -36,48 +36,27 @@ const Collaboration = () => {
             {/* {collabText} */}
           </p>
 
-          <div className="relative left-1/2 flex w-[22rem] aspect-square border border-n-6 rounded-full -translate-x-1/2 scale:90 md:scale-100">
-            <div className="flex w-90 aspect-square m-auto border border-n-6 rounded-full">
-              <div className="w-[6rem] aspect-square m-auto p-[0.2rem] bg-conic-gradient rounded-full">
-                <div className="flex items-center justify-center w-full h-full bg-n-8 rounded-full">
-                  <img
-                    src={brainwaveSymbol}
-                    width={48}
-                    height={48}
-                    alt="brainwave"
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="relative w-full overflow-hidden">
+  {/* Moving container */}
+  <ul className="flex animate-scroll">
+    {collabApps.concat(collabApps).map((app, index) => (
+      <li 
+        key={index} 
+        className="flex-shrink-0 w-[10rem] h-[20rem] flex items-center justify-center mx-6"
+      >
+        <img
+          className="max-w-full max-h-full"
+          width={app.width}
+          height={app.height}
+          alt={app.title}
+          src={app.icon}
+        />
+      </li>
+    ))}
+  </ul>
+</div>
 
-            <ul>
-              {collabApps.map((app, index) => (
-                <li
-                  key={app.id}
-                  className={`absolute top-0 left-1/2 h-1/2 -ml-[1.6rem] origin-bottom rotate-${
-                    index * 45
-                  }`}
-                >
-                  <div
-                    className={`relative -top-[1.6rem] flex w-[3.2rem] h-[3.2rem] -rotate-${
-                      index * 45
-                    }`}
-                  >
-                    <img
-                      className="m-auto"
-                      width={app.width}
-                      height={app.height}
-                      alt={app.title}
-                      src={app.icon}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
 
-            {/* <LeftCurve />
-            <RightCurve /> */}
-          </div>
           {/* <ul className="flex items-center justify-between mt-12">
                   {brainwaveServicesIcons.map((item, index) => (
                     <li
