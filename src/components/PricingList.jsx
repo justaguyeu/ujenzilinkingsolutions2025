@@ -15,6 +15,7 @@ const PricingList = () => {
           <p className="body-2 min-h-[4rem] mb-3 text-n-1/50">
             {item.description}
           </p>
+          
 
           <div className="flex items-center h-[5.5rem] mb-6">
             {item.price && (

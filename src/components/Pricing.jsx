@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import Section from "./Section";
-import { smallSphere, stars } from "../assets";
+import { smallSphere, stars, two } from "../assets";
 import Heading from "./Heading";
 import PricingList from "./PricingList";
 import { LeftLine, RightLine } from "./design/Pricing";
@@ -11,6 +11,7 @@ const Pricing = () => {
   return (
     <Section className="overflow-hidden">
       <div className="container relative z-2">
+        
         {/* <div className="hidden relative justify-center mb-[6.5rem] lg:flex">
           <img
             src={smallSphere}
@@ -36,6 +37,14 @@ const Pricing = () => {
           text=""
           className="text-center"
         />
+        <img
+  src={two}
+  className="w-full border-2 border-n-9 rounded-md"
+  width={200}
+  height={100}
+  alt="two"
+/>
+        
 
         {/* <div className="relative">
           <PricingList />
@@ -53,6 +62,7 @@ const Pricing = () => {
           
         </div> */}
         <div className="flex justify-center mt-10 lg:flex">
+          
       <div className="flex-col items-center max-w-[50rem] mx-auto mb-3 lg:mb-20 md:text-center">
         <Heading className="text-center" title="Get In Touch"/>
         <a className=" flex-col flex items-center max-w-[50rem] mx-auto mb-12 lg:mb-20 md:text-center" >

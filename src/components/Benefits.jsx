@@ -52,7 +52,7 @@ Meet with"
                 className="absolute inset-0.5 group bg-n-8"
                 style={{ clipPath: "url(#benefits)" }}
               >
-                <div className="absolute inset-0 bg-black opacity-30 transition-opacity duration-300 group-hover:opacity-60">
+                <div className="absolute inset-0 bg-black opacity-20 transition-opacity duration-300 group-hover:opacity-60">
                   {item.imageUrl && (
                     <img
                       src={item.imageUrl}
