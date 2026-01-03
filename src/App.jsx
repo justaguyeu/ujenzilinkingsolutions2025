@@ -42,17 +42,21 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Pricing from "./components/Pricing";
 import Services from "./components/Services";
+import Servicess from "./components/Servicess";
 import BenefitDetail from "./components/BenefitDetail"; // new details page
 
 function Home() {
   return (
     <>
+
       <Header />
+
       <Hero />
       <Benefits />
       <Collaboration />
       <Services />
       <Pricing />
+      <Servicess />
       <Footer />
     </>
   );

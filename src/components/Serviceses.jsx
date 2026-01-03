@@ -159,7 +159,7 @@ const Serviceses = () => {
                   className="absolute inset-0.5 bg-n-8"
                   style={{ clipPath: "url(#benefits)" }}
                 >
-                  <div className="absolute inset-0 opacity-0 transition-opacity hover:opacity-10">
+                  <div className="absolute inset-0 bg-black opacity-20 transition-opacity duration-300 group-hover:opacity-60">
                     {item.imageUrl && (
                       <img
                         src={item.imageUrl}

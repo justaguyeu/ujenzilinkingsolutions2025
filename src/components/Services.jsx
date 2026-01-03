@@ -12,7 +12,7 @@ import {
 
 import Generating from "./Generating";
 
-const Services = () => {
+const Servicess = () => {
   return (
     <Section id="how-to-use">
       <div className="container">
@@ -143,4 +143,4 @@ We also have committed experts who have special connections with Business compli
   );
 };
 
-export default Services;
+export default Servicess;

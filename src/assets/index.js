@@ -71,6 +71,14 @@ import SOOO from "./companies/SOOO.jpg";
 import STORE from "./companies/STORE.jpg";
 import WOR from "./companies/WOR.jpg";
 
+import chom1 from "./companies/chom1.jpeg";
+import maxlogo from "./companies/maxlogo.jpeg";
+
+import chom2 from "./companies/chom2.jpeg";
+
+import chom3 from "./companies/chom3.jpeg";
+
+
 import service1 from "./services/service-1.png";
 import service2 from "./services/service-2.png";
 import two from "./services/two.jpg";
@@ -213,5 +221,9 @@ export {
   SOOO,
   STORE,
   WOR,
+  chom1,
+  chom2,
+  chom3,
+  maxlogo
   
 };
