@@ -331,17 +331,7 @@ export const benefits = [
     backgroundUrl: "./src/assets/benefits/card-1.svg",
     iconUrl: benefitIcon1,
     imageUrl: RE,
-    companies: [
-      {
-        name: "Chomoza Business consultancy LTD",
-        logo: chom1,
-        phone: "+255 755 753 883",
-        location: "https://goo.gl/maps/example1",
-        website: "https://primerealty.com",
-        description: "A professional consultancy firm dedicated to helping businesses grow, comply, and succeed in today’s competitive market. The company provides expert advisory services in business registration, strategic planning, financial and management consultancy, market research, and operational improvement. With a strong focus on practical solutions and client-centered service, CHOMOZA Business Consultancy Ltd supports startups, small and medium enterprises, and established organizations by offering tailored guidance that enhances efficiency, profitability, and long-term sustainability. Through integrity, expertise, and a deep understanding of the local business environment, CHOMOZA Business Consultancy Ltd stands as a trusted partner for businesses seeking structured growth and informed decision making.",
-      },
-     
-    ],
+    
   },
   {
     id: "1",
