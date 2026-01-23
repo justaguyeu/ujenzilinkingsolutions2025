@@ -327,7 +327,7 @@ export const benefits = [
   {
     id: "0",
     title: "Real Estate Agents",
-    text: "Our network of trusted real estate agents connects buyers, sellers, and investors with the right opportunities. Whether you’re looking for a home, commercial space, or land, we ensure smooth transactions and expert guidance every step of the way.",
+    text: "We provide a trusted platform where professional real estate agents can register and showcase their services. Clients can easily connect with verified agents to buy, sell, or invest in property with confidence and convenience.",
     backgroundUrl: "./src/assets/benefits/card-1.svg",
     iconUrl: benefitIcon1,
     imageUrl: RE,
@@ -336,7 +336,7 @@ export const benefits = [
   {
     id: "1",
     title: "Building & Construction Materials Manufacturers",
-    text: "We partner with reputable manufacturers to provide high-quality, durable, and affordable construction materials. From cement and steel to finishing products, we ensure your project is built on a foundation of strength and reliability.",
+    text: "Our platform enables manufacturers of construction materials to register and reach a wider market. We connect clients with reliable suppliers offering quality, durable, and affordable materials for all types of construction projects.",
     backgroundUrl: "./src/assets/benefits/card-2.svg",
     iconUrl: benefitIcon2,
     imageUrl: BCMM,
@@ -345,7 +345,7 @@ export const benefits = [
   {
     id: "2",
     title: "Civil Engineers",
-    text: "Our civil and consulting engineers bring expertise in planning, designing, and supervising construction projects. With technical precision and innovative solutions, they guarantee strong, safe, and sustainable structures.",
+    text: "We connect clients with registered and qualified civil engineers through our platform. Engineers can list their expertise, while clients gain access to professionals who ensure safe, efficient, and well-planned construction solutions.",
     backgroundUrl: "./src/assets/benefits/card-3.svg",
     iconUrl: benefitIcon3,
     imageUrl: CI,
@@ -353,7 +353,7 @@ export const benefits = [
   {
     id: "3",
     title: "Construction Companies",
-    text: "Through our platform, we link clients with reliable construction companies that deliver end-to-end building solutions. Whether it’s residential, commercial, or industrial development, we ensure projects are executed to the highest standards.",
+    text: "Construction companies can register on our platform to showcase their services and completed projects. Clients can easily find, compare, and hire trusted companies to handle residential, commercial, or industrial developments.",
     backgroundUrl: "./src/assets/benefits/card-4.svg",
     iconUrl: benefitIcon4,
     imageUrl: COC,
@@ -362,7 +362,7 @@ export const benefits = [
   {
     id: "4",
     title: "Architects",
-    text: "Our architects design innovative, functional, and aesthetically pleasing spaces, while our quantity surveyors ensure cost control and value for money. Together, they bring creativity and efficiency to every project.",
+    text: "Our platform allows architects to register and present their design portfolios. Clients can connect with creative professionals who deliver functional, modern, and visually appealing architectural solutions tailored to their needs.",
     backgroundUrl: "./src/assets/benefits/card-5.svg",
     iconUrl: benefitIcon1,
     imageUrl: ARR,
@@ -370,7 +370,7 @@ export const benefits = [
   {
     id: "5",
     title: "Consulting Engineers",
-    text: "Our consulting engineers provide expert advice and innovative solutions to ensure the success of every project. From feasibility studies and structural analysis to project supervision, they bring technical knowledge and problem-solving skills that guarantee safe, efficient, and sustainable construction outcomes.",
+    text: "We provide a central platform for consulting engineers to register and offer their professional services. Clients can access expert advice, technical analysis, and project support from experienced engineering consultants.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: COE,
@@ -378,7 +378,7 @@ export const benefits = [
   {
     id: "6",
     title: "Quantity Surveyors",
-    text: "Our experienced quantity surveyors ensure cost-effective project delivery by managing budgets, preparing accurate estimates, and controlling expenses throughout the construction process. With their expertise, clients are guaranteed transparency, value for money, and financial efficiency from project start to completion.",
+    text: "Registered quantity surveyors can offer their services through our platform, helping clients manage budgets and control costs. We connect users with professionals who ensure transparency, accuracy, and value for money throughout projects.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: QS,
@@ -386,7 +386,7 @@ export const benefits = [
   {
     id: "7",
     title: "Landscape Developers",
-    text: "We collaborate with landscape developers who transform outdoor spaces into beautiful, functional, and eco-friendly environments. From gardens to large-scale developments, they create lasting impressions.",
+    text: "Our platform connects clients with registered landscape developers who specialize in outdoor design and development. From small gardens to large projects, users can find professionals who bring outdoor spaces to life.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: LD,
@@ -394,7 +394,7 @@ export const benefits = [
   {
     id: "8",
     title: "Fundis",
-    text: "Skilled artisans are the backbone of every successful project. We connect you with professional fundis who bring craftsmanship, dedication, and experience to ensure flawless finishing in every build.",
+    text: "We make it easy for skilled fundis and artisans to register and get discovered by clients. Through our platform, users can hire trusted professionals for quality workmanship and reliable finishing services.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: WOR,
@@ -402,7 +402,7 @@ export const benefits = [
   {
     id: "9",
     title: "Hardware Stores",
-    text: "Our network of hardware stores ensures you have access to every essential tool and material. Convenient, reliable, and stocked with quality products, they keep your project moving without delays.",
+    text: "Hardware stores can register on our platform to showcase their products and services. Clients gain quick access to trusted suppliers for tools and construction materials, ensuring smooth and uninterrupted project progress.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: STORE,
@@ -410,7 +410,7 @@ export const benefits = [
   {
     id: "10",
     title: "Construction Machinery & Tools for Hire",
-    text: "We make construction machinery and tools accessible at affordable rates. From heavy equipment to specialized tools, our partners ensure your projects run efficiently without unnecessary investment costs.",
+    text: "Our platform connects clients with registered machinery and tool hire providers. Users can easily find and rent construction equipment at affordable rates without the burden of purchasing expensive machinery.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: CM,
@@ -418,7 +418,7 @@ export const benefits = [
   {
     id: "11",
     title: "Project Managers",
-    text: "Our project managers oversee every stage of construction, ensuring timelines, budgets, and quality standards are met. With their leadership, projects are delivered smoothly and successfully.",
+    text: "Project managers can register on our platform to offer professional management services. Clients can connect with experts who oversee timelines, budgets, and quality to ensure successful project delivery.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: PM,
@@ -426,7 +426,7 @@ export const benefits = [
   {
     id: "12",
     title: "Home Decorators",
-    text: "We link you to expert decorators who transform houses into stylish and welcoming homes. From interior designs to exterior finishes, they blend creativity and functionality to match your vision.",
+    text: "We connect clients with registered home decorators who specialize in interior and exterior styling. Through our platform, users can find professionals who transform spaces into beautiful and functional environments.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: HD,
@@ -434,7 +434,7 @@ export const benefits = [
   {
     id: "13",
     title: "Cleaners",
-    text: "Our cleaning services ensure every space is spotless after construction or renovation. With professional post-construction and maintenance cleaning, we leave your property polished and ready for use.",
+    text: "Our platform allows professional cleaning companies to register and offer their services. Clients can easily book reliable cleaners for post-construction, commercial, or residential cleaning needs.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: CN,
@@ -448,7 +448,7 @@ export const benefits = [
         phone: "+255 755 753 883",
         location: "https://goo.gl/maps/example1",
         website: "https://maxstepscleaningservices.com",
-        description: "A reliable and customer-focused cleaning company offering high-quality residential and commercial cleaning solutions in Dar es Salaam, Tanzania. The company specializes in carpet cleaning, car wash services, floor polishing, laundry and dry cleaning, janitorial services, and detergents sales. With modern equipment, professional staff, and affordable pricing, MaxSteps ensures clothes are cleaned hygienically, stains are removed effectively, and fabrics retain their quality and durability. Their services are designed to save customers time, reduce water and detergent costs, and deliver excellent results for homes, offices, schools, and businesses. Conveniently located at Mikocheni kwa Warioba near Laureate International School, MaxSteps Cleaning Services is committed to cleanliness, efficiency, and customer satisfaction.",
+        description: "A reliable and customer-focused cleaning company offering high-quality residential and commercial cleaning solutions in Dar es Salaam.",
       },
       
     ],

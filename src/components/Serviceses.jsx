@@ -137,12 +137,12 @@ const Serviceses = () => {
                   <p className="body-2 mb-6 text-n-3">{item.text}</p>
 
                   <div className="flex items-center mt-auto">
-                    <img
+                    {/* <img
                       src={item.iconUrl}
                       width={48}
                       height={48}
                       alt={item.title}
-                    />
+                    /> */}
                     <Link
                       to={`/benefits/${item.id}`} // ✅ fixed
                       className="ml-auto flex items-center font-code text-xs font-bold text-color-1 uppercase tracking-wider hover:underline"

@@ -28,7 +28,7 @@ const BenefitDetail = () => {
     <>
       <Header2 />
       <Section>
-        <div className="container relative z-2">
+        <div className="container relative z-2  text-center md:text-left">
           <div className="container mx-auto p-10">
             <h1 className="h1 mb-6">
               <span className="inline-block relative">
@@ -43,8 +43,8 @@ const BenefitDetail = () => {
               </span>
             </h1>
 
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-n-8 p-6 rounded-lg shadow">
-              <h1 className="text-3xl font-bold">{benefit.title}</h1>
+            <div className="flex flex-col md:flex-row items-center md:items-center gap-6 bg-n-8 p-6 rounded-lg shadow">
+              
               <img
                 src={benefit.imageUrl}
                 className="border-2 border-n-9 rounded-full"
@@ -52,7 +52,8 @@ const BenefitDetail = () => {
                 width={200}
                 height={28}
               />
-              <p className="text-lg">{benefit.text}</p>
+              <h1 className="text-3xl font-bold">{benefit.title}</h1>
+              {/* <p className="text-lg">{benefit.text}</p> */}
             </div>
 
             {benefit.companies && benefit.companies.length > 0 ? (
@@ -60,7 +61,7 @@ const BenefitDetail = () => {
                 {benefit.companies.map((company, idx) => (
                   <div
                     key={idx}
-                    className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-n-8 p-6 rounded-lg shadow"
+                    className="flex flex-col md:flex-row items-center md:items-center gap-6 bg-n-8 p-6 rounded-lg shadow"
                   >
                     <div className="flex-1">
                       <img
@@ -71,7 +72,7 @@ const BenefitDetail = () => {
                       <h2 className="text-xl font-semibold">{company.name}</h2>
                       <p className="text-gray-700 mb-2">{company.description}</p>
 
-                      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mt-6">
+                      <div className="flex flex-col md:flex-row items-center md:items-center gap-6 mt-6">
                         {/* Zoomable Images */}
                         {[company.logo2, company.logo3].map((logo, i) => (
                           <motion.img

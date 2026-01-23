@@ -38,7 +38,7 @@ const Servicess = () => {
               <p className="body-2 mb-[3rem] text-n-3 text-center">
                  Our quality experience is built on delivering tailor-made business strategies that drive measurable growth, empowering youth through practical training and job placement, and earning the trust of businesses across Tanzania. We pride ourselves on combining innovation, affordability, and impact to create sustainable solutions that benefit both entrepreneurs and skilled professionals.
               </p>
-              <ul className="body-2">
+              {/* <ul className="body-2">
                 {brainwaveServices.map((item, index) => (
                   <li
                     key={index}
@@ -48,7 +48,7 @@ const Servicess = () => {
                     <p className="ml-4">{item}</p>
                   </li>
                 ))}
-              </ul>
+              </ul> */}
             </div>
 
             {/* <Generating className="absolute left-4 right-4 bottom-4 border-n-1/10 border lg:left-1/2 lg-right-auto lg:bottom-8 lg:-translate-x-1/2" /> */}
@@ -130,8 +130,8 @@ We also have committed experts who have special connections with Business compli
                 
               </video>
 
-                <VideoChatMessage />
-                <VideoBar />
+                {/* <VideoChatMessage />
+                <VideoBar /> */}
               </div>
             </div>
           </div>
