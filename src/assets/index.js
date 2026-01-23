@@ -22,24 +22,24 @@ import loading from "./loading.png";
 import background from "./background.jpg";
 
 import curve from "./hero/curve.png";
-import robot from "./hero/robot.jpg";
+import robot from "./hero/robot.webp";
 import heroBackground from "./hero/hero-background.jpg";
 
 import curve1 from "./collaboration/curve-1.svg";
-import log01 from "./collaboration/log01.jpg";
-import log02 from "./collaboration/log02.jpg";
-import log03 from "./collaboration/log03.jpg";
-import log04 from "./collaboration/log04.jpg";
-import log05 from "./collaboration/log05.jpg";
-import log06 from "./collaboration/log06.jpg";
-import log07 from "./collaboration/log07.jpg";
-import log08 from "./collaboration/log08.jpg";
-import log09 from "./collaboration/log09.jpg";
-import log10 from "./collaboration/log10.jpg";
-import log11 from "./collaboration/log11.jpg";
-import log13 from "./collaboration/log13.jpg";
-import log14 from "./collaboration/log14.jpg";
-import service from "./collaboration/service.jpg";
+import log01 from "./collaboration/log01.webp";
+import log02 from "./collaboration/log02.webp";
+import log03 from "./collaboration/log03.webp";
+import log04 from "./collaboration/log04.webp";
+import log05 from "./collaboration/log05.webp";
+import log06 from "./collaboration/log06.webp";
+import log07 from "./collaboration/log07.webp";
+import log08 from "./collaboration/log08.webp";
+import log09 from "./collaboration/log09.webp";
+import log10 from "./collaboration/log10.webp";
+import log11 from "./collaboration/log11.webp";
+import log13 from "./collaboration/log13.webp";
+import log14 from "./collaboration/log14.webp";
+import service from "./collaboration/service.webp";
 import home2 from "./collaboration/home2.jpg";
 
 
@@ -54,34 +54,34 @@ import raindrop from "./collaboration/raindrop.png";
 import slack from "./collaboration/slack.png";
 
 
-import ARR from "./companies/ARR.jpg";
-import BCMM from "./companies/BCMM.jpg";
-import CI from "./companies/CI.jpg";
-import CM from "./companies/CM.jpg";
-import CN from "./companies/CN.jpg";
-import COC from "./companies/COC.jpg";
-import COE from "./companies/COE.jpg";
-import FR from "./companies/FR.jpg";
-import HD from "./companies/HD.jpg";
-import LD from "./companies/LD.jpg";
-import PM from "./companies/PM.jpg";
-import QS from "./companies/QS.jpg";
-import RE from "./companies/RE.jpg";
-import SOOO from "./companies/SOOO.jpg";
-import STORE from "./companies/STORE.jpg";
-import WOR from "./companies/WOR.jpg";
+import ARR from "./companies/ARR.webp";
+import BCMM from "./companies/BCMM.webp";
+import CI from "./companies/CI.webp";
+import CM from "./companies/CM.webp";
+import CN from "./companies/CN.webp";
+import COC from "./companies/COC.webp";
+import COE from "./companies/COE.webp";
+import FR from "./companies/FR.webp";
+import HD from "./companies/HD.webp";
+import LD from "./companies/LD.webp";
+import PM from "./companies/PM.webp";
+import QS from "./companies/QS.webp";
+import RE from "./companies/RE.webp";
+import SOOO from "./companies/SOOO.webp";
+import STORE from "./companies/STORE.webp";
+import WOR from "./companies/WOR.webp";
 
-import chom1 from "./companies/chom1.jpeg";
-import maxlogo from "./companies/maxlogo.jpeg";
+import chom1 from "./companies/chom1.webp";
+import maxlogo from "./companies/maxlogo.webp";
 
-import chom2 from "./companies/chom2.jpeg";
+import chom2 from "./companies/chom2.webp";
 
-import chom3 from "./companies/chom3.jpeg";
+import chom3 from "./companies/chom3.webp";
 
 
-import service1 from "./services/service-1.png";
+import service1 from "./services/service-1.webp";
 import service2 from "./services/service-2.png";
-import two from "./services/two.jpg";
+import two from "./services/two.webp";
 // import service3 from "./services/service-3.png";
 import service3 from "./services/service-3.mp4";
 
