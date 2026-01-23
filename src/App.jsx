@@ -31,19 +31,22 @@
 // export default App;
 
 import { Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
 import ButtonGradient from "./assets/svg/ButtonGradient";
-import Benefits from "./components/Benefits";
-import AboutUs from "./components/AboutUs";
-import Serviceses from "./components/Serviceses";
-import Collaboration from "./components/Collaboration";
-import Footer from "./components/Footer";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Hero from "./components/Hero";
-import Pricing from "./components/Pricing";
-import Services from "./components/Services";
-import Servicess from "./components/Servicess";
-import BenefitDetail from "./components/BenefitDetail"; // new details page
+import Benefits from "./components/Benefits";
+
+// Lazy load non-critical components
+const AboutUs = lazy(() => import("./components/AboutUs"));
+const Serviceses = lazy(() => import("./components/Serviceses"));
+const Collaboration = lazy(() => import("./components/Collaboration"));
+const Services = lazy(() => import("./components/Services"));
+const Servicess = lazy(() => import("./components/Servicess"));
+const BenefitDetail = lazy(() => import("./components/BenefitDetail"));
+const Pricing = lazy(() => import("./components/Pricing"));
 
 function Home() {
   return (
@@ -53,10 +56,12 @@ function Home() {
 
       <Hero />
       <Benefits />
-      <Collaboration />
-      <Services />
-      <Pricing />
-      <Servicess />
+      <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
+        <Collaboration />
+        <Services />
+        <Pricing />
+        <Servicess />
+      </Suspense>
       <Footer />
     </>
   );
@@ -67,11 +72,23 @@ const App = () => {
     <>
       <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
         <Routes>
-  <Route path="/" element={<Home />} />
-  <Route path="/benefits/:id" element={<BenefitDetail />} />
-  <Route path="/aboutus" element={<AboutUs />} />
-  <Route path="/serviceses" element={<Serviceses />} />
-</Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/benefits/:id" element={
+            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
+              <BenefitDetail />
+            </Suspense>
+          } />
+          <Route path="/aboutus" element={
+            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
+              <AboutUs />
+            </Suspense>
+          } />
+          <Route path="/serviceses" element={
+            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
+              <Serviceses />
+            </Suspense>
+          } />
+        </Routes>
 
       </div>
 

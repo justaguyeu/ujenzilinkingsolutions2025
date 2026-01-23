@@ -60,6 +60,7 @@ Meet with"
                       height={362}
                       alt={item.title}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                   )}
                 </div>

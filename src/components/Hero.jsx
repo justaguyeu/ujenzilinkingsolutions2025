@@ -38,7 +38,8 @@ const Hero = () => {
                 className="absolute top-full left-0 w-full xl:-mt-2"
                 width={624}
                 height={28}
-                alt="Curve"
+                alt="Curve Decoration"
+                loading="lazy"
               />
             </span>
           </h1>
@@ -58,7 +59,8 @@ const Hero = () => {
                   className="w-full scale-[1.7] translate-y-[8%] md:scale-[1] md:-translate-y-[10%] lg:-translate-y-[23%]"
                   width={1024}
                   height={490}
-                  alt="AI"
+                  alt="Ujenzi Linking Solutions Hero"
+                  fetchpriority="high"
                 />
 
                 {/* <Generating className="absolute left-4 right-4 bottom-5 md:left-1/2 md:right-auto md:bottom-8 md:w-[31rem] md:-translate-x-1/2" /> */}
