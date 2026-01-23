@@ -83,7 +83,7 @@ import service1 from "./services/service-1.webp";
 import service2 from "./services/service-2.png";
 import two from "./services/two.webp";
 // import service3 from "./services/service-3.png";
-import service3 from "./services/service-3.mp4";
+import service3 from "./services/service-3.webm";
 
 import lines from "./pricing/lines.svg";
 import stars from "./pricing/stars.svg";
