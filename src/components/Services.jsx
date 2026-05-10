@@ -18,7 +18,7 @@ const Servicess = () => {
       <div className="container">
         <Heading
           title="Our Quality  Experience"
-          text="The Sales and Experiential Marketing Outsource with a highly skilled, innovative and experienced Sales & Marketing team that can quickly access desired Customers who are difficult to attain; a team fine-tuned by the Sales & Marketing master with over 15 years’ experience in several industries such as Building & Construction products i.e. ALAF LTD (Tanzanian) – marketing and selling Roofing sheets, Machines & Technology, FMCG and Service sector in Tanzania."
+          text="The Sales and Experiential Marketing Outsource with a highly skilled, innovative and experienced Sales & Marketing team that can quickly access desired Customers who are difficult to attain; a team fine-tuned by the Sales & Marketing master with over 20 years’ experience in several industries such as Building & Construction products, Machines & Technology, FMCG and Service sector in Tanzania."
         />
 
         <div className="relative">

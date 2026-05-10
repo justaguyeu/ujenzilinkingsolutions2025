@@ -112,10 +112,9 @@ const Hero = () => {
             (Kiswahili for Construction) is committed to helping businesses
             of all sizes discover new markets, increase sales volumes, and
             access affordable, tailor-made sales and marketing solutions.
-            We believe every business deserves the right tools and strategies
-            to grow and thrive.</p>
+            </p>
           <div className="container md:pb-10">
-            <div className="relative grid gap-6 md:grid-cols-2 md:gap-4 md:pb-[7rem]">
+            {/* <div className="relative grid gap-6 md:grid-cols-2 md:gap-4 md:pb-[7rem]">
               {roadmap.map((item) => {
                 const status = item.status === "done" ? "CEO" : "MANAGER";
 
@@ -126,40 +125,9 @@ const Hero = () => {
                     key={item.id}
                   >
                     <div className="relative p-8 bg-n-8 rounded-[2.4375rem] overflow-hidden xl:p-15">
-                      {/* <div className="absolute top-0 left-0 max-w-full">
-                        <img
-                          className="w-full"
-                          src={grid}
-                          width={550}
-                          height={550}
-                          alt="Grid"
-                        />
-                      </div> */}
+                      
                       <div className="relative z-1">
-                        {/* <div className="flex items-center justify-between max-w-[27rem] mb-8 md:mb-20">
-                          <Tagline>{item.date}</Tagline>
-      
-                          <div className="flex items-center px-4 py-1 bg-n-1 rounded text-n-8">
-                            <img
-                              className="mr-2.5"
-                              src={item.status === "done" ? check2 : loading1}
-                              width={16}
-                              height={16}
-                              alt={status}
-                            />
-                            <div className="tagline">{status}</div>
-                          </div>
-                        </div> */}
-
-                        {/* <div className="mb-10 -my-10 -mx-15">
-                          <img
-                            className="w-full"
-                            src={item.imageUrl}
-                            width={628}
-                            height={426}
-                            alt={item.title}
-                          />
-                        </div> */}
+                        
                         <h4 className="h4 mb-4 text-color-1">{item.title}</h4>
                         <p className="body-2 text-n-4">{item.text}</p>
                       </div>
@@ -167,17 +135,16 @@ const Hero = () => {
                   </div>
                 );
               })}
+            </div> */}
+            </div>
 
-              {/* <Gradient /> */}
-            </div></div>
-
-          <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center mt-6">Beyond business growth, we are passionate about tackling youth unemployment
+          {/* <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center mt-6">Beyond business growth, we are passionate about tackling youth unemployment
             in Tanzania. Through practical Sales & Marketing Training, on-the-job
             experience, and job placement services, we equip young people with the
             skills they need to secure employment while helping companies find skilled
             and motivated sales professionals to boost performance.
-          </p>
-          <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">Additionally, we aim to support the Government of Tanzania in addressing the youth employment challenge by providing On-the-job Sales & Marketing Training and Job placement service to equip individuals with necessary sales and marketing skills, enabling them to secure employment and helping business owners find highly skilled salespeople to boost their sales volumes.
+          </p> */}
+          <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">We aim to support the Government of Tanzania in addressing the youth employment challenge by providing On-the-job Sales & Marketing Training and Job placement service to equip individuals with necessary sales and marketing skills, enabling them to secure employment and helping business owners find highly skilled salespeople to boost their sales volumes.
           </p>
         </Section>
       </div>
