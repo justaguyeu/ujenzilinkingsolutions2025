@@ -107,28 +107,25 @@ const AboutUs  = () => {
           
         />
         
-        <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">
-          Welcome to <a className="text-color-1">Ujenzi Linking Solutions</a> where businesses, markets,
-           and opportunities connect. Founded in Tanzania in 2024, Ujenzi 
-           <a className="text-color-1">(Kiswahili for Construction)</a> is committed to helping businesses
-           of all sizes discover new markets, increase sales volumes, and 
-           access affordable, tailor-made <a className="text-color-1">sales and marketing solutions.</a>
-           We believe every business deserves the right tools and strategies 
-           to grow and thrive.</p>
-           <div className="container md:pb-10">
-      
-            </div>
+        <div className="space-y-6 sm:space-y-6">
+  <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center md:mb-3">
+    Welcome to <a className="text-color-1">Ujenzi Linking Solutions</a> where businesses, markets,
+     and opportunities connect. Founded in Tanzania in 2024, Ujenzi 
+    <a className="text-color-1">(Kiswahili for Construction)</a> is committed to helping businesses
+    of all sizes discover new markets, increase sales volumes, and 
+    access affordable, tailor-made <a className="text-color-1">sales and marketing solutions.</a>
+    We believe every business deserves the right tools and strategies 
+    to grow and thrive.
+  </p>
+          
+  <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">
+    Also, we aim to support the Government of Tanzania in addressing the youth employment challenge by providing On-the-job <a className="text-color-1">Sales & Marketing Training</a> and Job placement service to equip individuals with necessary sales and marketing skills, enabling them to secure employment and helping business owners find highly skilled salespeople to boost their sales volumes.
+  </p>
 
-{/* <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">Beyond business growth, we are passionate about tackling youth unemployment 
-in Tanzania. Through practical Sales & Marketing Training, on-the-job 
-experience, and job placement services, we equip young people with the 
-skills they need to secure employment while helping companies find skilled 
-and motivated sales professionals to boost performance.
-          </p> */}
-          <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">Also, we aim to support the Government of Tanzania in addressing the youth employment challenge by providing On-the-job <a className="text-color-1">Sales & Marketing Training</a> and Job placement service to equip individuals with necessary sales and marketing skills, enabling them to secure employment and helping business owners find highly skilled salespeople to boost their sales volumes.
-          </p>
-          <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">This is also an online platform which promotes products and services to potential customers, increasing awareness and driving sales. 
-          </p>
+  <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">
+    This is also an online platform which promotes products and services to potential customers, increasing awareness and driving sales. 
+  </p>
+</div>
           <div className="relative grid gap-6 md:grid-cols-2 md:gap-4 md:pb-[7rem] mb-20">
               {roadmap.map((item) => {
                 const status = item.status === "done" ? "CEO" :  "MANAGER";
