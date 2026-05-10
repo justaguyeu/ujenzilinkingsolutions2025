@@ -34,7 +34,7 @@ const Servicess = () => {
             </div>
 
             <div className="relative z-1 max-w-[17rem] ml-auto bg-blur ">
-              <h4 className="h4 mb-4 text-color-1 text-center">At Ujenzi Linking Solutions,</h4>
+              <h4 className="h4 mb-4 text-color-1 text-center">At Ujenzi Linking Solutions</h4>
               <p className="body-2 mb-[3rem] text-n-3 text-center">
                  Our quality experience is built on delivering tailor-made business strategies that drive measurable growth, empowering youth through practical training and job placement, and earning the trust of businesses across Tanzania. We pride ourselves on combining innovation, affordability, and impact to create sustainable solutions that benefit both entrepreneurs and skilled professionals.
               </p>
