@@ -125,7 +125,9 @@ experience, and job placement services, we equip young people with the
 skills they need to secure employment while helping companies find skilled 
 and motivated sales professionals to boost performance.
           </p> */}
-          <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">We aim to support the Government of Tanzania in addressing the youth employment challenge by providing On-the-job <a className="text-color-1">Sales & Marketing Training</a> and Job placement service to equip individuals with necessary sales and marketing skills, enabling them to secure employment and helping business owners find highly skilled salespeople to boost their sales volumes.
+          <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">Also, we aim to support the Government of Tanzania in addressing the youth employment challenge by providing On-the-job <a className="text-color-1">Sales & Marketing Training</a> and Job placement service to equip individuals with necessary sales and marketing skills, enabling them to secure employment and helping business owners find highly skilled salespeople to boost their sales volumes.
+          </p>
+          <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">This is also an online platform which promotes products and services to potential customers, increasing awareness and driving sales. 
           </p>
           <div className="relative grid gap-6 md:grid-cols-2 md:gap-4 md:pb-[7rem] mb-20">
               {roadmap.map((item) => {
