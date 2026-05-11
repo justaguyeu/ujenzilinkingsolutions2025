@@ -67,14 +67,16 @@ const Pricing = () => {
         <Heading className="text-center" title="Get In Touch"/>
         <a className=" flex-col flex items-center max-w-[50rem] mx-auto mb-12 lg:mb-20 md:text-center" >
           <FontAwesomeIcon icon={faMapMarkerAlt} size="lg" className="mr-2 mb-1"/> 
-          <h5  style={{ fontSize: '1rem' }}className="mb-6">Dar es Salaam, Tanzania</h5>
+          <h5  style={{ fontSize: '1rem' }}className="mb-6 text-center">Mikocheni kwa Warioba near<br/>
+Laureate International School,<br/>
+Dar es Salaam-Tanzania</h5>
           <FontAwesomeIcon icon={faPhone} size="lg" className="mr-2 mb-1" /> 
           <h5 style={{ fontSize: '1rem' }}className="mb-6">(+255) 755 753 883 </h5>
           <h5 style={{ fontSize: '1rem' }}className="mb-6">(+255) 789 345 845</h5>
           <FontAwesomeIcon icon={faEnvelope}  size="lg" className="" /> 
           <h5 style={{ fontSize: '1rem' }}className="mb-6">ujenzilinkingsolutions@gmail.com</h5>
         </a>
-      </div>
+      </div>  
     </div>
       </div>
     </Section>
