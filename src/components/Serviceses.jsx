@@ -110,13 +110,19 @@ const Serviceses = () => {
 
           {/* <CompanyLogos className="hidden relative z-10 mt-1 lg:block" /> */}
 
-          <Heading
-  className="md:max-w-md lg:max-w-2xl text-center text-n-2"
+          {/* <Heading
+  className="md:max-w-md lg:max-w-2xl text-center text-n-1"
   id="pricing"
   title="Our Services"
-/>
+/> */}
 
 <div className="max-w-3xl mx-auto mb-10 space-y-6">
+  <h1 className="h1 mb-6 md:max-w-md lg:max-w-2xl text-left">
+
+              {/* Explore the Possibilities of&nbsp;AI&nbsp;Chatting with {` `} */}
+              
+              Our Services{` `}
+            </h1>
   <div>
     <h3 className="h5 text-color-1 mb-2">1. Product Sales Network</h3>
     <p className="body-1 text-n-2">
