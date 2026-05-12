@@ -143,9 +143,9 @@ const AboutUs = () => {
               >
                 <div className="relative bg-n-8 rounded-[2.4375rem] overflow-hidden">
                   {/* Grid texture */}
-                  <div className="absolute top-0 left-0 w-full pointer-events-none opacity-60">
+                  {/* <div className="absolute top-0 left-0 w-full pointer-events-none opacity-60">
                     <img src={grid} className="w-full" width={550} height={550} alt="" />
-                  </div>
+                  </div> */}
 
                   {/* Card content */}
                   <div className="relative z-1 p-6 md:p-10">
@@ -157,9 +157,9 @@ const AboutUs = () => {
                           {item.date}
                         </span>
                       )}
-                      <span className="flex items-center gap-2 px-4 py-1.5 bg-n-1 rounded-full text-n-8 text-xs font-bold uppercase tracking-wider">
-                        {item.status || "Founder & CEO"}
-                      </span>
+                      {/* <span className="flex items-center md:items-center gap-2 px-4 py-1.5 bg-n-1 rounded-full justify-center text-n-8 text-xs font-bold uppercase tracking-wider">
+                        {item.status || "Founder & CEO | Head of Sales "}
+                      </span> */}
                     </div>
 
                     {/* Two-column: image left, text right */}
@@ -179,6 +179,9 @@ const AboutUs = () => {
                           </div>
                           {/* Name below photo on mobile */}
                           <h4 className="h4 text-color-1 text-center md:hidden">{item.title}</h4>
+                          <span className="flex items-center md:items-center gap-2 px-4 py-1.5 bg-n-1 rounded-full justify-center text-n-8 text-xs font-bold uppercase tracking-wider">
+                        {item.status || "Founder & CEO | Head of Sales "}
+                      </span>
                         </div>
                       )}
 
