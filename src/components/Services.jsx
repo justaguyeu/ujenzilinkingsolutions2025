@@ -35,13 +35,13 @@ const Servicess = () => {
             </div>
 
             <div className="relative z-1 max-w-[17rem] ml-auto bg-blur ">
-              <img
+              {/* <img
                     src={brainwaveSymbol}
                     className=""
                     alt=""
                     width={600}
                     height={200}
-                  />
+                  /> */}
               <h4 className="h4 mb-4 text-color-1 text-center">At Ujenzi Linking Solutions</h4>
               {/* <p className="body-2 mb-[3rem] text-n-3 text-center">
                  Our quality experience is built on delivering tailor-made business strategies that drive measurable growth, empowering youth through practical training and job placement, and earning the trust of businesses across Tanzania. We pride ourselves on combining innovation, affordability, and impact to create sustainable solutions that benefit both entrepreneurs and skilled professionals.
@@ -54,7 +54,9 @@ const Servicess = () => {
                     className="flex items-start py-4 border-t border-n-6"
                   >
                     <img width={24} height={24} src={check} />
-                    <p className="ml-4">{item}</p>
+                    <p className="ml-4 text-n-3 bg-white border border-n-6 rounded-full px-4 py-1 inline-block font-medium">
+  {item}
+</p>
                   </li>
                 ))}
               </ul>
