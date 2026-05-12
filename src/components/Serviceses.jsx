@@ -111,7 +111,7 @@ const Serviceses = () => {
           {/* <CompanyLogos className="hidden relative z-10 mt-1 lg:block" /> */}
 
           <Heading
-  className="md:max-w-md lg:max-w-2xl text-center text-color-1"
+  className="md:max-w-md lg:max-w-2xl text-center text-n-2"
   id="pricing"
   title="Our Services"
 />

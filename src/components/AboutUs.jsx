@@ -85,7 +85,7 @@ const AboutUs = () => {
           <Heading
             className="md:max-w-md lg:max-w-2xl text-center text-color-1"
             id="about"
-            title="Read The Company"
+            title="The Company"
           />
 
           <motion.div
@@ -177,12 +177,12 @@ const AboutUs = () => {
                               className="relative w-48 h-56 md:w-52 md:h-64 object-cover object-top rounded-2xl"
                             />
                           </div>
+                          
+                          {/* Name below photo on mobile */}
+                          <h4 className="h4 text-color-1 text-center md:hidden">{item.title}</h4>
                           <span className="flex items-center justify-center px-4 py-1 rounded-full text-color-1 font-bold uppercase tracking-wider text-center whitespace-nowrap text-[10px] md:text-xs">
   {item.status || "FOUNDER | CEO | HEAD OF SALES"}
 </span>
-                          {/* Name below photo on mobile */}
-                          <h4 className="h4 text-color-1 text-center md:hidden">{item.title}</h4>
-                          
                         </div>
                       )}
 
