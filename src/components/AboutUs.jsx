@@ -190,9 +190,9 @@ const AboutUs = () => {
                         {/* Name — hidden on mobile (shown below photo) */}
                         <h4 className="h4 text-color-1 mb-5 hidden md:block">{item.title}</h4>
 
-                        <p className="body-2 text-n-3 leading-relaxed mb-4">{item.text}</p>
+                        <p className="body-2 text-n-3 leading-relaxed mb-4 text-center md:text-left">{item.text}</p>
                         {item.text2 && (
-                          <p className="body-2 text-n-3 leading-relaxed">{item.text2}</p>
+                          <p className="body-2 text-n-3 leading-relaxed text-center md:text-left">{item.text2}</p>
                         )}
                       </div>
                     </div>
