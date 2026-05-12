@@ -51,7 +51,7 @@ const Servicess = () => {
                 {brainwaveServices.map((item, index) => (
                   <li
                     key={index}
-                    className="flex items-start py-4 border-t border-n-6"
+                    className="flex items-start py-4 "
                   >
                     <img width={24} height={24} src={check} />
                     <p className="ml-4 text-n-3 bg-white border border-n-6 rounded-full px-4 py-1 inline-block font-medium">
