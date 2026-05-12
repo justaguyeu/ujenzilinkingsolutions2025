@@ -163,7 +163,7 @@ const AboutUs = () => {
                     </div>
 
                     {/* Two-column: image left, text right */}
-                    <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center md:items-start">
+                    <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center md:items-center">
 
                       {/* Photo */}
                       {item.imageUrl && (
