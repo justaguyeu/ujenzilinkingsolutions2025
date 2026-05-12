@@ -111,16 +111,38 @@ const Serviceses = () => {
           {/* <CompanyLogos className="hidden relative z-10 mt-1 lg:block" /> */}
 
           <Heading
-            className="md:max-w-md lg:max-w-2xl text-center text-color-1" id="pricing"
-            title="Meet With Companies"
+  className="md:max-w-md lg:max-w-2xl text-center text-color-1"
+  id="pricing"
+  title="Our Services"
+/>
 
-          />
+<div className="max-w-3xl mx-auto mb-10 space-y-6">
+  <div>
+    <h3 className="h5 text-color-1 mb-2">1. Product Sales Network</h3>
+    <p className="body-1 text-n-2">
+      With experience in bringing products to market, we can develop a robust sales network
+      of sales reps, manufacturers' representatives, and distributors to bring your products,
+      services, and capabilities to your target customers.
+    </p>
+  </div>
 
-          <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-center">
-            At Ujenzi Linking Solutions, we help businesses of all sizes discover new markets, boost sales volumes, and access affordable, tailor-made marketing and sales strategies. By connecting suppliers, service providers, and customers, we create a network where collaboration drives growth.
+  <div>
+    <h3 className="h5 text-color-1 mb-2">2. Sales Team Development</h3>
+    <p className="body-1 text-n-2">
+      We can use our extensive network to build a sales team of sales reps and distributors
+      from the ground up, ensuring you have the right team in place.
+    </p>
+  </div>
 
-            We believe every business deserves the right tools, partners, and opportunities to grow and thrive. Whether you’re a startup seeking exposure, an established company looking for new markets, or a supplier aiming to connect with buyers, Ujenzi Linking Solutions is your trusted partner in making the right connections</p>
-          <div className="container md:pb-10">
+  <div>
+    <h3 className="h5 text-color-1 mb-2">3. Affordable Marketing Promotion Solutions</h3>
+    <p className="body-1 text-n-2">
+      We provide cost-effective customer experience and marketing promotion services that help
+      businesses grow sales, strengthen customer relationships, and reduce marketing expenses.
+    </p>
+  </div>
+</div>
+<div className="container md:pb-10">
 
           </div>
           <div className="flex flex-wrap gap-10 mb-10">

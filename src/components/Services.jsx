@@ -18,9 +18,13 @@ const Servicess = () => {
     <Section id="how-to-use">
       <div className="container">
         <Heading
-          title="Our Quality  Experience"
-          text="The Sales and Experiential Marketing Outsource with a highly skilled, innovative and experienced Sales & Marketing team that can quickly access desired Customers who are difficult to attain; a team fine-tuned by the Sales & Marketing master with over 20 years’ experience in several industries such as Building & Construction products, Machines & Technology, FMCG and Service sector in Tanzania."
-        />
+  title="Our Quality Experience"
+  text="Finding new customers shouldn't feel like searching for a needle in a haystack. Traditional sales relied on volume — endless calls, mass emails, and hoping something would stick. But that strategy wastes time, drains resources, and burns out sales teams.
+
+Today's top-performing teams take a smarter approach. They use intelligence-driven prospecting to identify high-potential customers before making first contact, helping them close deals faster and more efficiently.
+
+Therefore, we are preparing for the adoption of AI marketing tools for B2B lead generation."
+/>
 
         <div className="relative">
           <div className="relative z-1 flex items-center h-[39rem] mb-5 p-8 border border-n-1/10 rounded-3xl overflow-hidden lg:p-20 xl:h-[46rem]">
