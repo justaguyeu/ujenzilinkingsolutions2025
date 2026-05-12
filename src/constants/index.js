@@ -89,7 +89,7 @@ export const navigation = [
   {
     id: "1",
     title: "THE FUTURE",
-    url: "/#how-to-use",
+    url: "/future",
   },
   {
     id: "2",
@@ -122,15 +122,22 @@ export const navigation2 = [
     url: "/",
   },
   {
-    id: "2",
-    title: "ABOUT US",
-    url: "/aboutus",
-  },
-  {
-    id: "0",
+    id: "1",
     title: "SERVICES",
     url: "/serviceses",
   },
+   {
+    id: "2",
+    title: "THE FUTURE",
+    url: "/future",
+  },
+  {
+    id: "3",
+    title: "ABOUT US",
+    url: "/aboutus",
+  },
+ 
+  
 
   // {
   //   id: "3",

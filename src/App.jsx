@@ -38,6 +38,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import Benefits from "./components/Benefits";
+import Future from "./components/Future";
 
 // Lazy load non-critical components
 const AboutUs = lazy(() => import("./components/AboutUs"));
@@ -86,6 +87,11 @@ const App = () => {
           <Route path="/serviceses" element={
             <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
               <Serviceses />
+            </Suspense>
+          } />
+          <Route path="/future" element={
+            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
+              <Future />
             </Suspense>
           } />
         </Routes>

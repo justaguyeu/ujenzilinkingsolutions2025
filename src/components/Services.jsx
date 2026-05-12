@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import Section from "./Section";
 import Heading from "./Heading";
-import { service1, service2, service3, check } from "../assets";
-import { brainwaveServices, brainwaveServicesIcons } from "../constants";
+import { service1, service2, service3, check, } from "../assets";
+import { brainwaveServices, brainwaveServicesIcons, } from "../constants";
 import {
   PhotoChatMessage,
   Gradient,
@@ -19,41 +19,13 @@ const Servicess = () => {
       <div className="container">
         <Heading
   title="Our Quality Experience"
+  text="Finding new customers shouldn't feel like searching for a needle in a haystack. Traditional sales relied on volume — endless calls, mass emails, and hoping something would stick. But that strategy wastes time, drains resources, and burns out sales teams.
+
+Today's top-performing teams take a smarter approach. They use intelligence-driven prospecting to identify high-potential customers before making first contact, helping them close deals faster and more efficiently.
+
+Therefore, we are preparing for the adoption of AI marketing tools for B2B lead generation."
 />
 
-<div className="max-w-3xl mx-auto mb-10 space-y-4">
-  <p className="body-2 text-n-3">
-    Finding new customers shouldn't feel like searching for a needle in a haystack.
-    Traditional sales relied on volume — endless calls, mass emails, and hoping something
-    would stick. But that strategy wastes time, drains resources, and burns out sales teams.
-  </p>
-  <p className="body-2 text-n-3">
-    Today's top-performing teams take a smarter approach. They use intelligence-driven
-    prospecting to identify high-potential customers before making first contact, helping
-    them close deals faster and more efficiently.
-  </p>
-  <p className="body-2 text-n-3">
-    Therefore, we are preparing for the adoption of AI marketing tools for B2B lead generation.
-  </p>
-
-  <ul className="space-y-3 pt-2">
-    <li className="flex items-start gap-3">
-      <img src={check} width={24} height={24} alt="" className="mt-1 flex-shrink-0" />
-      <p className="body-2 text-n-3">
-        They will transform your process from a numbers game into a strategic operation,
-        helping you find higher-quality leads and personalize your communication.
-      </p>
-    </li>
-    <li className="flex items-start gap-3">
-      <img src={check} width={24} height={24} alt="" className="mt-1 flex-shrink-0" />
-      <p className="body-2 text-n-3">
-        <span className="font-bold text-n-1">Results Monitoring — </span>
-        Our live dashboard will keep your team updated 24/7. You can see the status of
-        your sales network of reps and distributors at all times.
-      </p>
-    </li>
-  </ul>
-</div>
 
         <div className="relative">
           <div className="relative z-1 flex items-center h-[39rem] mb-5 p-8 border border-n-1/10 rounded-3xl overflow-hidden lg:p-20 xl:h-[46rem]">
@@ -75,20 +47,21 @@ const Servicess = () => {
                     width={600}
                     height={200}
                   /> */}
-              <h4 className="h4 mb-4 text-color-1 text-center font-bold">
-                At Ujenzi Linking Solutions
-              </h4>
+              <h4 className="h4 mb-4 text-color-1 text-center font-bold">At Ujenzi Linking Solutions</h4>
               {/* <p className="body-2 mb-[3rem] text-n-3 text-center">
                  Our quality experience is built on delivering tailor-made business strategies that drive measurable growth, empowering youth through practical training and job placement, and earning the trust of businesses across Tanzania. We pride ourselves on combining innovation, affordability, and impact to create sustainable solutions that benefit both entrepreneurs and skilled professionals.
               </p> */}
-
+              
               <ul className="body-2">
                 {brainwaveServices.map((item, index) => (
-                  <li key={index} className="flex items-start py-4 ">
+                  <li
+                    key={index}
+                    className="flex items-start py-4 "
+                  >
                     <img width={24} height={24} src={check} />
                     <p className="ml-4 text-n-3 bg-white border border-n-6 rounded-full px-4 py-1 inline-block ">
-                      {item}
-                    </p>
+  {item}
+</p>
                   </li>
                 ))}
               </ul>
@@ -97,7 +70,7 @@ const Servicess = () => {
             {/* <Generating className="absolute left-4 right-4 bottom-4 border-n-1/10 border lg:left-1/2 lg-right-auto lg:bottom-8 lg:-translate-x-1/2" /> */}
           </div>
 
-          <div className="relative z-1  gap-5 lg:grid-cols-2">
+          <div className="relative z-1  gap-5 lg:grid-cols-2"> 
             {/* <div className="relative min-h-[39rem] border border-n-1/10 rounded-3xl overflow-hidden">
               <div className="absolute inset-0">
                 <img
@@ -123,14 +96,9 @@ const Servicess = () => {
               <div className="py-12 px-4 xl:px-8">
                 <h4 className="h4 mb-4 text-n-8">Why Choose Us</h4>
                 <p className="body-2 mb-[2rem] text-n-8">
-                  We understand that Marketing and Sales are the core functions
-                  of every business towards profit maximization; Let Ujenzi
-                  Linking Solutions help you with saving money and time on HR
-                  Management, prospects and customer database, market survey
-                  report, product or service adjustment consultations, building
-                  product or service awareness, inspire conversations and
-                  cultivate brand loyalty. We also have committed experts who
-                  have special connections with Business compliance authorities.
+                We understand that Marketing and Sales are the core functions of every business towards profit maximization; Let Ujenzi Linking Solutions help you with saving money and time on HR Management, prospects and customer database, market survey report, product or service adjustment consultations, building product or service awareness, inspire conversations and cultivate brand loyalty.
+
+We also have committed experts who have special connections with Business compliance authorities.
                 </p>
 
                 {/* <ul className="flex items-center justify-between">
@@ -166,17 +134,17 @@ const Servicess = () => {
                   height={400}
                   alt="Scary robot"
                 />  */}
-                <video
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  width={520}
-                  height={400}
-                  alt="Scary robot"
+                <video className="w-full h-full object-cover"
+                autoPlay muted loop  
+                width={520} 
+                height={400}
+                alt="Scary robot"
                 >
-                  <source src={service3} type="video/mp4" />
-                </video>
+                <source src={service3} type="video/mp4" 
+                
+                />
+                
+              </video>
 
                 {/* <VideoChatMessage />
                 <VideoBar /> */}
