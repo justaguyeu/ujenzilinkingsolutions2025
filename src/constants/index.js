@@ -13,6 +13,7 @@ import {
   figma,
   file02,
   framer,
+  mr,
   homeSmile,
   instagram,
   notification2,
@@ -83,7 +84,7 @@ export const navigation = [
   {
     id: "0",
     title: "SERVICES",
-    url: "/#features",
+    url: "/serviceses",
   },
   {
     id: "1",
@@ -94,7 +95,7 @@ export const navigation = [
     id: "2",
     title: "ABOUT US",
 
-    url: "/#pricing",
+    url: "/aboutus",
   },
   // {
   //   id: "3",
@@ -157,8 +158,10 @@ export const notificationImages = [notification4, notification3, notification2];
 export const companyLogos = [yourlogo,];
 
 export const brainwaveServices = [
-  "Tailor-Made Business Solutions",
-  "Youth Empowerment Impact",
+  "We save you Money",
+  "We save you Time",
+  "We help mitigate your Risks",
+  "We elevate your Brand",
   // "Trusted by Businesses",
 ];
 
@@ -173,21 +176,22 @@ export const brainwaveServicesIcons = [
 export const roadmap = [
   {
     id: "0",
-    title: "Our Mission",
-    text: "To provide a highly skilled, innovative and experienced sales and marketing team that is result oriented and can rise people and businesses above their current level to reach the next level of sales and marketing growth potential.",
-    // date: "2019 to 2024",
-    // status: "done",
-    // imageUrl: roadmap1,
-    // colorful: true,
+    title: "Zuberi Lweno ",
+    text: "College of Business Education graduate Zuberi earned an Advanced Diploma in Marketing from the CBE Dodoma campus in 2007 and later obtained a Master’s Degree in International Business Management from the same institution in 2017. With over 20 years of sales experience in Tanzania, he has worked across diverse industries including building and construction materials, machinery and tools, services, and the hospitality sector.",
+    text2: "Zuberi possesses strong training and business development capabilities and is highly passionate about helping businesses improve sales performance and revenue growth through effective sales strategies, customer relationship management, and market expansion initiatives.",
+    date: "2024 to Current",
+    status: "Founder & CEO",
+    imageUrl: mr,
+    colorful: true,
   },
-  {
-    id: "1",
-    title: "Our Vision",
-    text: "We will become a strategic, International Sales Agency. Our team will be finding new businesses, generating leads and sales, hunting down deals for companies operating in other nations.",
-    // date: "2019 to 2024",
-    // status: "MANAGER",
-    // imageUrl: roadmap2,
-  },
+  // {
+  //   id: "1",
+  //   title: "Our Vision",
+  //   text: "We will become a strategic, International Sales Agency. Our team will be finding new businesses, generating leads and sales, hunting down deals for companies operating in other nations.",
+  //   date: "2019 to 2024",
+  //   status: "MANAGER",
+  //   imageUrl: roadmap2,
+  // },
   // {
   //   id: "2",
   //   title: "Chatbot customization",
