@@ -7,10 +7,12 @@ import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const pathname = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
+  const navigate = useNavigate();
 
   const toggleNavigation = () => {
     if (openNavigation) {
@@ -31,7 +33,7 @@ const Header = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50  border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm ${
+      className={`fixed top-0 left-0 w-full z-50 border-b border-n-6 lg:bg-n-8/90 lg:backdrop-blur-sm ${
         openNavigation ? "bg-n-8" : "bg-n-8/90 backdrop-blur-sm"
       }`}
     >
@@ -67,18 +69,17 @@ const Header = () => {
           <HamburgerMenu />
         </nav>
 
-        {/* <a
-          href="#signup"
-          className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
-        >
-          JOIN OUR TEAM
-        </a> */}
-        <Button className="hidden lg:flex" href="/join">
-          JOIN OUR TEAM
-        </Button>
+        <div className="flex flex-wrap justify-center gap-4">
+  <button
+    onClick={() => navigate("/join")}
+    className="px-4 py-1.5 rounded-full bg-n-14 text-black text-xs font-semibold tracking-wide whitespace-nowrap hover:scale-105 transition-transform duration-300"
+  >
+    JOIN OUR TEAM
+  </button>
+</div>
 
         <Button
-          className="ml-auto lg:hidden bg-n-14"
+          className="ml-2 lg:hidden bg-n-14"
           px="px-3"
           onClick={toggleNavigation}
         >
