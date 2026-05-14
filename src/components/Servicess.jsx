@@ -82,11 +82,11 @@ const Services = () => {
         </div>
 
         {/* ── Tagline ─────────────────────────────────────────── */}
-        <p className="body-1 text-n-3 text-center max-w-2xl mx-auto mb-10 px-4">
+        {/* <p className="body-1 text-n-3 text-center max-w-2xl mx-auto mb-10 px-4">
           CHOMOZA Business Consultancy (T) Ltd — empowering businesses across
           Tanzania through strategic consultancy, sales outsourcing, and digital
           transformation.
-        </p>
+        </p> */}
 
         {/* ── CTAs ────────────────────────────────────────────── */}
         <div className="flex flex-wrap justify-center gap-4">
