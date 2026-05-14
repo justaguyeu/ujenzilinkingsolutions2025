@@ -208,7 +208,15 @@ const Chomoza = () => {
                   href="tel:+255789345845"
                   className="px-8 py-3 rounded-full bg-n-14 text-black font-semibold tracking-wide hover:scale-105 transition-transform duration-300"
                 >
-                  CHECK NOW
+                  CALL NOW
+                </a>
+                <a
+                  href="https://wa.me/255789345845"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-3 rounded-full bg-n-14 text-black font-semibold tracking-wide hover:scale-105 transition-transform duration-300"
+                >
+                  WHATSAPP
                 </a>
                
               </div>

@@ -40,6 +40,7 @@ import Hero from "./components/Hero";
 import Benefits from "./components/Benefits";
 import Future from "./components/Future";
 import Chomoza from "./components/Chomoza";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy load non-critical components
 const AboutUs = lazy(() => import("./components/AboutUs"));
@@ -73,6 +74,7 @@ const App = () => {
   return (
     <>
       <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/benefits/:id" element={
