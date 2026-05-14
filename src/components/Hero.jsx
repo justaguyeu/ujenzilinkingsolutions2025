@@ -72,14 +72,9 @@ const Hero = () => {
   
           <div className="space-y-6 sm:space-y-6">
           <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-left">
-            Welcome to Ujenzi Linking Solutions where businesses, markets,
-            and opportunities connect. Founded in Tanzania in 2024, Ujenzi
-            (Kiswahili for Construction) is committed to helping businesses
-            of all sizes discover new markets, increase sales volumes, and
-            access affordable, tailor-made sales and marketing solutions.
+            Ujenzi Linking Solutions is a Tanzania-based online platform established in 2024 to connect businesses, markets, and opportunities within the building and construction industry. The name “Ujenzi,” meaning Construction in Kiswahili, reflects the company’s commitment to supporting businesses of all sizes in the building and construction materials sector by helping them reach new markets, increase sales, and access customized, affordable sales and marketing solutions.
             </p>
-          <div className="container md:pb-10">
-            </div>
+          
 
           
           <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-left">Also, we aim to support the Government of Tanzania in addressing the youth employment challenge by providing On-the-job Sales & Marketing Training and Job placement service to equip individuals with necessary sales and marketing skills, enabling them to secure employment and helping business owners find highly skilled salespeople to boost their sales volumes.

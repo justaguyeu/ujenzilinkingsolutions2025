@@ -19,11 +19,7 @@ const Servicess = () => {
       <div className="container">
         <Heading
   title="Our Quality Experience"
-  text="Finding new customers shouldn't feel like searching for a needle in a haystack. Traditional sales relied on volume — endless calls, mass emails, and hoping something would stick. But that strategy wastes time, drains resources, and burns out sales teams.
-
-Today's top-performing teams take a smarter approach. They use intelligence-driven prospecting to identify high-potential customers before making first contact, helping them close deals faster and more efficiently.
-
-Therefore, we are preparing for the adoption of AI marketing tools for B2B lead generation."
+  text="Our team has extensive experience in sales outsourcing, sales training, and marketing promotion services, with strong industry exposure in building & construction materials, machinery & technology, FMCGs, service businesses, and the hospitality sector."
 />
 
 

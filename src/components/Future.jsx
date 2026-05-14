@@ -70,10 +70,7 @@ const Future = () => {
           <div className="max-w-3xl mx-auto mb-20 space-y-5 px-4">
 
             <p className="body-1 text-n-2">
-              Finding new customers shouldn't feel like searching for a needle in a haystack.
-              Traditional sales relied on volume — endless calls, mass emails, and hoping
-              something would stick. But that strategy wastes time, drains resources, and
-              burns out sales teams.
+              Our team has extensive experience in sales outsourcing, sales training, and marketing promotion services, with strong industry exposure in building & construction materials, machinery & technology, FMCGs, service businesses, and the hospitality sector.
             </p>
 
             <p className="body-1 text-n-2">

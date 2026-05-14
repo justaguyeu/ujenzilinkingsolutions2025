@@ -83,7 +83,7 @@ const AboutUs = () => {
 
           {/* ── About text ───────────────────────────────────── */}
           <Heading
-            className="md:max-w-md lg:max-w-2xl text-center text-color-1"
+            className="md:max-w-md lg:max-w-2xl text-left text-color-1"
             id="about"
             title="The Company"
           />
@@ -96,29 +96,29 @@ const AboutUs = () => {
             viewport={{ once: true }}
             custom={0}
           >
-            <p className="body-1 text-n-2 text-center">
+            <p className="body-1 text-n-2 text-left">
               Welcome to{" "}
+              
               <span className="text-color-1 font-semibold">Ujenzi Linking Solutions</span>{" "}
-              — where businesses, markets, and opportunities connect. Founded in Tanzania in 2024,
-              Ujenzi{" "}
-              <span className="text-color-1">(Kiswahili for Construction)</span>{" "}
-              is committed to helping businesses of all sizes discover new markets, increase sales
-              volumes, and access affordable, tailor-made{" "}
-              <span className="text-color-1">sales and marketing solutions.</span>{" "}
-              We believe every business deserves the right tools and strategies to grow and thrive.
+              and its sister company 
+               CHOMOZA Business Consultancy (T) Ltd{" "}form an integrated business growth and market expansion ecosystem serving Tanzania’s commercial sector.
+              
             </p>
 
-            <p className="body-1 text-n-2 text-center">
-              We also aim to support the Government of Tanzania in addressing the youth employment
-              challenge by providing On-the-job{" "}
-              <span className="text-color-1">Sales & Marketing Training</span> and job placement
-              services — equipping individuals with necessary skills and helping business owners
-              find highly skilled salespeople to boost their sales volumes.
+            <p className="body-1 text-n-2 text-left">
+              From a marketing perspective, <span className="text-color-1">CHOMOZA Business Consultancy</span> positions itself as a 
+              results-driven sales and marketing partner, delivering tailored solutions 
+              in sales strategy, marketing promotion, training, and job placement to improve 
+              business performance while also building youth employability through practical 
+              skills development. Building on this foundation, Ujenzi Linking Solutions extends 
+              the value chain by creating a focused digital marketplace for the building and 
+              construction industry, connecting suppliers, contractors, and service providers 
+              to new markets, increasing visibility, and driving sales opportunities{" "}
+              
             </p>
 
-            <p className="body-1 text-n-2 text-center">
-              This is also an online platform that promotes products and services to potential
-              customers, increasing awareness and driving sales.
+            <p className="body-1 text-n-2 text-left">
+               Together, the two platforms combine traditional consultancy expertise with digital market linkage to enhance growth, market access, and sustainable business expansion.
             </p>
           </motion.div>
 
@@ -191,9 +191,9 @@ const AboutUs = () => {
                         {/* Name — hidden on mobile (shown below photo) */}
                         <h4 className="h4 text-color-1 mb-5 hidden md:block">{item.title}</h4>
 
-                        <p className="body-2 text-n-3 leading-relaxed mb-4 text-center md:text-left">{item.text}</p>
+                        <p className="body-2 text-n-3 leading-relaxed mb-4 text-left md:text-left">{item.text}</p>
                         {item.text2 && (
-                          <p className="body-2 text-n-3 leading-relaxed text-center md:text-left">{item.text2}</p>
+                          <p className="body-2 text-n-3 leading-relaxed text-left md:text-left">{item.text2}</p>
                         )}
                       </div>
                     </div>
