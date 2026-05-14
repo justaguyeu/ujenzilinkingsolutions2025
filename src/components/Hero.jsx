@@ -77,10 +77,11 @@ const Hero = () => {
           
 
           
-          <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-left">Also, we aim to support the Government of Tanzania in addressing the youth employment challenge by providing On-the-job Sales & Marketing Training and Job placement service to equip individuals with necessary sales and marketing skills, enabling them to secure employment and helping business owners find highly skilled salespeople to boost their sales volumes.
+          {/* <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-left">Also, we aim to support the Government of Tanzania in addressing the youth employment challenge by providing On-the-job Sales & Marketing Training and Job placement service to equip individuals with necessary sales and marketing skills, enabling them to secure employment and helping business owners find highly skilled salespeople to boost their sales volumes.
           </p>
           <p className="body-1 max-w-3xl mx-auto mb-1 text-n-2 lg:mb-3 text-left">This is also an online platform which promotes products and services to potential customers, increasing awareness and driving sales. 
-          </p></div>
+          </p> */}
+          </div>
         </Section>
       </div>
 
