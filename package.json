@@ -11,6 +11,7 @@
     "clean": "powershell -Command \"Remove-Item -Recurse -Force dist, node_modules/.vite\""
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@fortawesome/fontawesome-free": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
