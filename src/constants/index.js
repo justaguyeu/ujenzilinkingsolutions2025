@@ -423,7 +423,7 @@ export const benefits = [
   },
   {
     id: "8",
-    title: "Fundis",
+    title: "Fundis/Skilled Workers",
     text: "We make it easy for skilled fundis and artisans to register and get discovered by clients. Through our platform, users can hire trusted professionals for quality workmanship and reliable finishing services.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
