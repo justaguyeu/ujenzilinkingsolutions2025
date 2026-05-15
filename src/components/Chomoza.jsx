@@ -109,7 +109,7 @@ const Chomoza = () => {
             <h2 className="h3 text-n-1">Who We Are</h2>
 
             <p className="body-1 text-n-2">
-              CHOMOZA Business Consultancy (T) Ltd serves as the strategic
+              CHOMOZA Business Consultancy (T) Ltd was founded in Tanzania in March 2015 to serves as the strategic
               business development and commercial support arm within a broader
               ecosystem that also includes{" "}
               <span className="text-color-1 font-semibold">
