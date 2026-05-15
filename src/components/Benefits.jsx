@@ -26,7 +26,7 @@ const Benefits = () => {
           <div>
             <h3 className="text-n-1 font-bold text-lg">Own a business?</h3>
             <p className="text-n-4 text-sm mt-0.5">
-              Get listed in our directory and reach more customers instantly.
+              Get listed and reach more customers instantly.
             </p>
           </div>
           <button
