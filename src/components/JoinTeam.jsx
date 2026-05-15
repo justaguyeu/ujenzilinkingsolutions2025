@@ -1,17 +1,4 @@
-// src/pages/JoinTeam.jsx
-//
-// SETUP REQUIRED — do this once on emailjs.com (free):
-//   1. Create an account at https://www.emailjs.com
-//   2. Add a Gmail service  → copy the Service ID  → replace YOUR_SERVICE_ID
-//   3. Create an email template (see note below) → copy Template ID → replace YOUR_TEMPLATE_ID
-//   4. Go to Account → API Keys → copy Public Key  → replace YOUR_PUBLIC_KEY
-//
-// Recommended template variables (use these in your EmailJS template):
-//   {{full_name}}, {{dob}}, {{gender}}, {{phone}}, {{email}}, {{region}},
-//   {{occupation}}, {{education}}, {{experience}}, {{role}}, {{skills}},
-//   {{motivation}}, {{availability}}
-//
-// Example template subject: "New Team Application – {{full_name}}"
+
 
 import { useState } from "react";
 import emailjs from "@emailjs/browser"; // npm install @emailjs/browser
@@ -229,7 +216,7 @@ const JoinTeam = () => {
 
   return (
     <>
-      <Header2 />
+      <Header2/>
 
       {showModal && <SuccessModal onClose={() => setShowModal(false)} />}
 

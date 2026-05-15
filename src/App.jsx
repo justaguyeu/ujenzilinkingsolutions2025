@@ -42,6 +42,7 @@ import Future from "./components/Future";
 import Chomoza from "./components/Chomoza";
 import ScrollToTop from "./components/ScrollToTop";
 import JoinTeam from "./components/JoinTeam";
+import LearnWithUs from "./components/LearnWithUs";
 
 // Lazy load non-critical components
 const AboutUs = lazy(() => import("./components/AboutUs"));
@@ -106,6 +107,11 @@ const App = () => {
           <Route path="/join" element={
             <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
               <JoinTeam/>
+            </Suspense>
+          } />
+          <Route path="/learn" element={
+            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
+              <LearnWithUs/>
             </Suspense>
           } />
         </Routes>

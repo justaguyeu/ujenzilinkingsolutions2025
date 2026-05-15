@@ -71,10 +71,10 @@ const Header = () => {
 
         <div className="flex flex-wrap justify-center gap-4">
   <button
-    onClick={() => navigate("/join")}
+    onClick={() => navigate("/learn")}
     className="px-4 py-1.5 rounded-full bg-n-14 text-black text-xs font-semibold tracking-wide whitespace-nowrap hover:scale-105 transition-transform duration-300"
   >
-    JOIN OUR TEAM
+    LEARN WITH US
   </button>
 </div>
 
