@@ -403,7 +403,7 @@ const LearnWithUs = () => {
               </div>
 
               {/* ── How did you hear ── */}
-              <SectionHeading icon="">How Did You Hear About Us?</SectionHeading>
+              <SectionHeading icon="">Where Did You Hear About Us?</SectionHeading>
               <div className="mb-8">
                 <Label>Source (optional)</Label>
                 <select name="hearFrom" value={form.hearFrom} onChange={handle}
