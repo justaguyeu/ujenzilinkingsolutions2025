@@ -363,7 +363,7 @@ export const benefits = [
         logo2: wall1,
         logo3: wall2,
     
-        phone: "+255 755 753 883",
+        phone: "1800 3000 6650",
         location: "https://www.walplast.com",
         website: "https://www.walplast.com",
         description: "One of the leading and most reputable producer of building materials is part of DryChem group an Indian Multinational Corporation.",
