@@ -88,35 +88,42 @@ const Field = ({ label, icon: Icon, error, optional, children }) => (
 const inputCls = "w-full bg-transparent px-4 py-3 text-n-1 placeholder-n-5 text-sm focus:outline-none rounded-xl";
 
 // ─── Success Screen ───────────────────────────────────────────────────────────
-const SuccessScreen = ({ name, onClose }) => (
-  <motion.div
-    key="success"
-    initial={{ opacity: 0, scale: 0.95 }}
-    animate={{ opacity: 1, scale: 1 }}
-    className="flex flex-col items-center text-center py-8 px-4 gap-5"
-  >
+const SuccessScreen = ({ name, onClose }) => {
+  const handleDone = () => {
+    onClose();
+    window.location.reload(); // ← guarantees fresh data
+  };
+
+  return (
     <motion.div
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
+      key="success"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="flex flex-col items-center text-center py-8 px-4 gap-5"
     >
-      <CheckCircle2 className="w-16 h-16 text-color-1" />
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
+      >
+        <CheckCircle2 className="w-16 h-16 text-green-400" />
+      </motion.div>
+      <div>
+        <h3 className="text-xl font-bold text-n-1 mb-2">You're registered!</h3>
+        <p className="text-n-3 text-sm">
+          <span className="text-color-1 font-semibold">{name}</span> is now live in the directory
+          and visible to everyone.
+        </p>
+      </div>
+      <button
+        onClick={handleDone}
+        className="w-full py-3 bg-color-1 text-n-8 font-bold rounded-xl hover:opacity-90 transition-opacity"
+      >
+        Done
+      </button>
     </motion.div>
-    <div>
-      <h3 className="text-xl font-bold text-n-1 mb-2">You're registered!</h3>
-      <p className="text-n-3 text-sm">
-        <span className="text-color-1 font-semibold">{name}</span> is now live 
-        and visible to everyone.
-      </p>
-    </div>
-    <button
-      onClick={onClose}
-      className="w-full py-3 bg-color-1 text-n-8 font-bold rounded-xl hover:opacity-90 transition-opacity"
-    >
-      Done
-    </button>
-  </motion.div>
-);
+  );
+};
 
 // ─── Main Modal ───────────────────────────────────────────────────────────────
 const INITIAL = {
@@ -125,14 +132,16 @@ const INITIAL = {
   categoryId: "", logo: null, gallery1: null, gallery2: null,
 };
 
-const RegistrationModal = ({ isOpen, onClose, defaultCategoryId = "" }) => {
-  const { addRegistration } = useRegistrations();
+const RegistrationModal = ({ isOpen, onClose, defaultCategoryId = "", addRegistration: addRegistrationProp }) => {
+//   const { addRegistration } = useRegistrations();
   const [form, setForm] = useState({ ...INITIAL, categoryId: defaultCategoryId });
   const [errors, setErrors] = useState({});
   const [imgErrors, setImgErrors] = useState({});
   const [step, setStep] = useState("form");
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState(null);
+  const { addRegistration: addRegistrationHook } = useRegistrations();
+  const addRegistration = addRegistrationProp || addRegistrationHook;
 
   const set = (key, val) => setForm((f) => ({ ...f, [key]: val }));
   const clearErr = (key) => setErrors((p) => ({ ...p, [key]: null }));
@@ -152,34 +161,33 @@ const RegistrationModal = ({ isOpen, onClose, defaultCategoryId = "" }) => {
   };
 
   const handleSubmit = async () => {
-    const e = validate();
-    if (Object.keys(e).length) { setErrors(e); return; }
-    setSubmitting(true);
-    setServerError(null);
+  const e = validate();
+  if (Object.keys(e).length) { setErrors(e); return; }
+  setSubmitting(true);
+  setServerError(null);
 
-    const { error } = await addRegistration({
-      categoryId: form.categoryId,
-      name: form.name.trim(),
-      description: form.description.trim(),
-      phone: form.phone.trim(),
-      website: form.website.trim(),
-      location: form.location.trim(),
-      instagram: form.instagram.trim().replace(/^@/, ""),
-      logo: form.logo || null,
-      logo2: form.gallery1 || null,
-      logo3: form.gallery2 || null,
-    });
+  const { error } = await addRegistration({
+    categoryId: form.categoryId,
+    name: form.name.trim(),
+    description: form.description.trim(),
+    phone: form.phone.trim(),
+    website: form.website.trim(),
+    location: form.location.trim(),
+    instagram: form.instagram.trim().replace(/^@/, ""),
+    logo: form.logo || null,
+    logo2: form.gallery1 || null,
+    logo3: form.gallery2 || null,
+  });
 
-    setSubmitting(false);
+  setSubmitting(false);
 
-    if (error) {
-      setServerError("Registration failed: " + error.message);
-      return;
-    }
+  if (error) {
+    setServerError("Registration failed: " + error.message);
+    return;
+  }
 
-    // ← show success screen, list already updated via fetchAll in hook
-    setStep("success");
-  };
+  setStep("success");
+};
 
   const handleClose = () => {
     setForm({ ...INITIAL, categoryId: defaultCategoryId });

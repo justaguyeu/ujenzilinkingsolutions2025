@@ -146,12 +146,10 @@ const CompanyDetail = ({ company, isRegistered, onClose }) => {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           onClick={(e) => e.stopPropagation()}>
 
-          {/* Handle */}
           <div className="flex justify-center pt-3 pb-1 md:hidden">
             <div className="w-10 h-1 rounded-full bg-n-5" />
           </div>
 
-          {/* Close */}
           <button onClick={onClose}
             className="absolute top-4 right-4 w-8 h-8 rounded-full bg-n-7 flex items-center
                        justify-center hover:bg-n-6 transition-colors z-10">
@@ -159,7 +157,6 @@ const CompanyDetail = ({ company, isRegistered, onClose }) => {
           </button>
 
           <div className="p-5 pt-3 md:pt-5">
-            {/* Header */}
             <div className="flex items-center gap-4 mb-5 pr-8">
               {company.logo ? (
                 <img src={company.logo} alt={company.name}
@@ -187,7 +184,6 @@ const CompanyDetail = ({ company, isRegistered, onClose }) => {
               <p className="text-n-3 text-sm leading-relaxed mb-5">{company.description}</p>
             )}
 
-            {/* Gallery */}
             {gallery.length > 0 && (
               <div className="mb-5">
                 <div className="flex items-center gap-2 mb-3">
@@ -207,9 +203,7 @@ const CompanyDetail = ({ company, isRegistered, onClose }) => {
               </div>
             )}
 
-            {/* Action Buttons */}
             <div className="flex flex-col gap-3">
-              {/* Row 1: Phone + Website */}
               <div className="flex flex-col sm:flex-row gap-3">
                 {company.phone && (
                   <a href={`tel:${company.phone}`}
@@ -228,8 +222,6 @@ const CompanyDetail = ({ company, isRegistered, onClose }) => {
                   </a>
                 )}
               </div>
-
-              {/* Row 2: Instagram */}
               {instagramUrl && (
                 <a href={instagramUrl} target="_blank" rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full py-3 px-5
@@ -244,7 +236,6 @@ const CompanyDetail = ({ company, isRegistered, onClose }) => {
         </motion.div>
       </motion.div>
 
-      {/* Zoomed Image */}
       <AnimatePresence>
         {zoomedImage && (
           <motion.div
@@ -270,7 +261,9 @@ const CompanyDetail = ({ company, isRegistered, onClose }) => {
 const BenefitDetail = () => {
   const { id } = useParams();
   const benefit = benefits.find((b) => b.id === id);
-  const { getForCategory, loading } = useRegistrations();
+
+  // ← Single hook instance, shared with modal
+  const { getForCategory, loading, addRegistration } = useRegistrations();
 
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [selectedIsRegistered, setSelectedIsRegistered] = useState(false);
@@ -288,7 +281,6 @@ const BenefitDetail = () => {
     );
   }
 
-  // Merge hardcoded + Supabase registrations
   const hardcoded = useMemo(
     () => (benefit.companies || []).map((c) => ({ ...c, _source: "hardcoded" })),
     [benefit]
@@ -297,7 +289,6 @@ const BenefitDetail = () => {
   const registered = useMemo(
     () => getForCategory(id).map((c) => ({
       ...c,
-      // Map Supabase column names → component expectations
       logo: c.logo,
       logo2: c.logo2,
       logo3: c.logo3,
@@ -353,7 +344,6 @@ const BenefitDetail = () => {
         <div className="container relative z-2">
           <div className="mx-auto px-4 md:px-10 pt-6 pb-16 max-w-2xl">
 
-            {/* Page Header */}
             <div className="mb-8">
               <h1 className="h1 mb-4">
                 <span className="inline-block relative">
@@ -384,7 +374,6 @@ const BenefitDetail = () => {
               </div>
             </div>
 
-            {/* Search */}
             {!loading && allCompanies.length > 0 && (
               <div className="mb-6 relative">
                 <input type="search" placeholder="Search companies…" value={search}
@@ -400,12 +389,10 @@ const BenefitDetail = () => {
               </div>
             )}
 
-            {/* Alpha index */}
             {!loading && allCompanies.length > 0 && (
               <AlphaIndex available={availableLetters} onJump={jumpToLetter} />
             )}
 
-            {/* Loading skeleton */}
             {loading ? (
               <div className="flex items-center justify-center py-20 gap-3 text-n-4">
                 <Loader2 className="w-5 h-5 animate-spin" /> Loading businesses…
@@ -449,7 +436,6 @@ const BenefitDetail = () => {
         </div>
       </Section>
 
-      {/* Company Detail */}
       <AnimatePresence>
         {selectedCompany && (
           <CompanyDetail company={selectedCompany} isRegistered={selectedIsRegistered}
@@ -457,8 +443,13 @@ const BenefitDetail = () => {
         )}
       </AnimatePresence>
 
-      {/* Registration Modal */}
-      <RegistrationModal isOpen={regModalOpen} onClose={() => setRegModalOpen(false)} defaultCategoryId={id} />
+      {/* ← Pass addRegistration from THIS hook instance */}
+      <RegistrationModal
+        isOpen={regModalOpen}
+        onClose={() => setRegModalOpen(false)}
+        defaultCategoryId={id}
+        addRegistration={addRegistration}
+      />
 
       <Footer />
     </>
