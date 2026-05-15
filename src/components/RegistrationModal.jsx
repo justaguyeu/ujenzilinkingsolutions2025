@@ -100,12 +100,12 @@ const SuccessScreen = ({ name, onClose }) => (
       animate={{ scale: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
     >
-      <CheckCircle2 className="w-16 h-16 text-green-400" />
+      <CheckCircle2 className="w-16 h-16 text-color-1" />
     </motion.div>
     <div>
       <h3 className="text-xl font-bold text-n-1 mb-2">You're registered!</h3>
       <p className="text-n-3 text-sm">
-        <span className="text-color-1 font-semibold">{name}</span> is now live in the directory
+        <span className="text-color-1 font-semibold">{name}</span> is now live 
         and visible to everyone.
       </p>
     </div>

@@ -16,7 +16,7 @@ import Header2 from "./Header2";
 import Footer from "./Footer";
 import Section from "./Section";
 
-const ADMIN_SECRET = "ujenzi2024"; // ← change this
+const ADMIN_SECRET = "Ujenzi@2026"; // ← change this
 
 // ─── Category Group ───────────────────────────────────────────────────────────
 const CategoryGroup = ({ categoryId, registrations, onDelete }) => {
@@ -194,7 +194,7 @@ const AdminExport = () => {
             {/* Info box */}
             <div className="mb-6 p-4 bg-n-7 border border-n-6 rounded-xl text-xs text-n-4 space-y-1">
               <p className="font-semibold text-n-3 mb-1">ℹ️ About this data</p>
-              <p>All registrations are stored in Supabase and visible to everyone in real-time.</p>
+              {/* <p>All registrations are stored in Supabase and visible to everyone in real-time.</p> */}
               <p>Click the <span className="text-red-400 font-semibold">red trash icon</span> to permanently delete any registration. This cannot be undone.</p>
             </div>
 
