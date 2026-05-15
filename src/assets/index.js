@@ -71,6 +71,9 @@ import RE from "./companies/RE.webp";
 import SOOO from "./companies/SOOO.webp";
 import STORE from "./companies/STORE.webp";
 import WOR from "./companies/WOR.webp";
+import wall from "./companies/wall.jpg";
+import wall1 from "./companies/wall1.jpg";
+import wall2 from "./companies/wall2.jpg";
 
 import chom1 from "./companies/chom1.webp";
 import maxlogo from "./companies/maxlogo.webp";
@@ -226,6 +229,9 @@ export {
   chom2,
   chom3,
   maxlogo,
-  mr
+  mr,
+  wall,
+  wall1,
+  wall2
   
 };

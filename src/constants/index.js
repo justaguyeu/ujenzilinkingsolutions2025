@@ -72,6 +72,9 @@ import {
   chom1,
   chom2,
   maxlogo,
+  wall,
+  wall1,
+  wall2
 
 } from "../assets";
 
@@ -353,6 +356,21 @@ export const benefits = [
     iconUrl: benefitIcon2,
     imageUrl: BCMM,
     light: true,
+    companies: [
+      {
+        name: "Walplast",
+        logo: wall,
+        logo2: wall1,
+        logo3: wall2,
+    
+        phone: "+255 755 753 883",
+        location: "https://www.walplast.com",
+        website: "https://www.walplast.com",
+        description: "One of the leading and most reputable producer of building materials is part of DryChem group an Indian Multinational Corporation.",
+      },
+      
+    ],
+
   },
   {
     id: "2",
