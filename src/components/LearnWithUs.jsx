@@ -3,14 +3,15 @@
 // Uses the same EmailJS credentials as JoinTeam.jsx
 // Create a NEW template in EmailJS for registrations and paste its ID below.
 // Template variables: {{full_name}}, {{dob}}, {{gender}}, {{phone}}, {{email}},
-//   {{region}}, {{occupation}}, {{programs}}, {{experience_level}}, {{goal}}, {{time}}
+//   {{region}}, {{occupation}}, {{programs}}, {{custom_interest}},
+//   {{experience_level}}, {{goal}}, {{hear_from}}, {{time}}
 
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import Section from "../components/Section";
 import Header2 from "../components/Header2";
 import Footer from "../components/Footer";
-import { curve, check } from "../assets";
+import { curve } from "../assets";
 
 // ── EmailJS credentials (same service as JoinTeam) ─────────────────────────
 const EJS_SERVICE_ID  = "service_8gi19hl";
@@ -76,7 +77,7 @@ const HEAR_FROM = [
 const initial = {
   firstName: "", lastName: "", dob: "", gender: "",
   phone: "", email: "", region: "", occupation: "",
-  programs: [], experienceLevel: "", goal: "", hearFrom: "",
+  programs: [], customInterest: "", experienceLevel: "", goal: "", hearFrom: "",
 };
 
 const REQUIRED = [
@@ -169,7 +170,7 @@ const LearnWithUs = () => {
   const validate = () => {
     const e = {};
     REQUIRED.forEach((f) => { if (!form[f].trim()) e[f] = true; });
-    if (form.programs.length === 0) e.programs = true;
+    if (form.programs.length === 0 && !form.customInterest.trim()) e.programs = true;
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -188,16 +189,17 @@ const LearnWithUs = () => {
         EJS_TEMPLATE_ID,
         {
           full_name:        `${form.firstName} ${form.lastName}`,
-          dob:              form.dob            || "Not provided",
-          gender:           form.gender         || "Not specified",
+          dob:              form.dob              || "Not provided",
+          gender:           form.gender           || "Not specified",
           phone:            form.phone,
-          email:            form.email          || "Not provided",
+          email:            form.email            || "Not provided",
           region:           form.region,
-          occupation:       form.occupation     || "Not provided",
-          programs:         form.programs.join(", "),
+          occupation:       form.occupation       || "Not provided",
+          programs:         form.programs.length > 0 ? form.programs.join(", ") : "None selected",
+          custom_interest:  form.customInterest   || "None",
           experience_level: form.experienceLevel,
           goal:             form.goal,
-          hear_from:        form.hearFrom       || "Not specified",
+          hear_from:        form.hearFrom         || "Not specified",
           time:             new Date().toLocaleString("en-TZ", { timeZone: "Africa/Dar_es_Salaam" }),
         },
         EJS_PUBLIC_KEY
@@ -266,8 +268,8 @@ const LearnWithUs = () => {
             </h1>
             <p className="body-1 text-n-3 max-w-2xl mx-auto">
               Register to access programs in sales, marketing, business development
-              and digital skills that is designed for Tanzania's growing economy by 
-              improving your business performance and employability through 
+              and digital skills that is designed for Tanzania's growing economy by
+              improving your business performance and employability through
               practical skills development.
             </p>
           </div>
@@ -339,7 +341,9 @@ const LearnWithUs = () => {
               {/* ── Programs ── */}
               <SectionHeading icon="">Programs of Interest *</SectionHeading>
               {errors.programs && (
-                <p className="text-xs text-red-400 -mt-2 mb-3">Please select at least one program</p>
+                <p className="text-xs text-red-400 -mt-2 mb-3">
+                  Please select at least one program or describe your own interest below
+                </p>
               )}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                 {PROGRAMS.map((p) => {
@@ -380,6 +384,22 @@ const LearnWithUs = () => {
                     </div>
                   );
                 })}
+              </div>
+
+              {/* ── Custom / Other Interest ── */}
+              <div className="mb-4">
+                <Label>Want to study something else? (optional)</Label>
+                <textarea
+                  name="customInterest"
+                  value={form.customInterest}
+                  onChange={handle}
+                  rows={3}
+                  placeholder="e.g. Supply chain management, public speaking, financial literacy, leadership skills…"
+                  className={inputCls("customInterest") + " resize-y min-h-[90px]"}
+                />
+                <p className="text-xs text-n-4 mt-1.5">
+                  Have a topic in mind that isn't listed above? Describe it here and our team will see how we can help.
+                </p>
               </div>
 
               {/* ── Experience ── */}
@@ -452,11 +472,6 @@ const LearnWithUs = () => {
                   </>
                 )}
               </button>
-
-              {/* <p className="text-center text-xs text-n-4 mt-4">
-                Your registration goes to{" "}
-                <span className="text-n-3">ujenzilinkingsolutions@gmail.com</span>
-              </p> */}
 
             </div>
           </div>
