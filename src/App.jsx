@@ -1,35 +1,4 @@
 /* eslint-disable no-unused-vars */
-// import ButtonGradient from "./assets/svg/ButtonGradient";
-// import Benefits from "./components/Benefits";
-// import Collaboration from "./components/Collaboration";
-// import Footer from "./components/Footer";
-// import Header from "./components/Header";
-// import Hero from "./components/Hero";
-// import Pricing from "./components/Pricing";
-// import Roadmap from "./components/Roadmap";
-// import Services from "./components/Services";
-
-// const App = () => {
-//   return (
-//     <>
-//       <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
-//         <Header />
-//         <Hero />
-//         <Benefits />
-//         <Collaboration />
-//         <Services />
-//         <Pricing />
-//         <Roadmap />
-//         <Footer />
-//       </div>
-
-//       <ButtonGradient />
-//     </>
-//   );
-// };
-
-// export default App;
-
 import { Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
@@ -52,16 +21,19 @@ const Services = lazy(() => import("./components/Services"));
 const Servicess = lazy(() => import("./components/Servicess"));
 const BenefitDetail = lazy(() => import("./components/BenefitDetail"));
 const Pricing = lazy(() => import("./components/Pricing"));
+const AdminExport = lazy(() => import("./components/AdminExport"));
+
+const Fallback = () => (
+  <div className="container py-10 text-center text-n-4">Loading...</div>
+);
 
 function Home() {
   return (
     <>
-
       <Header />
-
       <Hero />
       <Benefits />
-      <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
+      <Suspense fallback={<Fallback />}>
         <Collaboration />
         <Services />
         <Pricing />
@@ -79,43 +51,80 @@ const App = () => {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/benefits/:id" element={
-            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
-              <BenefitDetail />
-            </Suspense>
-          } />
-          <Route path="/aboutus" element={
-            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
-              <AboutUs />
-            </Suspense>
-          } />
-          <Route path="/serviceses" element={
-            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
-              <Serviceses />
-            </Suspense>
-          } />
-          <Route path="/future" element={
-            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
-              <Future />
-            </Suspense>
-          } />
-          <Route path="/chomoza" element={
-            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
-              <Chomoza />
-            </Suspense>
-          } />
-          <Route path="/join" element={
-            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
-              <JoinTeam/>
-            </Suspense>
-          } />
-          <Route path="/learn" element={
-            <Suspense fallback={<div className="container py-10 text-center">Loading...</div>}>
-              <LearnWithUs/>
-            </Suspense>
-          } />
-        </Routes>
 
+          <Route
+            path="/benefits/:id"
+            element={
+              <Suspense fallback={<Fallback />}>
+                <BenefitDetail />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/aboutus"
+            element={
+              <Suspense fallback={<Fallback />}>
+                <AboutUs />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/serviceses"
+            element={
+              <Suspense fallback={<Fallback />}>
+                <Serviceses />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/future"
+            element={
+              <Suspense fallback={<Fallback />}>
+                <Future />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/chomoza"
+            element={
+              <Suspense fallback={<Fallback />}>
+                <Chomoza />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/join"
+            element={
+              <Suspense fallback={<Fallback />}>
+                <JoinTeam />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/learn"
+            element={
+              <Suspense fallback={<Fallback />}>
+                <LearnWithUs />
+              </Suspense>
+            }
+          />
+
+          {/* Admin — password-protected registrations dashboard */}
+          <Route
+            path="/admin/registrations"
+            element={
+              <Suspense fallback={<Fallback />}>
+                <AdminExport />
+              </Suspense>
+            }
+          />
+        </Routes>
       </div>
 
       <ButtonGradient />
@@ -124,5 +133,3 @@ const App = () => {
 };
 
 export default App;
-
-

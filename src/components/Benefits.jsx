@@ -5,16 +5,40 @@ import Arrow from "../assets/svg/Arrow";
 import { GradientLight } from "./design/Benefits";
 import ClipPath from "../assets/svg/ClipPath";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Plus } from "lucide-react";
+import RegistrationModal from "./RegistrationModal";
 
 const Benefits = () => {
+  const [regModalOpen, setRegModalOpen] = useState(false);
+
   return (
     <Section id="features">
       <div className="container relative z-2">
         <Heading
           className="md:max-w-md lg:max-w-2xl text-color-1"
-          title="At Ujenzi Linking Solutions
-Meet with"
+          title="At Ujenzi Linking Solutions Meet with"
         />
+
+        {/* ── Register CTA Banner ── */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4
+                        bg-n-8 border border-n-6 rounded-2xl px-6 py-5 mb-10">
+          <div>
+            <h3 className="text-n-1 font-bold text-lg">Own a business?</h3>
+            <p className="text-n-4 text-sm mt-0.5">
+              Get listed in our directory and reach more customers instantly.
+            </p>
+          </div>
+          <button
+            onClick={() => setRegModalOpen(true)}
+            className="flex items-center gap-2 px-6 py-3 bg-color-1 text-n-8
+                       font-bold rounded-xl hover:opacity-90 active:scale-95
+                       transition-all duration-150 text-sm flex-shrink-0"
+          >
+            <Plus className="w-4 h-4" />
+            Register Your Business
+          </button>
+        </div>
 
         <div className="flex flex-wrap gap-10 mb-10">
           {benefits.map((item) => (
@@ -30,14 +54,8 @@ Meet with"
                 <p className="body-2 mb-6 text-n-3">{item.text}</p>
 
                 <div className="flex items-center mt-auto">
-                {/* <img
-                    src={item.iconUrl}
-                    width={48}
-                    height={48}
-                    alt={item.title}
-                  /> */}
                   <Link
-                    to={`/benefits/${item.id}`} // ✅ fixed
+                    to={`/benefits/${item.id}`}
                     className="ml-auto flex items-center font-code text-xs font-bold text-color-1 uppercase tracking-wider hover:text-n-1"
                   >
                     View All
@@ -71,6 +89,12 @@ Meet with"
           ))}
         </div>
       </div>
+
+      {/* Registration Modal */}
+      <RegistrationModal
+        isOpen={regModalOpen}
+        onClose={() => setRegModalOpen(false)}
+      />
     </Section>
   );
 };
