@@ -17,7 +17,7 @@ const Benefits = () => {
       <div className="container relative z-2">
         <Heading
           className="md:max-w-md lg:max-w-2xl text-color-1"
-          title="Connecting Global Building & Construction Stakeholders"
+          title="Connecting from Global to Local Building & Construction Stakeholders"
         />
 
         {/* ── Register CTA Banner ── */}
