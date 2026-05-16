@@ -5,12 +5,9 @@ import Footer from "./Footer";
 import { check, curve, chom1 } from "../assets";
 
 const services = [
-  "Sales and marketing strategy development",
-  "Business promotion and brand visibility campaigns",
-  "Corporate and entrepreneurship training programs",
-  "Market research and business advisory services",
-  "Job placement and workforce development support",
-  "Youth empowerment through practical business and employability skills training",
+  "For Businesses: We empower Small and Medium Enterprises (SMEs) to boost their sales volume through affordable, custom-tailored business solutions",
+  "For Youth & Government: We support national employment efforts by providing hands-on Sales & Marketing training and job placement services.",
+  
 ];
 
 const pillars = [
@@ -109,17 +106,11 @@ const Chomoza = () => {
             <h2 className="h3 text-n-1">Who We Are</h2>
 
             <p className="body-1 text-n-2">
-              CHOMOZA Business Consultancy (T) Ltd was founded in Tanzania in March 2015 to serves as the strategic
-              business development and commercial support arm within a broader
-              ecosystem that also includes{" "}
-              <span className="text-color-1 font-semibold">
-                Ujenzi Linking Solutions
-              </span>{" "}
-              — Tanzania's specialist digital marketplace for the construction
-              and building industry.
+              Founded in Tanzania on March 17, 2015, <span className="text-color-1 font-semibold">CHOMOZA</span> derives its name from the Kiswahili word meaning to <span className="text-color-1 font-semibold">Rise, Burst Forth, or Appear.</span>
+             
             </p>
 
-            <p className="body-1 text-n-2">
+            {/* <p className="body-1 text-n-2">
               Our team brings extensive experience in sales outsourcing, sales
               training, and marketing promotion across building &amp;
               construction materials, machinery &amp; technology, FMCGs, service
@@ -134,13 +125,13 @@ const Chomoza = () => {
               <span className="text-color-1 font-semibold">
                 AI marketing tools for B2B lead generation
               </span>
-              .
-            </p>
+              
+            </p> */}
           </div>
 
           {/* ── OUR SERVICES ────────────────────────────────────── */}
           <div className="max-w-3xl mx-auto mb-20 px-4">
-            <h2 className="h3 text-n-1 mb-8">Our Services</h2>
+            <h2 className="h3 text-n-1 mb-8">Our Mission</h2>
             <ul className="space-y-4">
               {services.map((s, i) => (
                 <li key={i} className="flex items-start gap-3">
@@ -155,6 +146,13 @@ const Chomoza = () => {
                 </li>
               ))}
             </ul>
+            <p className="body-1 text-n-3 mt-6">
+              <span className="text-color-1 font-semibold"> The Win-Win Value</span>{" "}<br/>
+                We bridge the gap between talent and opportunity—equipping
+                youth with essential skills to "burst forth" into employment,
+                while providing business owners with the highly skilled sales
+                professionals they need to grow.
+              </p>
           </div>
 
           {/* ── FOUR PILLARS ────────────────────────────────────── */}

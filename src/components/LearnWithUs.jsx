@@ -267,10 +267,7 @@ const LearnWithUs = () => {
               </span>
             </h1>
             <p className="body-1 text-n-3 max-w-2xl mx-auto">
-              Register to access programs in sales, marketing, business development
-              and digital skills that is designed for Tanzania's growing economy by
-              improving your business performance and employability through
-              practical skills development.
+              <span className="text-color-1 uppercase font-semibold">REGISTER NOW</span> to gain Practical Sales, Marketing & Digital Skills for Business Growth & Future Employment Opportunities.
             </p>
           </div>
 
