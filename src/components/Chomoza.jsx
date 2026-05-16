@@ -5,9 +5,12 @@ import Footer from "./Footer";
 import { check, curve, chom1 } from "../assets";
 
 const services = [
-  "For Businesses: We empower Small and Medium Enterprises (SMEs) to boost their sales volume through affordable, custom-tailored business solutions",
-  "For Youth & Government: We support national employment efforts by providing hands-on Sales & Marketing training and job placement services.",
-  
+  <>
+    <span className="font-bold text-color-1">For Businesses:</span> We empower Small and Medium Enterprises (SMEs) to boost their sales volume through affordable, custom-tailored business solutions
+  </>,
+  <>
+    <span className="font-bold text-color-1">For Youth & Government:</span> We support national employment efforts by providing hands-on Sales & Marketing training and job placement services.
+  </>,
 ];
 
 const pillars = [
@@ -65,7 +68,7 @@ const Chomoza = () => {
 
           {/* Desktop: heading left, image right */}
           <div className="flex flex-col lg:flex-row items-center gap-10 mb-16 px-4">
-<div className="w-full lg:w-1/2 flex-shrink-0">
+            <div className="w-full lg:w-1/2 flex-shrink-0">
               <div className="relative p-0.5 rounded-2xl bg-conic-gradient">
                 <img
                   src={chom1}
@@ -92,45 +95,20 @@ const Chomoza = () => {
                 through strategic consultancy, practical market solutions, and
                 digital transformation across Tanzania.
               </p>
-
-             
             </div>
-
-            
           </div>
 
-          
-
           {/* ── WHO WE ARE ──────────────────────────────────────── */}
-          <div className="max-w-3xl mx-auto mb-20 space-y-5 px-4">
+          <div className="max-w-3xl mx-auto mb-8 space-y-5 px-4">
             <h2 className="h3 text-n-1">Who We Are</h2>
 
             <p className="body-1 text-n-2">
               Founded in Tanzania on March 17, 2015, <span className="text-color-1 font-semibold">CHOMOZA</span> derives its name from the Kiswahili word meaning to <span className="text-color-1 font-semibold">Rise, Burst Forth, or Appear.</span>
-             
             </p>
-
-            {/* <p className="body-1 text-n-2">
-              Our team brings extensive experience in sales outsourcing, sales
-              training, and marketing promotion across building &amp;
-              construction materials, machinery &amp; technology, FMCGs, service
-              businesses, and the hospitality sector.
-            </p>
-
-            <p className="body-1 text-n-2">
-              Today's top-performing teams take a smarter approach — using
-              intelligence-driven prospecting to identify high-potential
-              customers before first contact, closing deals faster and more
-              efficiently. That is why we are actively adopting{" "}
-              <span className="text-color-1 font-semibold">
-                AI marketing tools for B2B lead generation
-              </span>
-              
-            </p> */}
           </div>
 
           {/* ── OUR SERVICES ────────────────────────────────────── */}
-          <div className="max-w-3xl mx-auto mb-20 px-4">
+          <div className="max-w-3xl mx-auto mb-8 px-4">
             <h2 className="h3 text-n-1 mb-8">Our Mission</h2>
             <ul className="space-y-4">
               {services.map((s, i) => (
@@ -156,7 +134,7 @@ const Chomoza = () => {
           </div>
 
           {/* ── FOUR PILLARS ────────────────────────────────────── */}
-          <div className="max-w-5xl mx-auto mb-20 px-4">
+          <div className="max-w-5xl mx-auto mb-8 px-4">
             <h2 className="h3 text-n-1 mb-10 text-center">
               What Sets Us Apart
             </h2>
@@ -174,7 +152,7 @@ const Chomoza = () => {
           </div>
 
           {/* ── ECOSYSTEM ───────────────────────────────────────── */}
-          <div className="max-w-3xl mx-auto mb-20 px-4 space-y-5">
+          <div className="max-w-3xl mx-auto mb-8 px-4 space-y-5">
             <h2 className="h3 text-n-1">
               A Complete Business Growth Ecosystem
             </h2>
@@ -195,7 +173,7 @@ const Chomoza = () => {
           </div>
 
           {/* ── CONTACT STRIP ───────────────────────────────────── */}
-          <div className="max-w-3xl mx-auto mb-24 px-4">
+          <div className="max-w-3xl mx-auto mb-8 px-4">
             <div className="p-8 rounded-2xl bg-conic-gradient bg-n-8 text-center space-y-4">
               <h3 className="h4 text-n-1">Ready to grow your business?</h3>
               <p className="body-1 text-n-2">
@@ -216,7 +194,6 @@ const Chomoza = () => {
                 >
                   WHATSAPP
                 </a>
-               
               </div>
             </div>
           </div>
