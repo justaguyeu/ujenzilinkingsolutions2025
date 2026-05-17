@@ -97,7 +97,7 @@ const AboutUs = () => {
             custom={0}
           >
             <p className="body-1 text-n-2 text-left">
-              Welcome to{" "}
+              
               
               <span className="text-color-1 font-semibold">Ujenzi Linking Solutions</span>{" "}
               and its sister company 
