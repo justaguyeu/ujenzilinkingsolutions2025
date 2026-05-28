@@ -135,17 +135,30 @@ const CompanyDetail = ({ company, isRegistered, onClose }) => {
   return (
     <>
       <motion.div
-        className="fixed inset-0 bg-black/70 z-40 flex items-end md:items-center justify-center p-0 md:p-4"
+        className="fixed inset-0 z-40 flex items-end md:items-center justify-center p-0 md:p-4"
+        style={{
+          background: "rgba(0,0,0,0.70)",
+          // On mobile, reserve space for the fixed header at the top
+          // so the sheet never slides behind it
+          paddingTop: "env(safe-area-inset-top, 0px)",
+        }}
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
         onClick={onClose}>
+
         <motion.div
-          className="relative bg-n-8 w-full md:max-w-lg max-h-[92vh] overflow-y-auto
+          className="relative bg-n-8 w-full md:max-w-lg overflow-y-auto
                      rounded-t-2xl md:rounded-2xl border border-n-6"
+          style={{
+            // Use dvh so browser chrome is excluded; subtract header height (64px default)
+            // Adjust 64px to match your actual Header2 height if different
+            maxHeight: "calc(100dvh - 64px)",
+          }}
           initial={{ y: "100%", opacity: 0 }} animate={{ y: 0, opacity: 1 }}
           exit={{ y: "100%", opacity: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           onClick={(e) => e.stopPropagation()}>
 
+          {/* Drag handle — mobile only */}
           <div className="flex justify-center pt-3 pb-1 md:hidden">
             <div className="w-10 h-1 rounded-full bg-n-5" />
           </div>
@@ -262,7 +275,6 @@ const BenefitDetail = () => {
   const { id } = useParams();
   const benefit = benefits.find((b) => b.id === id);
 
-  // ← Single hook instance, shared with modal
   const { getForCategory, loading, addRegistration } = useRegistrations();
 
   const [selectedCompany, setSelectedCompany] = useState(null);
@@ -443,7 +455,6 @@ const BenefitDetail = () => {
         )}
       </AnimatePresence>
 
-      {/* ← Pass addRegistration from THIS hook instance */}
       <RegistrationModal
         isOpen={regModalOpen}
         onClose={() => setRegModalOpen(false)}
