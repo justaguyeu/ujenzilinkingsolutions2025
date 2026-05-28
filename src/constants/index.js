@@ -418,7 +418,7 @@ export const benefits = [
   },
   {
     id: "9",
-    title: "Hardware Stores",
+    title: "Hardware Stores & Suppliers",
     text: "Hardware stores can register on our platform to showcase their products and services. Clients gain quick access to trusted suppliers for tools and construction materials, ensuring smooth and uninterrupted project progress.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
@@ -434,7 +434,7 @@ export const benefits = [
   },
   {
     id: "11",
-    title: "Project Managers",
+    title: "Project Managers & Specialist Contractors",
     text: "Project managers can register on our platform to offer professional management services. Clients can connect with experts who oversee timelines, budgets, and quality to ensure successful project delivery.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
