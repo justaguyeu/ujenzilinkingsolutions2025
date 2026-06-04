@@ -426,7 +426,7 @@ export const benefits = [
   },
   {
     id: "10",
-    title: "Construction Machinery & Tools for Hire",
+    title: "Construction Machinery & Tools for Hire and Sale",
     text: "Our platform connects clients with registered machinery and tool hire providers. Users can easily find and rent construction equipment at affordable rates without the burden of purchasing expensive machinery.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
