@@ -8,21 +8,45 @@
   </url>
 
   <url>
-    <loc>https://ujenzilinkingsolutions.world/about</loc>
+    <loc>https://ujenzilinkingsolutions.world/aboutus</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://ujenzilinkingsolutions.world/services</loc>
+    <loc>https://ujenzilinkingsolutions.world/serviceses</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://ujenzilinkingsolutions.world/contact</loc>
+    <loc>https://ujenzilinkingsolutions.world/future</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://ujenzilinkingsolutions.world/chomoza</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://ujenzilinkingsolutions.world/join</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://ujenzilinkingsolutions.world/learn</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://ujenzilinkingsolutions.world/privacy-policy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 
 </urlset>

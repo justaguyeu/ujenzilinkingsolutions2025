@@ -9,6 +9,26 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split React into its own chunk
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          // Split animations
+          'vendor-motion': ['framer-motion'],
+          // Split Supabase
+          'vendor-supabase': ['@supabase/supabase-js'],
+          // Split icons
+          'vendor-icons': [
+            'lucide-react',
+            '@fortawesome/react-fontawesome',
+            '@fortawesome/free-solid-svg-icons',
+          ],
+        },
+      },
+    },
+  },
   server: {
     historyApiFallback: true,
   },

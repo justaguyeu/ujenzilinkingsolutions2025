@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import CookieConsent from "react-cookie-consent";
 
 import ButtonGradient from "./assets/svg/ButtonGradient";
 import Header from "./components/Header";
@@ -14,6 +15,7 @@ import JoinTeam from "./components/JoinTeam";
 import LearnWithUs from "./components/LearnWithUs";
 
 // Lazy load non-critical components
+const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"));
 const AboutUs = lazy(() => import("./components/AboutUs"));
 const Serviceses = lazy(() => import("./components/Serviceses"));
 const Collaboration = lazy(() => import("./components/Collaboration"));
@@ -47,11 +49,62 @@ function Home() {
 const App = () => {
   return (
     <>
+      {/* ✅ Cookie Consent Banner */}
+      <CookieConsent
+        location="bottom"
+        buttonText="Accept All"
+        declineButtonText="Reject"
+        enableDeclineButton
+        cookieName="ujenzi-cookie-consent"
+        style={{
+          background: "#1a1a2e",
+          color: "#ffffff",
+          fontSize: "14px",
+          alignItems: "center",
+          padding: "16px 24px",
+        }}
+        buttonStyle={{
+          background: "#4ade80",
+          color: "#000000",
+          fontSize: "13px",
+          fontWeight: "bold",
+          borderRadius: "6px",
+          padding: "8px 20px",
+        }}
+        declineButtonStyle={{
+          background: "transparent",
+          border: "1px solid #ffffff",
+          color: "#ffffff",
+          fontSize: "13px",
+          borderRadius: "6px",
+          padding: "8px 20px",
+        }}
+        expires={150}
+        onAccept={() => {
+          console.log("Cookies accepted");
+        }}
+        onDecline={() => {
+          console.log("Cookies declined");
+        }}
+      >
+        We use cookies to improve your experience on our site. By accepting,
+        you agree to our{" "}
+        <a
+          href="/privacy-policy"
+          style={{ color: "#4ade80", textDecoration: "underline" }}
+        >
+          Privacy Policy
+        </a>
+        .
+      </CookieConsent>
+
       <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
         <ScrollToTop />
         <Routes>
+          {/* Home */}
           <Route path="/" element={<Home />} />
 
+          {/* Benefits detail */}
           <Route
             path="/benefits/:id"
             element={
@@ -61,6 +114,7 @@ const App = () => {
             }
           />
 
+          {/* About Us */}
           <Route
             path="/aboutus"
             element={
@@ -70,6 +124,7 @@ const App = () => {
             }
           />
 
+          {/* Services */}
           <Route
             path="/serviceses"
             element={
@@ -79,6 +134,7 @@ const App = () => {
             }
           />
 
+          {/* Future */}
           <Route
             path="/future"
             element={
@@ -88,6 +144,7 @@ const App = () => {
             }
           />
 
+          {/* Chomoza */}
           <Route
             path="/chomoza"
             element={
@@ -97,6 +154,7 @@ const App = () => {
             }
           />
 
+          {/* Join Team */}
           <Route
             path="/join"
             element={
@@ -106,11 +164,22 @@ const App = () => {
             }
           />
 
+          {/* Learn With Us */}
           <Route
             path="/learn"
             element={
               <Suspense fallback={<Fallback />}>
                 <LearnWithUs />
+              </Suspense>
+            }
+          />
+
+          {/* Privacy Policy */}
+          <Route
+            path="/privacy-policy"
+            element={
+              <Suspense fallback={<Fallback />}>
+                <PrivacyPolicy />
               </Suspense>
             }
           />
