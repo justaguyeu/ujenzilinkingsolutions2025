@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X, Phone, Globe, MapPin, Building2, FileText,
@@ -7,6 +7,40 @@ import {
 } from "lucide-react";
 import { benefits } from "../constants";
 import useRegistrations, { resizeAndEncode } from "../hooks/useRegistrations";
+
+const STORAGE_KEY = "ujenzi-reg-draft";
+
+const INITIAL = {
+  name: "", description: "", phone: "",
+  website: "", location: "", instagram: "",
+  categoryId: "", logo: null, gallery1: null, gallery2: null,
+};
+
+// ─── Load saved draft from localStorage ──────────────────────────────────────
+const loadDraft = () => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? { ...INITIAL, ...JSON.parse(saved) } : { ...INITIAL };
+  } catch {
+    return { ...INITIAL };
+  }
+};
+
+// ─── Save draft to localStorage ───────────────────────────────────────────────
+const saveDraft = (form) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(form));
+  } catch {
+    // storage full or unavailable — fail silently
+  }
+};
+
+// ─── Clear draft from localStorage ───────────────────────────────────────────
+const clearDraft = () => {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {}
+};
 
 // ─── Image Drop Zone ──────────────────────────────────────────────────────────
 const ImageDropZone = ({ label, value, onChange, error }) => {
@@ -90,8 +124,9 @@ const inputCls = "w-full bg-transparent px-4 py-3 text-n-1 placeholder-n-5 text-
 // ─── Success Screen ───────────────────────────────────────────────────────────
 const SuccessScreen = ({ name, onClose }) => {
   const handleDone = () => {
+    clearDraft();
     onClose();
-    window.location.reload(); // ← guarantees fresh data
+    window.location.reload();
   };
 
   return (
@@ -111,8 +146,8 @@ const SuccessScreen = ({ name, onClose }) => {
       <div>
         <h3 className="text-xl font-bold text-n-1 mb-2">You're registered!</h3>
         <p className="text-n-3 text-sm">
-          <span className="text-color-1 font-semibold">{name}</span> is now live in the directory
-          and visible to everyone.
+          <span className="text-color-1 font-semibold">{name}</span> is now live in the
+          directory and visible to everyone.
         </p>
       </div>
       <button
@@ -126,22 +161,34 @@ const SuccessScreen = ({ name, onClose }) => {
 };
 
 // ─── Main Modal ───────────────────────────────────────────────────────────────
-const INITIAL = {
-  name: "", description: "", phone: "",
-  website: "", location: "", instagram: "",
-  categoryId: "", logo: null, gallery1: null, gallery2: null,
-};
-
 const RegistrationModal = ({ isOpen, onClose, defaultCategoryId = "", addRegistration: addRegistrationProp }) => {
-//   const { addRegistration } = useRegistrations();
-  const [form, setForm] = useState({ ...INITIAL, categoryId: defaultCategoryId });
+  const [form, setForm] = useState(() => {
+    const draft = loadDraft();
+    // If a defaultCategoryId was passed and draft has none, use it
+    if (defaultCategoryId && !draft.categoryId) {
+      return { ...draft, categoryId: defaultCategoryId };
+    }
+    return draft;
+  });
+
   const [errors, setErrors] = useState({});
   const [imgErrors, setImgErrors] = useState({});
   const [step, setStep] = useState("form");
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState(null);
+  const [draftSaved, setDraftSaved] = useState(false);
+
   const { addRegistration: addRegistrationHook } = useRegistrations();
   const addRegistration = addRegistrationProp || addRegistrationHook;
+
+  // ── Auto-save to localStorage whenever form changes ──────────────────────
+  useEffect(() => {
+    saveDraft(form);
+    // Show "Draft saved" indicator briefly
+    setDraftSaved(true);
+    const t = setTimeout(() => setDraftSaved(false), 1500);
+    return () => clearTimeout(t);
+  }, [form]);
 
   const set = (key, val) => setForm((f) => ({ ...f, [key]: val }));
   const clearErr = (key) => setErrors((p) => ({ ...p, [key]: null }));
@@ -161,36 +208,36 @@ const RegistrationModal = ({ isOpen, onClose, defaultCategoryId = "", addRegistr
   };
 
   const handleSubmit = async () => {
-  const e = validate();
-  if (Object.keys(e).length) { setErrors(e); return; }
-  setSubmitting(true);
-  setServerError(null);
+    const e = validate();
+    if (Object.keys(e).length) { setErrors(e); return; }
+    setSubmitting(true);
+    setServerError(null);
 
-  const { error } = await addRegistration({
-    categoryId: form.categoryId,
-    name: form.name.trim(),
-    description: form.description.trim(),
-    phone: form.phone.trim(),
-    website: form.website.trim(),
-    location: form.location.trim(),
-    instagram: form.instagram.trim().replace(/^@/, ""),
-    logo: form.logo || null,
-    logo2: form.gallery1 || null,
-    logo3: form.gallery2 || null,
-  });
+    const { error } = await addRegistration({
+      categoryId: form.categoryId,
+      name: form.name.trim(),
+      description: form.description.trim(),
+      phone: form.phone.trim(),
+      website: form.website.trim(),
+      location: form.location.trim(),
+      instagram: form.instagram.trim().replace(/^@/, ""),
+      logo: form.logo || null,
+      logo2: form.gallery1 || null,
+      logo3: form.gallery2 || null,
+    });
 
-  setSubmitting(false);
+    setSubmitting(false);
 
-  if (error) {
-    setServerError("Registration failed: " + error.message);
-    return;
-  }
+    if (error) {
+      setServerError("Registration failed: " + error.message);
+      return;
+    }
 
-  setStep("success");
-};
+    setStep("success");
+  };
 
   const handleClose = () => {
-    setForm({ ...INITIAL, categoryId: defaultCategoryId });
+    // Do NOT clear the draft on close — user may want to come back
     setErrors({});
     setImgErrors({});
     setStep("form");
@@ -198,10 +245,21 @@ const RegistrationModal = ({ isOpen, onClose, defaultCategoryId = "", addRegistr
     onClose();
   };
 
+  const handleClearDraft = () => {
+    clearDraft();
+    setForm({ ...INITIAL, categoryId: defaultCategoryId });
+    setErrors({});
+    setImgErrors({});
+  };
+
   const setImg = (key) => (val, err) => {
     if (err) setImgErrors((p) => ({ ...p, [key]: err }));
     else { setImgErrors((p) => ({ ...p, [key]: null })); set(key, val); }
   };
+
+  const hasDraft = Object.entries(form).some(([k, v]) =>
+    k !== "categoryId" && v !== null && v !== ""
+  );
 
   return (
     <AnimatePresence>
@@ -230,10 +288,25 @@ const RegistrationModal = ({ isOpen, onClose, defaultCategoryId = "", addRegistr
                 <h2 className="text-lg font-bold text-n-1">Register Your Business</h2>
                 <p className="text-xs text-n-4 mt-0.5">Visible to everyone, instantly</p>
               </div>
-              <button onClick={handleClose}
-                className="w-8 h-8 rounded-full bg-n-7 flex items-center justify-center hover:bg-n-6 transition-colors">
-                <X className="w-4 h-4 text-n-1" />
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Draft saved indicator */}
+                <AnimatePresence>
+                  {draftSaved && (
+                    <motion.span
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="text-xs text-green-400"
+                    >
+                      Draft saved
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+                <button onClick={handleClose}
+                  className="w-8 h-8 rounded-full bg-n-7 flex items-center justify-center hover:bg-n-6 transition-colors">
+                  <X className="w-4 h-4 text-n-1" />
+                </button>
+              </div>
             </div>
 
             <div className="p-5">
@@ -243,6 +316,22 @@ const RegistrationModal = ({ isOpen, onClose, defaultCategoryId = "", addRegistr
                 ) : (
                   <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                     className="space-y-5">
+
+                    {/* Draft restore notice */}
+                    {hasDraft && (
+                      <div className="flex items-center justify-between bg-color-1/10 border border-color-1/30
+                                      rounded-xl px-4 py-3">
+                        <p className="text-xs text-color-1 font-medium">
+                          Your previous progress has been restored.
+                        </p>
+                        <button
+                          onClick={handleClearDraft}
+                          className="text-xs text-n-4 hover:text-red-400 transition-colors ml-3 flex-shrink-0"
+                        >
+                          Clear
+                        </button>
+                      </div>
+                    )}
 
                     {/* Category */}
                     <Field label="Service Category *" icon={Building2} error={errors.categoryId}>
