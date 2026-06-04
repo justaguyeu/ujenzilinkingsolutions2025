@@ -57,15 +57,16 @@ const App = () => {
         enableDeclineButton
         cookieName="ujenzi-cookie-consent"
         style={{
-          background: "#1a1a2e",
-          color: "#ffffff",
+          background: "#ffffff",
+          color: "#000000",
+          border: "1px solid #DB9029",
           fontSize: "14px",
           alignItems: "center",
           padding: "16px 24px",
         }}
         buttonStyle={{
-          background: "#4ade80",
-          color: "#000000",
+          background: "#DB9029",
+          color: "#ffffff",
           fontSize: "13px",
           fontWeight: "bold",
           borderRadius: "6px",
@@ -73,8 +74,8 @@ const App = () => {
         }}
         declineButtonStyle={{
           background: "transparent",
-          border: "1px solid #ffffff",
-          color: "#ffffff",
+          border: "1px solid #DB9029",
+          color: "#000000ff",
           fontSize: "13px",
           borderRadius: "6px",
           padding: "8px 20px",
@@ -91,7 +92,7 @@ const App = () => {
         you agree to our{" "}
         <a
           href="/privacy-policy"
-          style={{ color: "#4ade80", textDecoration: "underline" }}
+          style={{ color: "#DB9029", textDecoration: "underline" }}
         >
           Privacy Policy
         </a>
