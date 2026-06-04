@@ -442,7 +442,7 @@ export const benefits = [
   },
   {
     id: "12",
-    title: "Interior Designers & Home Decorators",
+    title: "Interior Designers, Home Decorators, Fixture Suppliers & Furniture Furnishers",
     text: "We connect clients with registered home decorators who specialize in interior and exterior styling. Through our platform, users can find professionals who transform spaces into beautiful and functional environments.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
