@@ -37,7 +37,7 @@ const Hero = () => {
                 className="absolute top-full left-0 w-full xl:-mt-2"
                 width={624}
                 height={28}
-                alt="Curve Decoration"
+                alt="" role="presentation"
                 loading="lazy"
               />
             </span>

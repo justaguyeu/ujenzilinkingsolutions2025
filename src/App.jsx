@@ -82,10 +82,8 @@ const App = () => {
         }}
         expires={150}
         onAccept={() => {
-          console.log("Cookies accepted");
         }}
         onDecline={() => {
-          console.log("Cookies declined");
         }}
       >
         We use cookies to improve your experience on our site. By accepting,

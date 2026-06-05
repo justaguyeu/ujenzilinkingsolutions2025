@@ -29,7 +29,7 @@ const Servicess = () => {
               <img
                 className="w-full h-full object-cover md:object-right"
                 width={800}
-                alt="Smartest AI"
+                alt="Ujenzi Linking Solutions sales team"
                 height={730}
                 src={service1}
               />
@@ -54,7 +54,7 @@ const Servicess = () => {
                     key={index}
                     className="flex items-start py-4 "
                   >
-                    <img width={24} height={24} src={check} />
+                    <img width={24} height={24} src={check} alt="Checkmark" />
                     <p className="ml-4 text-n-3 bg-white border border-n-6 rounded-full px-4 py-1 inline-block ">
   {item}
 </p>
@@ -114,7 +114,7 @@ We also have committed experts who have special connections with Business compli
                             : ""
                         }
                       >
-                        <img src={item} width={24} height={24} alt={item} />
+                        <img src={item} width={24} height={24} alt="" role="presentation" />
                       </div>
                     </li>
                   ))}

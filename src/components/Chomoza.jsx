@@ -60,7 +60,7 @@ const Chomoza = () => {
                   className="absolute top-full left-0 w-full xl:-mt-2"
                   width={624}
                   height={28}
-                  alt=""
+                  alt="" role="presentation"
                 />
               </span>
             </h1>
@@ -86,7 +86,7 @@ const Chomoza = () => {
                     className="absolute top-full left-0 w-full xl:-mt-2"
                     width={624}
                     height={28}
-                    alt=""
+                    alt="" role="presentation"
                   />
                 </span>
               </h1>
@@ -117,7 +117,7 @@ const Chomoza = () => {
                     src={check}
                     width={24}
                     height={24}
-                    alt=""
+                    alt="" role="presentation"
                     className="mt-1 flex-shrink-0"
                   />
                   <p className="body-1 text-n-2">{s}</p>

@@ -262,7 +262,7 @@ const LearnWithUs = () => {
                 <img
                   src={curve}
                   className="absolute top-full left-0 w-full xl:-mt-2"
-                  width={624} height={28} alt=""
+                  width={624} height={28} alt="" role="presentation"
                 />
               </span>
             </h1>

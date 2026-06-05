@@ -10,6 +10,16 @@ export default defineConfig({
   },
   plugins: [react()],
   build: {
+    // Enable minification
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,   // Remove console.log from production
+        drop_debugger: true,
+      },
+    },
+    // Increase chunk warning limit slightly
+    chunkSizeWarningLimit: 800,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -32,5 +42,4 @@ export default defineConfig({
   server: {
     historyApiFallback: true,
   },
-  
 })

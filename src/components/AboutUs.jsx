@@ -50,7 +50,7 @@ const AboutUs = () => {
                   className="absolute top-full left-0 w-full xl:-mt-2"
                   width={624}
                   height={28}
-                  alt=""
+                  alt="" role="presentation"
                 />
               </span>
             </motion.h1>
@@ -144,7 +144,7 @@ const AboutUs = () => {
                 <div className="relative bg-n-8 rounded-[2.4375rem] overflow-hidden">
                   {/* Grid texture */}
                   {/* <div className="absolute top-0 left-0 w-full pointer-events-none opacity-60">
-                    <img src={grid} className="w-full" width={550} height={550} alt="" />
+                    <img src={grid} className="w-full" width={550} height={550} alt="" role="presentation" />
                   </div> */}
 
                   {/* Card content */}

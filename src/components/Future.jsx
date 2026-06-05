@@ -27,7 +27,7 @@ const Future = () => {
                   className="absolute top-full left-0 w-full xl:-mt-2"
                   width={624}
                   height={28}
-                  alt=""
+                  alt="" role="presentation"
                 />
               </span>
             </h1>
@@ -48,7 +48,7 @@ const Future = () => {
                     className="absolute top-full left-0 w-full xl:-mt-2"
                     width={624}
                     height={28}
-                    alt=""
+                    alt="" role="presentation"
                   />
                 </span>
               </h1>
@@ -84,7 +84,7 @@ const Future = () => {
             {/* Bullet points */}
             <ul className="space-y-4 pt-2">
               <li className="flex items-start gap-3">
-                <img src={check} width={24} height={24} alt="" className="mt-1 flex-shrink-0" />
+                <img src={check} width={24} height={24} alt="" role="presentation" className="mt-1 flex-shrink-0" />
                 <div>
                 <p className="body-1 text-color-1 font-bold mb-1">The power of AI </p>
                 <p className="body-1 text-n-2">
@@ -94,7 +94,7 @@ const Future = () => {
                 </p></div>
               </li>
               <li className="flex items-start gap-3">
-                <img src={check} width={24} height={24} alt="" className="mt-1 flex-shrink-0" />
+                <img src={check} width={24} height={24} alt="" role="presentation" className="mt-1 flex-shrink-0" />
                 <div>
                   <p className="body-1 text-color-1 font-bold mb-1">Results Monitoring</p>
                   <p className="body-1 text-n-2">

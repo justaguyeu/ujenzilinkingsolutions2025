@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import emailjs from "@emailjs/browser"; // npm install @emailjs/browser
 import Section from "../components/Section";
@@ -238,7 +236,7 @@ const JoinTeam = () => {
                   className="absolute top-full left-0 w-full xl:-mt-2"
                   width={624}
                   height={28}
-                  alt=""
+                  alt="" role="presentation"
                 />
               </span>
             </h1>
@@ -356,7 +354,7 @@ const JoinTeam = () => {
                           ? "border-color-1 bg-color-1/20"
                           : "border-n-6 group-hover:border-n-4"}`}>
                         {form.skills.includes(skill) && (
-                          <img src={check} width={14} height={14} alt="" />
+                          <img src={check} width={14} height={14} alt="Included feature" />
                         )}
                       </div>
                       <p className={`body-1 transition-colors duration-300

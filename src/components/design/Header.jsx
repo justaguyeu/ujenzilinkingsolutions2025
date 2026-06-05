@@ -37,7 +37,7 @@ export const HamburgerMenu = () => {
           src={background}
           width={688}
           height={953}
-          alt="Background"
+          alt="" role="presentation"
         />
       </div>
 

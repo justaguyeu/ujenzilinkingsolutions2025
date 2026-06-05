@@ -38,8 +38,8 @@ const Header = () => {
       }`}
     >
       <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
-        <a className="block w-[12rem] xl:mr-8" href="/">
-          <img src={brainwave} width={190} height={40} alt="Brainwave" />
+        <a className="block w-[12rem] xl:mr-8" href="/" aria-label="Ujenzi Linking Solutions - Home">
+          <img src={brainwave} width={190} height={40} alt="Ujenzi Linking Solutions logo" />
         </a>
 
         <nav
@@ -82,6 +82,7 @@ const Header = () => {
           className="ml-2 lg:hidden bg-n-14"
           px="px-3"
           onClick={toggleNavigation}
+          aria-label={openNavigation ? "Close navigation menu" : "Open navigation menu"}
         >
           <MenuSvg openNavigation={openNavigation} />
         </Button>

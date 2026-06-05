@@ -48,7 +48,7 @@ const Serviceses = () => {
                   className="absolute top-full left-0 w-full xl:-mt-2"
                   width={624}
                   height={28}
-                  alt="Curve"
+                  alt="" role="presentation"
                 />
               </span>
               Services{` `}
@@ -63,7 +63,7 @@ const Serviceses = () => {
                       className="w-full scale-[1.7] translate-y-[8%] md:scale-[1] md:-translate-y-[10%] lg:-translate-y-[23%]"
                       width={1024}
                       height={490}
-                      alt="AI"
+                      alt="AI Services illustration"
                     />
                   </div>
                 </div>

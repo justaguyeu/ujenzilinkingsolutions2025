@@ -368,7 +368,7 @@ const BenefitDetail = () => {
               <div className="flex flex-col md:flex-row items-center gap-5 bg-n-8 border border-n-6 p-5 rounded-2xl mt-8">
                 {benefit.imageUrl && (
                   <img src={benefit.imageUrl} className="border-2 border-n-9 rounded-full"
-                    alt="" width={200} height={28} />
+                    alt="" role="presentation" width={200} height={28} />
                 )}
                 <div className="flex-1">
                   <h2 className="text-xl font-bold text-n-1">{benefit.title}</h2>
