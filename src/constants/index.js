@@ -455,20 +455,7 @@ export const benefits = [
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: CN,
-    companies: [
-      {
-        name: "Maxsteps Cleaning Services",
-        logo: maxlogo,
-        logo2: chom2,
-        logo3: chom3,
     
-        phone: "+255 755 753 883",
-        location: "https://goo.gl/maps/example1",
-        website: "https://maxstepscleaningservices.com",
-        description: "A reliable and customer-focused cleaning company offering high-quality residential and commercial cleaning solutions in Dar es Salaam.",
-      },
-      
-    ],
   },
 ];
 
