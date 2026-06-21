@@ -13,6 +13,7 @@ import Chomoza from "./components/Chomoza";
 import ScrollToTop from "./components/ScrollToTop";
 import JoinTeam from "./components/JoinTeam";
 import LearnWithUs from "./components/LearnWithUs";
+import AIChatWidget from "./components/AIChatWidget";
 
 // Lazy load non-critical components
 const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy"));
@@ -196,6 +197,7 @@ const App = () => {
       </div>
 
       <ButtonGradient />
+      <AIChatWidget />
     </>
   );
 };
