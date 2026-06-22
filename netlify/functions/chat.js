@@ -1,5 +1,5 @@
 // netlify/functions/chat.js
-// Gemini proxy with debug mode — set DEBUG=true in Netlify env vars to see errors in chat
+// Groq proxy (free, fast, Llama 3) — fetches live Supabase data before answering
 
 const SUPABASE_URL = "https://hmqzaswebmwkjmjrnmsd.supabase.co";
 const SUPABASE_ANON_KEY =
@@ -154,7 +154,6 @@ IMPORTANT INSTRUCTIONS — FOLLOW STRICTLY:
 8. If someone asks something completely unrelated to construction/Ujenzi, politely redirect.
 `;
 
-// ── Helper: reply with a debug message shown in the chat ─────────────────────
 function debugReply(msg) {
   return new Response(JSON.stringify({ reply: `🔧 DEBUG: ${msg}` }), {
     status: 200,
@@ -162,7 +161,6 @@ function debugReply(msg) {
   });
 }
 
-// ── Helper: silent WhatsApp fallback (production errors) ─────────────────────
 function whatsappFallback() {
   return new Response(JSON.stringify({ limitReached: true }), {
     status: 200,
@@ -170,19 +168,17 @@ function whatsappFallback() {
   });
 }
 
-// ── Main handler ──────────────────────────────────────────────────────────────
 export default async (req) => {
-  // Set DEBUG=true in Netlify env vars to see error messages inside the chat
   const DEBUG = process.env.DEBUG === "true";
 
   if (req.method !== "POST") {
     return DEBUG ? debugReply("Method not allowed (not a POST request)") : whatsappFallback();
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     return DEBUG
-      ? debugReply("GEMINI_API_KEY is not set in Netlify environment variables. Go to Site Settings → Environment Variables and add it.")
+      ? debugReply("GROQ_API_KEY is not set in Netlify environment variables. Go to console.groq.com → API Keys → Create API Key, then add it to Netlify Site Settings → Environment Variables.")
       : whatsappFallback();
   }
 
@@ -217,38 +213,34 @@ export default async (req) => {
 
   let response;
   try {
-    response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: systemPrompt }],
-          },
-          contents: sanitized.map((m) => ({
-            role: m.role === "assistant" ? "model" : "user",
-            parts: [{ text: m.content }],
-          })),
-          generationConfig: {
-            maxOutputTokens: 1024,
-            temperature: 0.7,
-          },
-        }),
-      }
-    );
+    response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        max_tokens: 1024,
+        temperature: 0.7,
+        messages: [
+          { role: "system", content: systemPrompt },
+          ...sanitized,
+        ],
+      }),
+    });
   } catch (err) {
     return DEBUG
-      ? debugReply(`Network error calling Gemini API: ${err.message}`)
+      ? debugReply(`Network error calling Groq API: ${err.message}`)
       : whatsappFallback();
   }
 
   let data;
   try {
     data = await response.json();
-  } catch (err) {
+  } catch {
     return DEBUG
-      ? debugReply(`Gemini returned non-JSON response. HTTP status: ${response.status}`)
+      ? debugReply(`Groq returned non-JSON response. HTTP status: ${response.status}`)
       : whatsappFallback();
   }
 
@@ -256,16 +248,15 @@ export default async (req) => {
     const errMsg = data?.error?.message || "Unknown error";
     const errCode = data?.error?.code || response.status;
     return DEBUG
-      ? debugReply(`Gemini API error ${errCode}: ${errMsg}`)
+      ? debugReply(`Groq API error ${errCode}: ${errMsg}`)
       : whatsappFallback();
   }
 
-  const reply = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+  const reply = data.choices?.[0]?.message?.content ?? "";
 
   if (!reply) {
-    const finishReason = data.candidates?.[0]?.finishReason || "unknown";
     return DEBUG
-      ? debugReply(`Gemini returned empty reply. Finish reason: ${finishReason}. Full response: ${JSON.stringify(data).slice(0, 300)}`)
+      ? debugReply(`Groq returned empty reply. Full response: ${JSON.stringify(data).slice(0, 300)}`)
       : whatsappFallback();
   }
 
