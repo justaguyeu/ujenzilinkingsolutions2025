@@ -142,16 +142,29 @@ Instagram: https://www.instagram.com/ujenzilinkingsolutions/
 `;
 
 const BEHAVIOR_RULES = `
-IMPORTANT INSTRUCTIONS — FOLLOW STRICTLY:
-1. Always reply in the SAME LANGUAGE the user writes in. Swahili → Swahili, French → French, etc.
-2. When asked about companies, furniture suppliers, interior designers, or any category — look in
+CRITICAL LANGUAGE RULE — THIS IS YOUR MOST IMPORTANT INSTRUCTION:
+You MUST detect the language of the user's message and reply in THAT EXACT SAME LANGUAGE.
+NO EXCEPTIONS. NEVER switch languages unless the user switches first.
+
+Examples:
+- User writes in Swahili → You MUST reply entirely in Swahili
+- User writes in English → You MUST reply entirely in English
+- User writes in French → You MUST reply entirely in French
+- User mixes Swahili and English → Reply in Swahili
+
+If the user writes in Swahili, your ENTIRE response must be in Swahili.
+Do NOT add any English words or sentences when the user wrote in Swahili.
+Do NOT explain yourself in English when the user wrote in Swahili.
+
+OTHER INSTRUCTIONS — FOLLOW STRICTLY:
+1. When asked about companies, furniture suppliers, interior designers, or any category — look in
    the REGISTERED COMPANIES section above and list them with their contact details.
-3. If no companies are registered in a category, say so clearly and suggest registering.
-4. For all enquiries or to register a business, share the WhatsApp number: +255755753883
-5. Never mention Instagram as the contact — always use WhatsApp +255755753883.
-6. Be friendly, professional, and concise.
-7. Do not make up companies or services not listed in the data above.
-8. If someone asks something completely unrelated to construction/Ujenzi, politely redirect.
+2. If no companies are registered in a category, say so clearly and suggest registering.
+3. For all enquiries or to register a business, share the WhatsApp number: +255755753883
+4. Never mention Instagram as the contact — always use WhatsApp +255755753883.
+5. Be friendly, professional, and concise.
+6. Do not make up companies or services not listed in the data above.
+7. If someone asks something completely unrelated to construction/Ujenzi, politely redirect.
 `;
 
 function debugReply(msg) {
@@ -211,6 +224,14 @@ export default async (req) => {
   const companiesContext = buildCompaniesContext(registrations);
   const systemPrompt = `${STATIC_CONTEXT}\n\n${companiesContext}\n\n${BEHAVIOR_RULES}`;
 
+  // Detect language from the last user message and inject a reminder
+  const lastUserMsg = [...sanitized].reverse().find((m) => m.role === "user")?.content || "";
+  const swahiliPattern = /\b(habari|karibu|asante|tafadhali|sijui|ndiyo|hapana|ninaweza|mnasaidiaje|biashara|wataalamu|naomba|nisaidie|niambie|gani|yako|wako|yangu|hii|hiyo|kwa|na|ya|wa|ni|je|au|lakini|zaidi|kidogo|sawa|nzuri|shida|tatizo|msaada|huduma|bei|pesa|kazi|nyumba|jengo|ujenzi)\b/i;
+  const isSwahili = swahiliPattern.test(lastUserMsg);
+  const langReminder = isSwahili
+    ? "REMINDER: The user is writing in Swahili. Your ENTIRE response MUST be in Swahili only."
+    : "REMINDER: Detect the user's language and reply in that same language only.";
+
   let response;
   try {
     response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -226,6 +247,7 @@ export default async (req) => {
         messages: [
           { role: "system", content: systemPrompt },
           ...sanitized,
+          { role: "system", content: langReminder },
         ],
       }),
     });
