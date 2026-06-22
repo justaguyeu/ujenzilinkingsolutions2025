@@ -222,7 +222,7 @@ export default function AIChatWidget() {
                 <div className="rounded-2xl rounded-tl-none px-3 py-2 text-sm"
                   style={{ background: WHITE, color: BLACK, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}>
                   <p className="font-semibold mb-0.5" style={{ color: "#25D366" }}>Ujenzi Linking Solutions</p>
-                  <p>Hello! 👋 Welcome to Ujenzi.</p>
+                  <p>Hello! Welcome to Ujenzi.</p>
                   <p className="mt-1">Type your message and we'll reply on WhatsApp.</p>
                 </div>
               </div>
