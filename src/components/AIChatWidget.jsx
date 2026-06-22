@@ -48,6 +48,8 @@ export default function AIChatWidget() {
   const [loading, setLoading]           = useState(false);
   const [limitReached, setLimitReached] = useState(false);
   const [waOpen, setWaOpen]             = useState(false);
+  const [waMsg, setWaMsg]               = useState("");
+  const waInputRef = useRef(null);
   const bottomRef = useRef(null);
   const inputRef  = useRef(null);
 
@@ -58,6 +60,27 @@ export default function AIChatWidget() {
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
+
+  useEffect(() => {
+    if (waOpen) setTimeout(() => waInputRef.current?.focus(), 100);
+  }, [waOpen]);
+
+  function openWhatsApp() {
+    const msg = waMsg.trim();
+    const url = msg
+      ? `https://wa.me/255755753883?text=${encodeURIComponent(msg)}`
+      : "https://wa.me/255755753883";
+    window.open(url, "_blank");
+    setWaMsg("");
+    setWaOpen(false);
+  }
+
+  function handleWaKey(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      openWhatsApp();
+    }
+  }
 
   async function sendMessage(text) {
     const userText = (text || input).trim();
@@ -187,7 +210,7 @@ export default function AIChatWidget() {
 
             {/* Popup body */}
             <div className="px-4 py-4" style={{ background: "#f0faf4" }}>
-              {/* Chat bubble */}
+              {/* Greeting bubble */}
               <div className="flex items-start gap-2 mb-4">
                 <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center mt-0.5"
                   style={{ background: "#25D366" }}>
@@ -200,21 +223,40 @@ export default function AIChatWidget() {
                   style={{ background: WHITE, color: BLACK, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}>
                   <p className="font-semibold mb-0.5" style={{ color: "#25D366" }}>Ujenzi Linking Solutions</p>
                   <p>Hello! 👋 Welcome to Ujenzi.</p>
-                  <p className="mt-1">How can we help you today?</p>
+                  <p className="mt-1">Type your message and we'll reply on WhatsApp.</p>
                 </div>
               </div>
 
-              {/* CTA button */}
-              <a href="https://wa.me/255755753883"
-                target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-sm text-white transition-opacity hover:opacity-90"
-                style={{ background: "#25D366" }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="white">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.533 5.845L.057 23.428a.75.75 0 0 0 .915.915l5.683-1.476A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.504-5.23-1.385l-.374-.22-3.376.877.895-3.279-.242-.389A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-                </svg>
-                Start Chat on WhatsApp
-              </a>
+              {/* Message input + send */}
+              <div className="flex items-center gap-2">
+                <input
+                  ref={waInputRef}
+                  type="text"
+                  value={waMsg}
+                  onChange={(e) => setWaMsg(e.target.value)}
+                  onKeyDown={handleWaKey}
+                  placeholder="Type a message…"
+                  className="flex-1 rounded-full px-4 py-2.5 text-sm outline-none"
+                  style={{
+                    background: WHITE,
+                    border: "1.5px solid #cce8d4",
+                    color: BLACK,
+                  }}
+                />
+                <button
+                  onClick={openWhatsApp}
+                  disabled={!waMsg.trim()}
+                  aria-label="Send on WhatsApp"
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-opacity disabled:opacity-40"
+                  style={{ background: "#25D366" }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                    fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
