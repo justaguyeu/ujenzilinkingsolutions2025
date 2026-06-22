@@ -1,101 +1,170 @@
 // netlify/functions/chat.js
-// Secure proxy — API key never exposed to the browser
+// Secure Claude proxy — fetches live Supabase data before answering
 
-const SITE_CONTEXT = `
-You are the official AI assistant for UJENZI LINKING SOLUTIONS — a Tanzania-based online platform
-established in 2024. "Ujenzi" means "Construction" in Kiswahili.
+// ── Supabase config (public anon key — safe to use server-side) ───────────────
+const SUPABASE_URL = "https://hmqzaswebmwkjmjrnmsd.supabase.co";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtcXphc3dlYm13a2ptanJubXNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjkzNjAsImV4cCI6MjA5NDQwNTM2MH0.2Yh2LMdDgR5ReBdo6xb2WOLEz6kLAcLmQvrqagtRHcU";
 
+// ── Category map (id → name) matching constants/index.js benefits array ───────
+const CATEGORIES = {
+  "0":  "Real Estate Agents",
+  "1":  "Building & Construction Materials Manufacturers",
+  "2":  "Civil Engineers",
+  "3":  "Construction Companies",
+  "4":  "Architects",
+  "5":  "Consulting Engineers",
+  "6":  "Quantity Surveyors",
+  "7":  "Landscape Developers",
+  "8":  "Fundis / Skilled Workers",
+  "9":  "Hardware Stores & Suppliers",
+  "10": "Construction Machinery & Tools for Hire and Sale",
+  "11": "Project Managers & Specialist Contractors",
+  "12": "Interior Designers, Home Decorators, Fixture Suppliers & Furniture Furnishers",
+  "13": "Cleaners",
+};
+
+// ── Fetch all registered companies from Supabase ──────────────────────────────
+async function fetchRegistrations() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/registrations?select=category_id,name,description,phone,website,location,instagram&order=name.asc`,
+      {
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+      }
+    );
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
+}
+
+// ── Format companies into readable context text ───────────────────────────────
+function buildCompaniesContext(registrations) {
+  if (!registrations.length) {
+    return "REGISTERED COMPANIES\nNo companies are currently registered on the platform.";
+  }
+
+  // Group by category
+  const grouped = {};
+  for (const r of registrations) {
+    const catName = CATEGORIES[String(r.category_id)] || `Category ${r.category_id}`;
+    if (!grouped[catName]) grouped[catName] = [];
+    grouped[catName].push(r);
+  }
+
+  let text = "REGISTERED COMPANIES ON THE PLATFORM\n";
+  text += `(${registrations.length} total registered businesses)\n\n`;
+
+  for (const [category, companies] of Object.entries(grouped)) {
+    text += `── ${category.toUpperCase()} (${companies.length} registered) ──\n`;
+    for (const c of companies) {
+      text += `• ${c.name}`;
+      if (c.location) text += ` | 📍 ${c.location}`;
+      if (c.phone)    text += ` | 📞 ${c.phone}`;
+      if (c.website)  text += ` | 🌐 ${c.website}`;
+      if (c.instagram) text += ` | Instagram: ${c.instagram}`;
+      if (c.description) text += `\n  ${c.description}`;
+      text += "\n";
+    }
+    text += "\n";
+  }
+  return text;
+}
+
+// ── Static site knowledge ─────────────────────────────────────────────────────
+const STATIC_CONTEXT = `
 COMPANY OVERVIEW
-Ujenzi Linking Solutions connects businesses, markets, and opportunities within the building and
-construction industry in Tanzania. The platform helps businesses of all sizes reach new markets,
-increase sales, and access customised, affordable sales and marketing solutions.
+Ujenzi Linking Solutions is a Tanzania-based online platform established in 2024.
+"Ujenzi" means "Construction" in Kiswahili. It connects businesses, markets, and
+opportunities within the building and construction industry in Tanzania.
 
-Core value propositions:
-- We save you Money
-- We save you Time
-- We help mitigate your Risks
-- We elevate your Brand
+SISTER COMPANY
+CHOMOZA Business Consultancy (T) Ltd — a results-driven sales and marketing partner
+delivering tailored solutions in sales strategy, marketing promotion, training, and
+job placement. Together the two platforms combine traditional consultancy expertise
+with digital market linkage to enhance growth, market access, and sustainable
+business expansion.
 
-SERVICES
-1. Market Expansion Strategies
-   Helping businesses of all sizes discover new markets, increase visibility, and grow sales
-   volumes through customised solutions.
+CORE VALUE PROPOSITIONS
+• We save you Money
+• We save you Time
+• We help mitigate your Risks
+• We elevate your Brand
 
-2. Sales & Marketing Training
-   Equipping youth and professionals with practical sales and marketing skills through hands-on
-   training and on-the-job experience.
+OUR SERVICES (3 pillars)
+1. Product Sales Network
+   Developing a robust sales network of reps, manufacturers' representatives, and
+   distributors to bring products and services to target customers.
 
-3. Talent Connection & Job Placement
-   Bridging the gap between businesses and skilled salespeople by providing recruitment and
-   placement services that drive measurable results.
+2. Sales Team Development
+   Building sales teams of reps and distributors from the ground up using an
+   extensive network.
 
-OUR QUALITY EXPERIENCE
-The team has extensive experience in sales outsourcing, sales training, and marketing promotion
-services, with strong industry exposure in:
-- Building & construction materials
-- Machinery & technology
-- FMCGs (Fast-Moving Consumer Goods)
-- Service businesses
-- Hospitality sector
+3. Affordable Marketing Promotion Solutions
+   Cost-effective marketing and promotion services that help businesses grow sales,
+   strengthen customer relationships, and reduce marketing expenses.
 
-WHO WE SERVE (Platform Categories)
-The platform connects clients with registered professionals and businesses in these categories:
+PLATFORM CATEGORIES (14 types of professionals/businesses you can find)
+0.  Real Estate Agents — buy, sell, or invest in property with verified agents
+1.  Building & Construction Materials Manufacturers — quality, durable, affordable materials
+2.  Civil Engineers — registered, qualified professionals for safe efficient construction
+3.  Construction Companies — residential, commercial, or industrial developments
+4.  Architects — design portfolios, functional and modern solutions
+5.  Consulting Engineers — technical analysis, expert advice, project support
+6.  Quantity Surveyors — budget management, cost control, transparency
+7.  Landscape Developers — outdoor design from small gardens to large projects
+8.  Fundis / Skilled Workers — trusted artisans for quality workmanship and finishing
+9.  Hardware Stores & Suppliers — tools and construction materials
+10. Construction Machinery & Tools for Hire and Sale — affordable equipment rental
+11. Project Managers & Specialist Contractors — timelines, budgets, quality oversight
+12. Interior Designers, Home Decorators, Fixture Suppliers & Furniture Furnishers
+13. Cleaners — post-construction, commercial, or residential cleaning
 
-1. Real Estate Agents — buy, sell, or invest in property with verified agents
-2. Building & Construction Materials Manufacturers — quality, durable, affordable materials
-3. Civil Engineers — registered, qualified professionals for safe and efficient construction
-4. Construction Companies — residential, commercial, or industrial developments
-5. Architects — design portfolios, functional and modern solutions
-6. Consulting Engineers — technical analysis, expert advice, project support
-7. Quantity Surveyors — budget management, cost control, transparency
-8. Landscape Developers — outdoor design from small gardens to large projects
-9. Fundis / Skilled Workers — trusted artisans for quality workmanship and finishing
-10. Hardware Stores & Suppliers — tools and construction materials
-11. Construction Machinery & Tools for Hire and Sale — affordable equipment rental
-12. Project Managers & Specialist Contractors — timelines, budgets, quality oversight
-13. Interior Designers, Home Decorators, Fixture Suppliers & Furniture Furnishers
-14. Cleaners — post-construction, commercial, or residential cleaning
-
-LEADERSHIP
+FOUNDER & CEO
 Zuberi Lweno — Founder | CEO | Head of Sales
-- Advanced Diploma in Marketing, CBE Dodoma (2007)
-- Master's Degree in International Business Management, CBE (2017)
-- 20+ years of sales experience in Tanzania across building & construction materials,
+• Advanced Diploma in Marketing, CBE Dodoma (2007)
+• Master's Degree in International Business Management, CBE (2017)
+• 20+ years of sales experience in Tanzania across building & construction materials,
   machinery and tools, services, and hospitality
-- Passionate about helping businesses improve sales performance and revenue growth
+• Strong training and business development capabilities
+• Passionate about helping businesses improve sales performance and revenue growth
 
-THE FUTURE / VISION
-Ujenzi Linking Solutions aims to become a leading digital hub for the construction industry
-in Tanzania and eventually the wider East African region, empowering both businesses and skilled
-workers through technology-driven connections.
-
-CONTACT & SOCIAL MEDIA
-Instagram: https://www.instagram.com/ujenzilinkingsolutions/
+PRICING PLANS
+• Basic (Free): AI chatbot, personalised recommendations, explore platform features
+• Premium ($9.99/mo): Advanced AI chatbot, analytics dashboard, priority support
+• Enterprise (Custom): Custom AI, advanced analytics, dedicated account manager
 
 NAVIGATION / PAGES
-- Home (/)
-- Services (/serviceses)
-- The Future (/future)
-- About Us (/aboutus)
+• Home: /
+• Services: /serviceses (shows all 14 categories + our 3 service pillars)
+• The Future: /future
+• About Us: /aboutus
 
-PRICING TIERS (Platform access)
-- Basic (Free): AI chatbot, personalised recommendations, explore platform features
-- Premium ($9.99/mo): Advanced AI chatbot, analytics dashboard, priority support
-- Enterprise (Custom): Custom AI, advanced analytics, dedicated account manager
-
-IMPORTANT INSTRUCTIONS
-- Always answer in the SAME LANGUAGE the user writes in. If they write in Kiswahili, reply in
-  Kiswahili. If French, reply in French. If Arabic, reply in Arabic, etc.
-- Be friendly, professional, and concise.
-- If asked something outside the scope of Ujenzi Linking Solutions, politely redirect to what
-  the platform offers.
-- Never make up information. If you don't know something, say so and suggest contacting the team
-  via Instagram.
-- You can guide users to register on the platform, explore services, or contact the team.
+CONTACT
+WhatsApp: +255755753883 (primary contact — always share this for any enquiries)
+Instagram: https://www.instagram.com/ujenzilinkingsolutions/
 `;
 
+const BEHAVIOR_RULES = `
+IMPORTANT INSTRUCTIONS — FOLLOW STRICTLY:
+1. Always reply in the SAME LANGUAGE the user writes in. Swahili → Swahili, French → French, etc.
+2. When asked about companies, furniture suppliers, interior designers, or any category — look in
+   the REGISTERED COMPANIES section above and list them with their contact details.
+3. If no companies are registered in a category, say so clearly and suggest registering.
+4. For all enquiries or to register a business, share the WhatsApp number: +255755753883
+5. Never mention Instagram as the contact — always use WhatsApp +255755753883.
+6. Be friendly, professional, and concise.
+7. Do not make up companies or services not listed in the data above.
+8. If someone asks something completely unrelated to construction/Ujenzi, politely redirect.
+`;
+
+// ── Main handler ──────────────────────────────────────────────────────────────
 export default async (req) => {
-  // Only allow POST
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
       status: 405,
@@ -129,10 +198,22 @@ export default async (req) => {
     });
   }
 
-  // Sanitize messages — only allow role + content strings
+  // Sanitize messages
   const sanitized = messages
-    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
-    .slice(-20); // keep last 20 turns max to avoid token abuse
+    .filter(
+      (m) =>
+        m &&
+        (m.role === "user" || m.role === "assistant") &&
+        typeof m.content === "string"
+    )
+    .slice(-20);
+
+  // Fetch live company data from Supabase
+  const registrations = await fetchRegistrations();
+  const companiesContext = buildCompaniesContext(registrations);
+
+  // Build full system prompt with live data
+  const systemPrompt = `${STATIC_CONTEXT}\n\n${companiesContext}\n\n${BEHAVIOR_RULES}`;
 
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -145,7 +226,7 @@ export default async (req) => {
       body: JSON.stringify({
         model: "claude-sonnet-4-6",
         max_tokens: 1024,
-        system: SITE_CONTEXT,
+        system: systemPrompt,
         messages: sanitized,
       }),
     });
@@ -153,10 +234,13 @@ export default async (req) => {
     const data = await response.json();
 
     if (!response.ok) {
-      return new Response(JSON.stringify({ error: data?.error?.message || "Claude API error" }), {
-        status: response.status,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: data?.error?.message || "Claude API error" }),
+        {
+          status: response.status,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     }
 
     const reply = data.content?.[0]?.text ?? "";
@@ -168,10 +252,13 @@ export default async (req) => {
       },
     });
   } catch (err) {
-    return new Response(JSON.stringify({ error: "Failed to reach Claude API" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Failed to reach Claude API" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
 };
 
