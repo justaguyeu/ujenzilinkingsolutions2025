@@ -1,12 +1,12 @@
 // netlify/functions/chat.js
-// Secure Gemini proxy — fetches live Supabase data before answering
+// Secure Claude proxy — fetches live Supabase data before answering
 
-// ── Supabase config ───────────────────────────────────────────────────────────
+// ── Supabase config (public anon key — safe to use server-side) ───────────────
 const SUPABASE_URL = "https://hmqzaswebmwkjmjrnmsd.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtcXphc3dlYm13a2ptanJubXNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjkzNjAsImV4cCI6MjA5NDQwNTM2MH0.2Yh2LMdDgR5ReBdo6xb2WOLEz6kLAcLmQvrqagtRHcU";
 
-// ── Category map ──────────────────────────────────────────────────────────────
+// ── Category map (id → name) matching constants/index.js benefits array ───────
 const CATEGORIES = {
   "0":  "Real Estate Agents",
   "1":  "Building & Construction Materials Manufacturers",
@@ -171,7 +171,7 @@ export default async (req) => {
     });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return new Response(JSON.stringify({ limitReached: true }), {
       status: 500,
@@ -197,7 +197,7 @@ export default async (req) => {
     });
   }
 
-  // Sanitize and keep last 20 messages
+  // Sanitize messages
   const sanitized = messages
     .filter(
       (m) =>
@@ -211,49 +211,36 @@ export default async (req) => {
   const registrations = await fetchRegistrations();
   const companiesContext = buildCompaniesContext(registrations);
 
-  // Full system prompt
+  // Build full system prompt with live data
   const systemPrompt = `${STATIC_CONTEXT}\n\n${companiesContext}\n\n${BEHAVIOR_RULES}`;
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: systemPrompt }],
-          },
-          contents: sanitized.map((m) => ({
-            role: m.role === "assistant" ? "model" : "user",
-            parts: [{ text: m.content }],
-          })),
-          generationConfig: {
-            maxOutputTokens: 1024,
-            temperature: 0.7,
-          },
-        }),
-      }
-    );
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: sanitized,
+      }),
+    }
+  );
 
     const data = await response.json();
 
     if (!response.ok) {
-      return new Response(JSON.stringify({ limitReached: true }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ limitReached: true }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
     }
 
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
-
-    if (!reply) {
-      return new Response(JSON.stringify({ limitReached: true }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
+    const reply = data.content?.[0]?.text ?? "";
     return new Response(JSON.stringify({ reply }), {
       status: 200,
       headers: {
@@ -262,10 +249,13 @@ export default async (req) => {
       },
     });
   } catch {
-    return new Response(JSON.stringify({ limitReached: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ limitReached: true }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
 };
 
