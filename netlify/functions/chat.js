@@ -234,12 +234,18 @@ export default async (req) => {
     const data = await response.json();
 
     if (!response.ok) {
+      const errMsg = data?.error?.message || "";
+      const errType = data?.error?.type || "";
+      const isLimit =
+        response.status === 429 ||
+        errType === "rate_limit_error" ||
+        errType === "overloaded_error" ||
+        errMsg.toLowerCase().includes("token") ||
+        errMsg.toLowerCase().includes("rate limit") ||
+        errMsg.toLowerCase().includes("quota");
       return new Response(
-        JSON.stringify({ error: data?.error?.message || "Claude API error" }),
-        {
-          status: response.status,
-          headers: { "Content-Type": "application/json" },
-        }
+        JSON.stringify({ error: errMsg || "Claude API error", limitReached: isLimit }),
+        { status: response.status, headers: { "Content-Type": "application/json" } }
       );
     }
 
