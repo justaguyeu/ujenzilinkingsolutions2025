@@ -160,8 +160,9 @@ export default function AIChatWidget() {
               initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }}
               exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}
               xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-              fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </motion.svg>
           )}
         </AnimatePresence>
@@ -222,7 +223,7 @@ export default function AIChatWidget() {
                 <div className="rounded-2xl rounded-tl-none px-3 py-2 text-sm"
                   style={{ background: WHITE, color: BLACK, boxShadow: "0 1px 4px rgba(0,0,0,0.08)" }}>
                   <p className="font-semibold mb-0.5" style={{ color: "#25D366" }}>Ujenzi Linking Solutions</p>
-                  <p>Hello! Welcome to Ujenzi.</p>
+                  <p>Hello! 👋 Welcome to Ujenzi.</p>
                   <p className="mt-1">Type your message and we'll reply on WhatsApp.</p>
                 </div>
               </div>
