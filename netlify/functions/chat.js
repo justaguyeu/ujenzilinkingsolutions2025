@@ -1,12 +1,10 @@
 // netlify/functions/chat.js
-// Secure Gemini proxy — fetches live Supabase data before answering
+// Gemini proxy with debug mode — set DEBUG=true in Netlify env vars to see errors in chat
 
-// ── Supabase config ───────────────────────────────────────────────────────────
 const SUPABASE_URL = "https://hmqzaswebmwkjmjrnmsd.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtcXphc3dlYm13a2ptanJubXNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjkzNjAsImV4cCI6MjA5NDQwNTM2MH0.2Yh2LMdDgR5ReBdo6xb2WOLEz6kLAcLmQvrqagtRHcU";
 
-// ── Category map ──────────────────────────────────────────────────────────────
 const CATEGORIES = {
   "0":  "Real Estate Agents",
   "1":  "Building & Construction Materials Manufacturers",
@@ -24,7 +22,6 @@ const CATEGORIES = {
   "13": "Cleaners",
 };
 
-// ── Fetch all registered companies from Supabase ──────────────────────────────
 async function fetchRegistrations() {
   try {
     const res = await fetch(
@@ -43,22 +40,18 @@ async function fetchRegistrations() {
   }
 }
 
-// ── Format companies into readable context text ───────────────────────────────
 function buildCompaniesContext(registrations) {
   if (!registrations.length) {
     return "REGISTERED COMPANIES\nNo companies are currently registered on the platform.";
   }
-
   const grouped = {};
   for (const r of registrations) {
     const catName = CATEGORIES[String(r.category_id)] || `Category ${r.category_id}`;
     if (!grouped[catName]) grouped[catName] = [];
     grouped[catName].push(r);
   }
-
   let text = "REGISTERED COMPANIES ON THE PLATFORM\n";
   text += `(${registrations.length} total registered businesses)\n\n`;
-
   for (const [category, companies] of Object.entries(grouped)) {
     text += `── ${category.toUpperCase()} (${companies.length} registered) ──\n`;
     for (const c of companies) {
@@ -75,7 +68,6 @@ function buildCompaniesContext(registrations) {
   return text;
 }
 
-// ── Static site knowledge ─────────────────────────────────────────────────────
 const STATIC_CONTEXT = `
 COMPANY OVERVIEW
 Ujenzi Linking Solutions is a Tanzania-based online platform established in 2024.
@@ -162,42 +154,50 @@ IMPORTANT INSTRUCTIONS — FOLLOW STRICTLY:
 8. If someone asks something completely unrelated to construction/Ujenzi, politely redirect.
 `;
 
+// ── Helper: reply with a debug message shown in the chat ─────────────────────
+function debugReply(msg) {
+  return new Response(JSON.stringify({ reply: `🔧 DEBUG: ${msg}` }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+// ── Helper: silent WhatsApp fallback (production errors) ─────────────────────
+function whatsappFallback() {
+  return new Response(JSON.stringify({ limitReached: true }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
 // ── Main handler ──────────────────────────────────────────────────────────────
 export default async (req) => {
+  // Set DEBUG=true in Netlify env vars to see error messages inside the chat
+  const DEBUG = process.env.DEBUG === "true";
+
   if (req.method !== "POST") {
-    return new Response(JSON.stringify({ limitReached: true }), {
-      status: 405,
-      headers: { "Content-Type": "application/json" },
-    });
+    return DEBUG ? debugReply("Method not allowed (not a POST request)") : whatsappFallback();
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return new Response(JSON.stringify({ limitReached: true }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return DEBUG
+      ? debugReply("GEMINI_API_KEY is not set in Netlify environment variables. Go to Site Settings → Environment Variables and add it.")
+      : whatsappFallback();
   }
 
   let body;
   try {
     body = await req.json();
   } catch {
-    return new Response(JSON.stringify({ limitReached: true }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return DEBUG ? debugReply("Failed to parse request body as JSON") : whatsappFallback();
   }
 
   const { messages } = body;
   if (!Array.isArray(messages) || messages.length === 0) {
-    return new Response(JSON.stringify({ limitReached: true }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
+    return DEBUG ? debugReply("No messages array found in request body") : whatsappFallback();
   }
 
-  // Sanitize and keep last 20 messages
   const sanitized = messages
     .filter(
       (m) =>
@@ -207,15 +207,17 @@ export default async (req) => {
     )
     .slice(-20);
 
-  // Fetch live company data from Supabase
+  if (sanitized.length === 0) {
+    return DEBUG ? debugReply("All messages were filtered out — check message format") : whatsappFallback();
+  }
+
   const registrations = await fetchRegistrations();
   const companiesContext = buildCompaniesContext(registrations);
-
-  // Full system prompt
   const systemPrompt = `${STATIC_CONTEXT}\n\n${companiesContext}\n\n${BEHAVIOR_RULES}`;
 
+  let response;
   try {
-    const response = await fetch(
+    response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
@@ -235,38 +237,45 @@ export default async (req) => {
         }),
       }
     );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      return new Response(JSON.stringify({ limitReached: true }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
-
-    if (!reply) {
-      return new Response(JSON.stringify({ limitReached: true }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    return new Response(JSON.stringify({ reply }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
-  } catch {
-    return new Response(JSON.stringify({ limitReached: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+  } catch (err) {
+    return DEBUG
+      ? debugReply(`Network error calling Gemini API: ${err.message}`)
+      : whatsappFallback();
   }
+
+  let data;
+  try {
+    data = await response.json();
+  } catch (err) {
+    return DEBUG
+      ? debugReply(`Gemini returned non-JSON response. HTTP status: ${response.status}`)
+      : whatsappFallback();
+  }
+
+  if (!response.ok) {
+    const errMsg = data?.error?.message || "Unknown error";
+    const errCode = data?.error?.code || response.status;
+    return DEBUG
+      ? debugReply(`Gemini API error ${errCode}: ${errMsg}`)
+      : whatsappFallback();
+  }
+
+  const reply = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+
+  if (!reply) {
+    const finishReason = data.candidates?.[0]?.finishReason || "unknown";
+    return DEBUG
+      ? debugReply(`Gemini returned empty reply. Finish reason: ${finishReason}. Full response: ${JSON.stringify(data).slice(0, 300)}`)
+      : whatsappFallback();
+  }
+
+  return new Response(JSON.stringify({ reply }), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
 };
 
 export const config = {
