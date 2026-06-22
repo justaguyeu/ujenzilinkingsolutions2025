@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // ── Brand colours (gold + white + black) ─────────────────────────────────────
 const GOLD        = "#DB9029";
 const GOLD_DARK   = "#b87520";
-const GOLD_LIGHT  = "#f5e0b0";  // soft gold tint for backgrounds
+const GOLD_LIGHT  = "#f5e0b0";
 const WHITE       = "#ffffff";
 const BLACK       = "#000000";
 const GRAY_TEXT   = "#444444";
@@ -42,11 +42,10 @@ function ChatText({ text }) {
 }
 
 export default function AIChatWidget() {
-  const [open, setOpen]               = useState(false);
-  const [messages, setMessages]       = useState([]);
-  const [input, setInput]             = useState("");
-  const [loading, setLoading]         = useState(false);
-  const [error, setError]             = useState("");
+  const [open, setOpen]                 = useState(false);
+  const [messages, setMessages]         = useState([]);
+  const [input, setInput]               = useState("");
+  const [loading, setLoading]           = useState(false);
   const [limitReached, setLimitReached] = useState(false);
   const bottomRef = useRef(null);
   const inputRef  = useRef(null);
@@ -67,7 +66,6 @@ export default function AIChatWidget() {
     setMessages(newMessages);
     setInput("");
     setLoading(true);
-    setError("");
     setLimitReached(false);
 
     try {
@@ -77,31 +75,25 @@ export default function AIChatWidget() {
         body: JSON.stringify({ messages: newMessages }),
       });
 
-      const raw = await res.text();
-
-      if (!raw || raw.trim() === "") {
-        throw new Error("No response from server. Run via `netlify dev` locally.");
-      }
-
       let data;
       try {
+        const raw = await res.text();
         data = JSON.parse(raw);
       } catch {
-        throw new Error(`Server returned invalid response (${res.status}).`);
+        setLimitReached(true);
+        setLoading(false);
+        return;
       }
 
-      if (!res.ok || data.error) {
-        if (data.limitReached) {
-          setLimitReached(true);
-          setLoading(false);
-          return;
-        }
-        throw new Error(data.error || `Server error ${res.status}`);
+      if (data.limitReached || !res.ok || data.error) {
+        setLimitReached(true);
+        setLoading(false);
+        return;
       }
 
       setMessages([...newMessages, { role: "assistant", content: data.reply }]);
-    } catch (err) {
-      setError(err.message || "Failed to get a response. Please try again.");
+    } catch {
+      setLimitReached(true);
     } finally {
       setLoading(false);
     }
@@ -116,7 +108,6 @@ export default function AIChatWidget() {
 
   function clearChat() {
     setMessages([]);
-    setError("");
     setLimitReached(false);
   }
 
@@ -294,14 +285,14 @@ export default function AIChatWidget() {
                 </motion.div>
               )}
 
-              {/* Limit reached — WhatsApp CTA */}
+              {/* WhatsApp CTA — shown for ANY error or limit */}
               {limitReached && (
                 <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
                   className="flex justify-start">
                   <div className="max-w-[85%] rounded-2xl p-4 text-sm leading-relaxed"
                     style={{ background: GOLD_LIGHT, border: `1px solid ${BORDER}`, borderBottomLeftRadius: 4 }}>
                     <p className="mb-3 text-sm" style={{ color: BLACK }}>
-                      I've reached my limit for now. Please contact us directly on WhatsApp — we're happy to help! 😊
+                      I'm unable to respond right now. Please contact us directly on WhatsApp — we're happy to help! 😊
                     </p>
                     <a href="https://wa.me/255755753883" target="_blank" rel="noopener noreferrer"
                       className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-white text-xs transition-opacity hover:opacity-90"
@@ -314,16 +305,6 @@ export default function AIChatWidget() {
                     </a>
                   </div>
                 </motion.div>
-              )}
-
-              {/* Generic error */}
-              {error && !limitReached && (
-                <div className="text-center">
-                  <p className="text-xs rounded-xl px-3 py-2"
-                    style={{ color: "#c0392b", background: "#fdecea" }}>
-                    ⚠️ {error}
-                  </p>
-                </div>
               )}
 
               <div ref={bottomRef} />

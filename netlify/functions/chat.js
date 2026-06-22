@@ -49,7 +49,6 @@ function buildCompaniesContext(registrations) {
     return "REGISTERED COMPANIES\nNo companies are currently registered on the platform.";
   }
 
-  // Group by category
   const grouped = {};
   for (const r of registrations) {
     const catName = CATEGORIES[String(r.category_id)] || `Category ${r.category_id}`;
@@ -64,10 +63,10 @@ function buildCompaniesContext(registrations) {
     text += `── ${category.toUpperCase()} (${companies.length} registered) ──\n`;
     for (const c of companies) {
       text += `• ${c.name}`;
-      if (c.location) text += ` | 📍 ${c.location}`;
-      if (c.phone)    text += ` | 📞 ${c.phone}`;
-      if (c.website)  text += ` | 🌐 ${c.website}`;
-      if (c.instagram) text += ` | Instagram: ${c.instagram}`;
+      if (c.location)    text += ` | 📍 ${c.location}`;
+      if (c.phone)       text += ` | 📞 ${c.phone}`;
+      if (c.website)     text += ` | 🌐 ${c.website}`;
+      if (c.instagram)   text += ` | Instagram: ${c.instagram}`;
       if (c.description) text += `\n  ${c.description}`;
       text += "\n";
     }
@@ -166,7 +165,7 @@ IMPORTANT INSTRUCTIONS — FOLLOW STRICTLY:
 // ── Main handler ──────────────────────────────────────────────────────────────
 export default async (req) => {
   if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+    return new Response(JSON.stringify({ limitReached: true }), {
       status: 405,
       headers: { "Content-Type": "application/json" },
     });
@@ -174,7 +173,7 @@ export default async (req) => {
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return new Response(JSON.stringify({ error: "API key not configured" }), {
+    return new Response(JSON.stringify({ limitReached: true }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
@@ -184,7 +183,7 @@ export default async (req) => {
   try {
     body = await req.json();
   } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
+    return new Response(JSON.stringify({ limitReached: true }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
@@ -192,7 +191,7 @@ export default async (req) => {
 
   const { messages } = body;
   if (!Array.isArray(messages) || messages.length === 0) {
-    return new Response(JSON.stringify({ error: "messages array required" }), {
+    return new Response(JSON.stringify({ limitReached: true }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
@@ -234,18 +233,9 @@ export default async (req) => {
     const data = await response.json();
 
     if (!response.ok) {
-      const errMsg = data?.error?.message || "";
-      const errType = data?.error?.type || "";
-      const isLimit =
-        response.status === 429 ||
-        errType === "rate_limit_error" ||
-        errType === "overloaded_error" ||
-        errMsg.toLowerCase().includes("token") ||
-        errMsg.toLowerCase().includes("rate limit") ||
-        errMsg.toLowerCase().includes("quota");
       return new Response(
-        JSON.stringify({ error: errMsg || "Claude API error", limitReached: isLimit }),
-        { status: response.status, headers: { "Content-Type": "application/json" } }
+        JSON.stringify({ limitReached: true }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
       );
     }
 
@@ -257,11 +247,11 @@ export default async (req) => {
         "Access-Control-Allow-Origin": "*",
       },
     });
-  } catch (err) {
+  } catch {
     return new Response(
-      JSON.stringify({ error: "Failed to reach Claude API" }),
+      JSON.stringify({ limitReached: true }),
       {
-        status: 500,
+        status: 200,
         headers: { "Content-Type": "application/json" },
       }
     );
