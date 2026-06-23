@@ -1,5 +1,6 @@
 // netlify/functions/chat.js
-// Groq proxy (free, fast, Llama 3) — fetches live Supabase data before answering
+// Gemini 2.0 Flash proxy — fetches live Supabase data before answering
+// FREE tier: 1,500 requests/day, 1M tokens/min — no practical limit for a chat widget
 
 const SUPABASE_URL = "https://hmqzaswebmwkjmjrnmsd.supabase.co";
 const SUPABASE_ANON_KEY =
@@ -22,6 +23,7 @@ const CATEGORIES = {
   "13": "Cleaners",
 };
 
+// ── Fetch live company data from Supabase ─────────────────────────────────────
 async function fetchRegistrations() {
   try {
     const res = await fetch(
@@ -40,6 +42,7 @@ async function fetchRegistrations() {
   }
 }
 
+// ── Build company context string for the prompt ───────────────────────────────
 function buildCompaniesContext(registrations) {
   if (!registrations.length) {
     return "REGISTERED COMPANIES\nNo companies are currently registered on the platform.";
@@ -68,6 +71,7 @@ function buildCompaniesContext(registrations) {
   return text;
 }
 
+// ── Static company + platform context ────────────────────────────────────────
 const STATIC_CONTEXT = `
 COMPANY OVERVIEW
 Ujenzi Linking Solutions is a Tanzania-based online platform established in 2024.
@@ -141,6 +145,7 @@ WhatsApp: +255755753883 (primary contact — always share this for any enquiries
 Instagram: https://www.instagram.com/ujenzilinkingsolutions/
 `;
 
+// ── Behavior rules injected into every system prompt ─────────────────────────
 const BEHAVIOR_RULES = `
 CRITICAL LANGUAGE RULE — THIS IS YOUR MOST IMPORTANT INSTRUCTION:
 You MUST detect the language of the user's message and reply in THAT EXACT SAME LANGUAGE.
@@ -154,7 +159,6 @@ Examples:
 
 If the user writes in Swahili, your ENTIRE response must be in Swahili.
 Do NOT add any English words or sentences when the user wrote in Swahili.
-Do NOT explain yourself in English when the user wrote in Swahili.
 
 If the user writes in English, your ENTIRE response must be in English.
 Do NOT add any Swahili words or sentences when the user wrote in English.
@@ -192,31 +196,11 @@ Incorrect (never do this — it breaks the buttons):
 "One of them is Berger Paints International Limited, you can reach them at +255688000777 or visit
 their website at https://www.bergerpaintsintl.com/."
 
-Any free-text intro ("Here are the paint manufacturers we have:") or outro ("Want more options?
-Contact us on WhatsApp +255755753883.") should be written as normal prose OUTSIDE the bullet lines,
+Any free-text intro or outro should be written as normal prose OUTSIDE the bullet lines,
 before or after the list — never mixed into a bullet line itself.
 `;
 
-function debugReply(msg) {
-  return new Response(JSON.stringify({ reply: `🔧 DEBUG: ${msg}` }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
-}
-
-function whatsappFallback() {
-  return new Response(JSON.stringify({ limitReached: true }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
-}
-
-// ── Language detection ────────────────────────────────────────────────────
-// Only longer, unambiguous Swahili words are used here. Short words like
-// "na", "ya", "wa", "ni", "au", "je" were removed because they collide with
-// common English fragments/typos and caused false positives (English
-// messages being misclassified as Swahili). We also require at least 2
-// distinct hits before concluding the message is Swahili.
+// ── Swahili language detection ────────────────────────────────────────────────
 const SWAHILI_WORDS = [
   "habari", "karibu", "asante", "tafadhali", "sijui", "ndiyo", "hapana",
   "ninaweza", "mnasaidiaje", "biashara", "wataalamu", "naomba", "nisaidie",
@@ -229,38 +213,80 @@ const SWAHILI_PATTERN = new RegExp(`\\b(${SWAHILI_WORDS.join("|")})\\b`, "gi");
 
 function detectIsSwahili(text) {
   const hits = text.match(SWAHILI_PATTERN) || [];
-  // Use the count of distinct matching words, not total occurrences,
-  // so a single repeated word doesn't falsely trigger Swahili mode.
   const distinctHits = new Set(hits.map((h) => h.toLowerCase())).size;
   return distinctHits >= 2;
 }
 
+// ── Response helpers ──────────────────────────────────────────────────────────
+function jsonResponse(body, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+}
+
+function debugReply(msg) {
+  return jsonResponse({ reply: `🔧 DEBUG: ${msg}` });
+}
+
+function whatsappFallback() {
+  return jsonResponse({ limitReached: true });
+}
+
+// ── Main handler ──────────────────────────────────────────────────────────────
 export default async (req) => {
   const DEBUG = process.env.DEBUG === "true";
 
-  if (req.method !== "POST") {
-    return DEBUG ? debugReply("Method not allowed (not a POST request)") : whatsappFallback();
+  // Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
   }
 
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) {
+  if (req.method !== "POST") {
     return DEBUG
-      ? debugReply("GROQ_API_KEY is not set in Netlify environment variables. Go to console.groq.com → API Keys → Create API Key, then add it to Netlify Site Settings → Environment Variables.")
+      ? debugReply("Method not allowed (not a POST request)")
       : whatsappFallback();
   }
 
+  // ── Check API key ────────────────────────────────────────────────────────
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return DEBUG
+      ? debugReply(
+          "GEMINI_API_KEY is not set. Go to aistudio.google.com → Get API Key → Copy key, " +
+          "then add it to Netlify: Site Settings → Environment Variables → Add variable."
+        )
+      : whatsappFallback();
+  }
+
+  // ── Parse request body ───────────────────────────────────────────────────
   let body;
   try {
     body = await req.json();
   } catch {
-    return DEBUG ? debugReply("Failed to parse request body as JSON") : whatsappFallback();
+    return DEBUG
+      ? debugReply("Failed to parse request body as JSON")
+      : whatsappFallback();
   }
 
   const { messages } = body;
   if (!Array.isArray(messages) || messages.length === 0) {
-    return DEBUG ? debugReply("No messages array found in request body") : whatsappFallback();
+    return DEBUG
+      ? debugReply("No messages array found in request body")
+      : whatsappFallback();
   }
 
+  // ── Sanitise & limit history to last 20 messages ─────────────────────────
   const sanitized = messages
     .filter(
       (m) =>
@@ -271,16 +297,19 @@ export default async (req) => {
     .slice(-20);
 
   if (sanitized.length === 0) {
-    return DEBUG ? debugReply("All messages were filtered out — check message format") : whatsappFallback();
+    return DEBUG
+      ? debugReply("All messages were filtered out — check message format")
+      : whatsappFallback();
   }
 
+  // ── Fetch live Supabase data ─────────────────────────────────────────────
   const registrations = await fetchRegistrations();
   const companiesContext = buildCompaniesContext(registrations);
+
+  // ── Build system prompt ──────────────────────────────────────────────────
   const systemPrompt = `${STATIC_CONTEXT}\n\n${companiesContext}\n\n${BEHAVIOR_RULES}`;
 
-  // Detect language from the last user message and build an instruction
-  // that gets attached DIRECTLY to that message (rather than as a separate
-  // trailing system message), so the model can't deprioritize it.
+  // ── Detect language and inject reminder into last user message ───────────
   const lastUserIndex = sanitized.map((m) => m.role).lastIndexOf("user");
   const lastUserMsg = lastUserIndex >= 0 ? sanitized[lastUserIndex].content : "";
   const isSwahili = detectIsSwahili(lastUserMsg);
@@ -289,40 +318,85 @@ export default async (req) => {
     ? "\n\n[SYSTEM: The message above is in Swahili. Reply ENTIRELY in Swahili — do not include any English words or sentences.]"
     : "\n\n[SYSTEM: Reply in the SAME language as the message above. If it is in English, reply ENTIRELY in English — do not switch to Swahili or any other language.]";
 
-  const sanitizedWithReminder = sanitized.map((m, i) =>
-    i === lastUserIndex ? { ...m, content: m.content + langInstruction } : m
-  );
+  // ── Convert messages to Gemini format ────────────────────────────────────
+  // Gemini uses "model" instead of "assistant", and wraps content in parts[]
+  // It also requires messages to strictly alternate user/model.
+  // We fix any non-alternating sequences by merging consecutive same-role messages.
+  const rawContents = sanitized.map((m, i) => ({
+    role: m.role === "assistant" ? "model" : "user",
+    parts: [
+      {
+        text:
+          i === lastUserIndex
+            ? m.content + langInstruction
+            : m.content,
+      },
+    ],
+  }));
+
+  // Merge consecutive messages with the same role (Gemini requirement)
+  const contents = [];
+  for (const msg of rawContents) {
+    const last = contents[contents.length - 1];
+    if (last && last.role === msg.role) {
+      // Append text to the last message of the same role
+      last.parts[0].text += "\n" + msg.parts[0].text;
+    } else {
+      contents.push({ ...msg, parts: [{ text: msg.parts[0].text }] });
+    }
+  }
+
+  // Gemini requires the conversation to start with a "user" turn
+  if (contents.length > 0 && contents[0].role !== "user") {
+    contents.shift();
+  }
+
+  if (contents.length === 0) {
+    return DEBUG
+      ? debugReply("No valid user message after normalisation")
+      : whatsappFallback();
+  }
+
+  // ── Call Gemini API ──────────────────────────────────────────────────────
+  const geminiUrl =
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
   let response;
   try {
-    response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    response = await fetch(geminiUrl, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
-        max_tokens: 1024,
-        temperature: 0.4,
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...sanitizedWithReminder,
+        system_instruction: {
+          parts: [{ text: systemPrompt }],
+        },
+        contents,
+        generationConfig: {
+          temperature: 0.4,
+          maxOutputTokens: 1024,
+        },
+        safetySettings: [
+          // Relax Gemini's default over-blocking for business content
+          { category: "HARM_CATEGORY_HARASSMENT",        threshold: "BLOCK_ONLY_HIGH" },
+          { category: "HARM_CATEGORY_HATE_SPEECH",       threshold: "BLOCK_ONLY_HIGH" },
+          { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_ONLY_HIGH" },
+          { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" },
         ],
       }),
     });
   } catch (err) {
     return DEBUG
-      ? debugReply(`Network error calling Groq API: ${err.message}`)
+      ? debugReply(`Network error calling Gemini API: ${err.message}`)
       : whatsappFallback();
   }
 
+  // ── Parse response ───────────────────────────────────────────────────────
   let data;
   try {
     data = await response.json();
   } catch {
     return DEBUG
-      ? debugReply(`Groq returned non-JSON response. HTTP status: ${response.status}`)
+      ? debugReply(`Gemini returned non-JSON response. HTTP status: ${response.status}`)
       : whatsappFallback();
   }
 
@@ -330,25 +404,30 @@ export default async (req) => {
     const errMsg = data?.error?.message || "Unknown error";
     const errCode = data?.error?.code || response.status;
     return DEBUG
-      ? debugReply(`Groq API error ${errCode}: ${errMsg}`)
+      ? debugReply(`Gemini API error ${errCode}: ${errMsg}`)
       : whatsappFallback();
   }
 
-  const reply = data.choices?.[0]?.message?.content ?? "";
+  // Check for content being blocked by safety filters
+  const finishReason = data.candidates?.[0]?.finishReason;
+  if (finishReason === "SAFETY") {
+    return DEBUG
+      ? debugReply("Gemini blocked the response due to safety filters.")
+      : whatsappFallback();
+  }
+
+  const reply = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
 
   if (!reply) {
     return DEBUG
-      ? debugReply(`Groq returned empty reply. Full response: ${JSON.stringify(data).slice(0, 300)}`)
+      ? debugReply(
+          `Gemini returned empty reply. finishReason: ${finishReason}. ` +
+          `Full response: ${JSON.stringify(data).slice(0, 400)}`
+        )
       : whatsappFallback();
   }
 
-  return new Response(JSON.stringify({ reply }), {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-  });
+  return jsonResponse({ reply });
 };
 
 export const config = {
