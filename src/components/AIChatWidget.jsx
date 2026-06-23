@@ -349,12 +349,12 @@ export default function AIChatWidget() {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-semibold text-sm" style={{ color: BLACK }}>Hello! 👋</p>
+                    <p className="font-semibold text-sm" style={{ color: BLACK }}>Hello!</p>
                     <p className="text-xs mt-1" style={{ color: GRAY_TEXT }}>
                       Ask me anything about Ujenzi Linking Solutions — in any language.
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-2 justify-center mt-1">
+                  {/* <div className="flex flex-wrap gap-2 justify-center mt-1">
                     {SUGGESTIONS.map((s) => (
                       <button key={s} onClick={() => sendMessage(s)}
                         className="text-xs px-3 py-1.5 rounded-full border transition-all hover:opacity-80"
@@ -362,7 +362,7 @@ export default function AIChatWidget() {
                         {s}
                       </button>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               )}
 
@@ -447,7 +447,7 @@ export default function AIChatWidget() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKey}
-                placeholder="Type your message… (any language)"
+                placeholder="Type a product or service you are looking for."
                 rows={1}
                 disabled={loading}
                 className="flex-1 resize-none rounded-xl px-3 py-2 text-sm outline-none disabled:opacity-50 leading-snug"
