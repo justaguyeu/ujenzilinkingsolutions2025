@@ -1,10 +1,12 @@
 // netlify/functions/chat.js
-// Groq proxy (free, fast, Llama 3) — fetches live Supabase data before answering
+// Secure Claude proxy — fetches live Supabase data before answering
 
+// ── Supabase config (public anon key — safe to use server-side) ───────────────
 const SUPABASE_URL = "https://hmqzaswebmwkjmjrnmsd.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtcXphc3dlYm13a2ptanJubXNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MjkzNjAsImV4cCI6MjA5NDQwNTM2MH0.2Yh2LMdDgR5ReBdo6xb2WOLEz6kLAcLmQvrqagtRHcU";
 
+// ── Category map (id → name) matching constants/index.js benefits array ───────
 const CATEGORIES = {
   "0":  "Real Estate Agents",
   "1":  "Building & Construction Materials Manufacturers",
@@ -22,6 +24,7 @@ const CATEGORIES = {
   "13": "Cleaners",
 };
 
+// ── Fetch all registered companies from Supabase ──────────────────────────────
 async function fetchRegistrations() {
   try {
     const res = await fetch(
@@ -40,26 +43,31 @@ async function fetchRegistrations() {
   }
 }
 
+// ── Format companies into readable context text ───────────────────────────────
 function buildCompaniesContext(registrations) {
   if (!registrations.length) {
     return "REGISTERED COMPANIES\nNo companies are currently registered on the platform.";
   }
+
+  // Group by category
   const grouped = {};
   for (const r of registrations) {
     const catName = CATEGORIES[String(r.category_id)] || `Category ${r.category_id}`;
     if (!grouped[catName]) grouped[catName] = [];
     grouped[catName].push(r);
   }
+
   let text = "REGISTERED COMPANIES ON THE PLATFORM\n";
   text += `(${registrations.length} total registered businesses)\n\n`;
+
   for (const [category, companies] of Object.entries(grouped)) {
     text += `── ${category.toUpperCase()} (${companies.length} registered) ──\n`;
     for (const c of companies) {
       text += `• ${c.name}`;
-      if (c.location)    text += ` | 📍 ${c.location}`;
-      if (c.phone)       text += ` | 📞 ${c.phone}`;
-      if (c.website)     text += ` | 🌐 ${c.website}`;
-      if (c.instagram)   text += ` | Instagram: ${c.instagram}`;
+      if (c.location) text += ` | 📍 ${c.location}`;
+      if (c.phone)    text += ` | 📞 ${c.phone}`;
+      if (c.website)  text += ` | 🌐 ${c.website}`;
+      if (c.instagram) text += ` | Instagram: ${c.instagram}`;
       if (c.description) text += `\n  ${c.description}`;
       text += "\n";
     }
@@ -68,6 +76,7 @@ function buildCompaniesContext(registrations) {
   return text;
 }
 
+// ── Static site knowledge ─────────────────────────────────────────────────────
 const STATIC_CONTEXT = `
 COMPANY OVERVIEW
 Ujenzi Linking Solutions is a Tanzania-based online platform established in 2024.
@@ -137,76 +146,90 @@ NAVIGATION / PAGES
 • About Us: /aboutus
 
 CONTACT
-WhatsApp: +255755753883 (primary contact — always share this for any enquiries)
+WhatsApp: +255755753883 (primary contact — but see instruction #4 below on how to mention it)
 Instagram: https://www.instagram.com/ujenzilinkingsolutions/
 `;
 
 const BEHAVIOR_RULES = `
-CRITICAL LANGUAGE RULE — THIS IS YOUR MOST IMPORTANT INSTRUCTION:
-You MUST detect the language of the user's message and reply in THAT EXACT SAME LANGUAGE.
-NO EXCEPTIONS. NEVER switch languages unless the user switches first.
+IMPORTANT INSTRUCTIONS — FOLLOW STRICTLY:
 
-Examples:
-- User writes in Swahili → You MUST reply entirely in Swahili
-- User writes in English → You MUST reply entirely in English
-- User writes in French → You MUST reply entirely in French
-- User mixes Swahili and English → Reply in Swahili
+LANGUAGE RULE:
+Always reply in the SAME LANGUAGE the user writes in. Swahili → Swahili, English → English, etc.
 
-If the user writes in Swahili, your ENTIRE response must be in Swahili.
-Do NOT add any English words or sentences when the user wrote in Swahili.
-Do NOT explain yourself in English when the user wrote in Swahili.
+COMPANY LISTING FORMAT — THIS IS MANDATORY:
+When listing companies from any category, you MUST output each company using this EXACT block format.
+Do NOT use numbered lists, bullet points, dashes, or plain text sentences. Use ONLY this format:
 
-OTHER INSTRUCTIONS — FOLLOW STRICTLY:
-1. When asked about companies, furniture suppliers, interior designers, or any category — look in
-   the REGISTERED COMPANIES section above and list them with their contact details.
-2. If no companies are registered in a category, say so clearly and suggest registering.
-3. For all enquiries or to register a business, share the WhatsApp number: +255755753883
-4. Never mention Instagram as the contact — always use WhatsApp +255755753883.
-5. Be friendly, professional, and concise.
-6. Do not make up companies or services not listed in the data above.
-7. If someone asks something completely unrelated to construction/Ujenzi, politely redirect.
+COMPANY: <company name>
+PHONE: <phone number or NONE>
+WEBSITE: <full url starting with http or NONE>
+LOCATION: <maps url or physical address or NONE>
+INSTAGRAM: <instagram handle or url or NONE>
+END
+
+You can write normal text before or after the company blocks. But every company MUST be in this format.
+
+Example of a correct response:
+"Hizi ni kampuni zilizosajiliwa:
+
+COMPANY: Berger Paints International Limited
+PHONE: 0688000777
+WEBSITE: https://www.bergerpaintsintl.com/
+LOCATION: https://maps.app.goo.gl/WhMCttAH8ixG8Xpu9
+INSTAGRAM: NONE
+END
+
+COMPANY: Batibomba Tanzania LTD
+PHONE: 0788193360
+WEBSITE: http://batibombatltd.co.tz
+LOCATION: NONE
+INSTAGRAM: NONE
+END"
+
+OTHER RULES:
+1. If no companies are registered in a category, say so clearly and suggest registering.
+2. For all enquiries, tell users to use the WhatsApp button at the bottom-right of the page. Never write out a phone number for contact.
+3. Be friendly, professional, and concise.
+4. Do not make up companies or services not listed in the data above.
+5. If someone asks something completely unrelated to construction/Ujenzi, politely redirect.
 `;
 
-function debugReply(msg) {
-  return new Response(JSON.stringify({ reply: `🔧 DEBUG: ${msg}` }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
-}
-
-function whatsappFallback() {
-  return new Response(JSON.stringify({ limitReached: true }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
-}
-
+// ── Main handler ──────────────────────────────────────────────────────────────
 export default async (req) => {
-  const DEBUG = process.env.DEBUG === "true";
-
   if (req.method !== "POST") {
-    return DEBUG ? debugReply("Method not allowed (not a POST request)") : whatsappFallback();
+    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+      status: 405,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
-  const apiKey = process.env.GROQ_API_KEY;
+  const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return DEBUG
-      ? debugReply("GROQ_API_KEY is not set in Netlify environment variables. Go to console.groq.com → API Keys → Create API Key, then add it to Netlify Site Settings → Environment Variables.")
-      : whatsappFallback();
+    return new Response(JSON.stringify({ error: "API key not configured" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   let body;
   try {
     body = await req.json();
   } catch {
-    return DEBUG ? debugReply("Failed to parse request body as JSON") : whatsappFallback();
+    return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   const { messages } = body;
   if (!Array.isArray(messages) || messages.length === 0) {
-    return DEBUG ? debugReply("No messages array found in request body") : whatsappFallback();
+    return new Response(JSON.stringify({ error: "messages array required" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
+  // Sanitize messages
   const sanitized = messages
     .filter(
       (m) =>
@@ -216,79 +239,64 @@ export default async (req) => {
     )
     .slice(-20);
 
-  if (sanitized.length === 0) {
-    return DEBUG ? debugReply("All messages were filtered out — check message format") : whatsappFallback();
-  }
-
+  // Fetch live company data from Supabase
   const registrations = await fetchRegistrations();
   const companiesContext = buildCompaniesContext(registrations);
+
+  // Build full system prompt with live data
   const systemPrompt = `${STATIC_CONTEXT}\n\n${companiesContext}\n\n${BEHAVIOR_RULES}`;
 
-  // Detect language from the last user message and inject a reminder
-  const lastUserMsg = [...sanitized].reverse().find((m) => m.role === "user")?.content || "";
-  const swahiliPattern = /\b(habari|karibu|asante|tafadhali|sijui|ndiyo|hapana|ninaweza|mnasaidiaje|biashara|wataalamu|naomba|nisaidie|niambie|gani|yako|wako|yangu|hii|hiyo|kwa|na|ya|wa|ni|je|au|lakini|zaidi|kidogo|sawa|nzuri|shida|tatizo|msaada|huduma|bei|pesa|kazi|nyumba|jengo|ujenzi)\b/i;
-  const isSwahili = swahiliPattern.test(lastUserMsg);
-  const langReminder = isSwahili
-    ? "REMINDER: The user is writing in Swahili. Your ENTIRE response MUST be in Swahili only."
-    : "REMINDER: Detect the user's language and reply in that same language only.";
-
-  let response;
   try {
-    response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
+        model: "claude-sonnet-4-6",
         max_tokens: 1024,
-        temperature: 0.7,
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...sanitized,
-          { role: "system", content: langReminder },
-        ],
+        system: systemPrompt,
+        messages: sanitized,
       }),
     });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const errMsg = data?.error?.message || "";
+      const errType = data?.error?.type || "";
+      const isLimit =
+        response.status === 429 ||
+        errType === "rate_limit_error" ||
+        errType === "overloaded_error" ||
+        errMsg.toLowerCase().includes("token") ||
+        errMsg.toLowerCase().includes("rate limit") ||
+        errMsg.toLowerCase().includes("quota");
+      return new Response(
+        JSON.stringify({ error: errMsg || "Claude API error", limitReached: isLimit }),
+        { status: response.status, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const reply = data.content?.[0]?.text ?? "";
+    return new Response(JSON.stringify({ reply }), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   } catch (err) {
-    return DEBUG
-      ? debugReply(`Network error calling Groq API: ${err.message}`)
-      : whatsappFallback();
+    return new Response(
+      JSON.stringify({ error: "Failed to reach Claude API" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
-
-  let data;
-  try {
-    data = await response.json();
-  } catch {
-    return DEBUG
-      ? debugReply(`Groq returned non-JSON response. HTTP status: ${response.status}`)
-      : whatsappFallback();
-  }
-
-  if (!response.ok) {
-    const errMsg = data?.error?.message || "Unknown error";
-    const errCode = data?.error?.code || response.status;
-    return DEBUG
-      ? debugReply(`Groq API error ${errCode}: ${errMsg}`)
-      : whatsappFallback();
-  }
-
-  const reply = data.choices?.[0]?.message?.content ?? "";
-
-  if (!reply) {
-    return DEBUG
-      ? debugReply(`Groq returned empty reply. Full response: ${JSON.stringify(data).slice(0, 300)}`)
-      : whatsappFallback();
-  }
-
-  return new Response(JSON.stringify({ reply }), {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-  });
 };
 
 export const config = {

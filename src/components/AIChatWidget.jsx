@@ -18,33 +18,42 @@ const SUGGESTIONS = [
   "What professionals can I find here?",
 ];
 
-// ── Parse a line like "• Company Name | 📞 ... | 📍 ... | 🌐 ..." into structured data ──
-function parseCompanyLine(line) {
-  const cleaned = line.replace(/^[•\-]\s*/, "").trim();
-  if (!cleaned) return null;
-
-  const parts = cleaned.split("|").map(s => s.trim());
-  const name = parts[0];
-  if (!name) return null;
-
-  const contacts = [];
-  for (const part of parts.slice(1)) {
-    if (part.startsWith("📞")) {
-      const phone = part.replace("📞", "").trim();
-      contacts.push({ type: "phone", value: phone });
-    } else if (part.startsWith("📍")) {
-      const loc = part.replace("📍", "").trim();
-      contacts.push({ type: "location", value: loc });
-    } else if (part.startsWith("🌐")) {
-      const web = part.replace("🌐", "").trim();
-      contacts.push({ type: "website", value: web });
-    } else if (part.toLowerCase().startsWith("instagram:")) {
-      const ig = part.replace(/instagram:/i, "").trim();
-      contacts.push({ type: "instagram", value: ig });
+// ── Parse COMPANY: ... END blocks from AI response ──────────────────────────
+function parseCompanyBlocks(text) {
+  const segments = [];
+  const blockRegex = /COMPANY:\s*(.+?)\nPHONE:\s*(.+?)\nWEBSITE:\s*(.+?)\nLOCATION:\s*(.+?)\nINSTAGRAM:\s*(.+?)\nEND/gs;
+  
+  let lastIndex = 0;
+  let match;
+  
+  while ((match = blockRegex.exec(text)) !== null) {
+    // Push any text before this block
+    if (match.index > lastIndex) {
+      const before = text.slice(lastIndex, match.index).trim();
+      if (before) segments.push({ type: "text", content: before });
     }
+    
+    const [, name, phone, website, location, instagram] = match;
+    const contacts = [];
+    if (phone && phone.trim() !== "NONE")     contacts.push({ type: "phone",     value: phone.trim() });
+    if (website && website.trim() !== "NONE") contacts.push({ type: "website",   value: website.trim() });
+    if (location && location.trim() !== "NONE") contacts.push({ type: "location", value: location.trim() });
+    if (instagram && instagram.trim() !== "NONE") contacts.push({ type: "instagram", value: instagram.trim() });
+    
+    segments.push({ type: "company", name: name.trim(), contacts });
+    lastIndex = match.index + match[0].length;
   }
-
-  return { name, contacts };
+  
+  // Push any trailing text
+  if (lastIndex < text.length) {
+    const after = text.slice(lastIndex).trim();
+    if (after) segments.push({ type: "text", content: after });
+  }
+  
+  // If no blocks found, return plain text
+  if (segments.length === 0) segments.push({ type: "text", content: text });
+  
+  return segments;
 }
 
 // ── Contact button component ──────────────────────────────────────────────────
@@ -93,43 +102,39 @@ function CompanyCard({ name, contacts }) {
   );
 }
 
-// ── Smart message renderer: detects company lists, renders cards + normal text ─
+// ── Render plain text with bold support ──────────────────────────────────────
+function PlainText({ text }) {
+  return (
+    <div>
+      {text.split("\n").map((line, i) => {
+        if (!line.trim()) return <div key={i} className="h-1" />;
+        const parts = line.split(/(\*\*[^*]+\*\*)/g);
+        return (
+          <p key={i} className="mb-1 last:mb-0">
+            {parts.map((part, j) =>
+              part.startsWith("**") && part.endsWith("**")
+                ? <strong key={j}>{part.slice(2, -2)}</strong>
+                : part
+            )}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+// ── Smart message renderer: parses COMPANY blocks + normal text ───────────────
 function ChatText({ text }) {
-  const lines = text.split("\n");
-  const output = [];
-  let i = 0;
-
-  while (i < lines.length) {
-    const line = lines[i];
-    // Detect a company line: starts with • or - and has at least one contact emoji
-    if (/^[•\-]\s*.+/.test(line) && (line.includes("📞") || line.includes("📍") || line.includes("🌐") || line.includes("Instagram:"))) {
-      const company = parseCompanyLine(line);
-      if (company) {
-        output.push(<CompanyCard key={i} name={company.name} contacts={company.contacts} />);
-        i++;
-        continue;
-      }
-    }
-
-    // Normal text line — render with bold support
-    if (line.trim()) {
-      const parts = line.split(/(\*\*[^*]+\*\*)/g);
-      output.push(
-        <p key={i} className="mb-1 last:mb-0">
-          {parts.map((part, j) =>
-            part.startsWith("**") && part.endsWith("**")
-              ? <strong key={j}>{part.slice(2, -2)}</strong>
-              : part
-          )}
-        </p>
-      );
-    } else if (i > 0) {
-      output.push(<div key={i} className="h-1" />);
-    }
-    i++;
-  }
-
-  return <div className="text-sm leading-relaxed">{output}</div>;
+  const segments = parseCompanyBlocks(text);
+  return (
+    <div className="text-sm leading-relaxed space-y-1">
+      {segments.map((seg, i) =>
+        seg.type === "company"
+          ? <CompanyCard key={i} name={seg.name} contacts={seg.contacts} />
+          : <PlainText key={i} text={seg.content} />
+      )}
+    </div>
+  );
 }
 
 export default function AIChatWidget() {
