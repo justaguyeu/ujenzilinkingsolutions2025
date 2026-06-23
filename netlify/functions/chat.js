@@ -156,6 +156,9 @@ If the user writes in Swahili, your ENTIRE response must be in Swahili.
 Do NOT add any English words or sentences when the user wrote in Swahili.
 Do NOT explain yourself in English when the user wrote in Swahili.
 
+If the user writes in English, your ENTIRE response must be in English.
+Do NOT add any Swahili words or sentences when the user wrote in English.
+
 OTHER INSTRUCTIONS — FOLLOW STRICTLY:
 1. When asked about companies, furniture suppliers, interior designers, or any category — look in
    the REGISTERED COMPANIES section above and list them with their contact details.
@@ -179,6 +182,30 @@ function whatsappFallback() {
     status: 200,
     headers: { "Content-Type": "application/json" },
   });
+}
+
+// ── Language detection ────────────────────────────────────────────────────
+// Only longer, unambiguous Swahili words are used here. Short words like
+// "na", "ya", "wa", "ni", "au", "je" were removed because they collide with
+// common English fragments/typos and caused false positives (English
+// messages being misclassified as Swahili). We also require at least 2
+// distinct hits before concluding the message is Swahili.
+const SWAHILI_WORDS = [
+  "habari", "karibu", "asante", "tafadhali", "sijui", "ndiyo", "hapana",
+  "ninaweza", "mnasaidiaje", "biashara", "wataalamu", "naomba", "nisaidie",
+  "niambie", "gani", "yako", "wako", "yangu", "hii", "hiyo", "kwa", "lakini",
+  "zaidi", "kidogo", "sawa", "nzuri", "shida", "tatizo", "msaada", "huduma",
+  "bei", "pesa", "kazi", "nyumba", "jengo", "ujenzi", "mimi", "wewe", "sisi",
+  "ninataka", "nataka", "naweza", "gharama", "vizuri", "mzuri", "leo", "kesho",
+];
+const SWAHILI_PATTERN = new RegExp(`\\b(${SWAHILI_WORDS.join("|")})\\b`, "gi");
+
+function detectIsSwahili(text) {
+  const hits = text.match(SWAHILI_PATTERN) || [];
+  // Use the count of distinct matching words, not total occurrences,
+  // so a single repeated word doesn't falsely trigger Swahili mode.
+  const distinctHits = new Set(hits.map((h) => h.toLowerCase())).size;
+  return distinctHits >= 2;
 }
 
 export default async (req) => {
@@ -224,13 +251,20 @@ export default async (req) => {
   const companiesContext = buildCompaniesContext(registrations);
   const systemPrompt = `${STATIC_CONTEXT}\n\n${companiesContext}\n\n${BEHAVIOR_RULES}`;
 
-  // Detect language from the last user message and inject a reminder
-  const lastUserMsg = [...sanitized].reverse().find((m) => m.role === "user")?.content || "";
-  const swahiliPattern = /\b(habari|karibu|asante|tafadhali|sijui|ndiyo|hapana|ninaweza|mnasaidiaje|biashara|wataalamu|naomba|nisaidie|niambie|gani|yako|wako|yangu|hii|hiyo|kwa|na|ya|wa|ni|je|au|lakini|zaidi|kidogo|sawa|nzuri|shida|tatizo|msaada|huduma|bei|pesa|kazi|nyumba|jengo|ujenzi)\b/i;
-  const isSwahili = swahiliPattern.test(lastUserMsg);
-  const langReminder = isSwahili
-    ? "REMINDER: The user is writing in Swahili. Your ENTIRE response MUST be in Swahili only."
-    : "REMINDER: Detect the user's language and reply in that same language only.";
+  // Detect language from the last user message and build an instruction
+  // that gets attached DIRECTLY to that message (rather than as a separate
+  // trailing system message), so the model can't deprioritize it.
+  const lastUserIndex = sanitized.map((m) => m.role).lastIndexOf("user");
+  const lastUserMsg = lastUserIndex >= 0 ? sanitized[lastUserIndex].content : "";
+  const isSwahili = detectIsSwahili(lastUserMsg);
+
+  const langInstruction = isSwahili
+    ? "\n\n[SYSTEM: The message above is in Swahili. Reply ENTIRELY in Swahili — do not include any English words or sentences.]"
+    : "\n\n[SYSTEM: Reply in the SAME language as the message above. If it is in English, reply ENTIRELY in English — do not switch to Swahili or any other language.]";
+
+  const sanitizedWithReminder = sanitized.map((m, i) =>
+    i === lastUserIndex ? { ...m, content: m.content + langInstruction } : m
+  );
 
   let response;
   try {
@@ -243,11 +277,10 @@ export default async (req) => {
       body: JSON.stringify({
         model: "llama-3.3-70b-versatile",
         max_tokens: 1024,
-        temperature: 0.7,
+        temperature: 0.4,
         messages: [
           { role: "system", content: systemPrompt },
-          ...sanitized,
-          { role: "system", content: langReminder },
+          ...sanitizedWithReminder,
         ],
       }),
     });
