@@ -11,73 +11,127 @@ const BLACK       = "#000000";
 const GRAY_TEXT   = "#444444";
 const BORDER      = "#e8c97a";
 
-// ── Small markdown renderer (bold + line breaks) + company card parser ────────
-function parseCompanyBlocks(text) {
-  // Split on lines that look like "• CompanyName | ..." or numbered "1. CompanyName"
-  // We'll parse the raw text and extract structured company data when possible
-  return text;
-}
-
-// Detects if assistant message contains a list of companies
+// ── Robust company extractor — handles both pipe and dash-separated AI output ─
 function extractCompanies(text) {
   const lines = text.split("\n");
   const companies = [];
-  let currentCompany = null;
-  let preamble = [];
-  let postamble = [];
+  const preamble = [];
+  const postamble = [];
   let inCompanies = false;
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
+  // Helpers
+  const URL_RE = /https?:\/\/[^\s,|]+/gi;
+  const PHONE_RE = /(?:\+?[\d\s\-().]{7,20})/g;
+  const INSTAGRAM_RE = /instagram\.com\/([^\s/|,]+)/i;
+  const MAPS_RE = /maps\.(app\.goo\.gl|google\.com)\/[^\s,|]+/i;
 
-    // Match bullet company lines: "• Name | 📍 loc | 📞 phone | 🌐 url | Instagram: ..."
-    const isBullet = line.startsWith("•") || /^\d+\.\s/.test(line);
+  function parseLine(raw) {
+    // Strip leading bullet/number/dot
+    const cleaned = raw.replace(/^[•\-*]\s*|^\d+[.)]\s*/, "").replace(/\*\*/g, "").trim();
 
-    if (isBullet) {
-      inCompanies = true;
-      // Parse the bullet line
-      const raw = line.replace(/^[•\d.]\s*/, "").trim();
-      const parts = raw.split("|").map(s => s.trim());
-      const company = { name: "", phone: "", website: "", instagram: "", location: "", description: "" };
+    const company = { name: "", phone: "", website: "", instagram: "", location: "", mapUrl: "", description: "" };
 
-      company.name = parts[0]?.replace(/\*\*/g, "").trim() || "";
-
+    // Try pipe-separated first: "Name | 📍 loc | 📞 phone | 🌐 url"
+    if (cleaned.includes("|")) {
+      const parts = cleaned.split("|").map(s => s.trim());
+      company.name = parts[0] || "";
       for (let j = 1; j < parts.length; j++) {
         const p = parts[j];
         if (p.startsWith("📍")) company.location = p.replace("📍", "").trim();
         else if (p.startsWith("📞")) company.phone = p.replace("📞", "").trim();
         else if (p.startsWith("🌐")) company.website = p.replace("🌐", "").trim();
-        else if (p.toLowerCase().startsWith("instagram:")) company.instagram = p.replace(/instagram:/i, "").trim();
+        else if (/instagram:/i.test(p)) company.instagram = p.replace(/instagram:/i, "").trim();
       }
+    } else {
+      // Dash-separated: "Name - url - phone - url2"
+      // Extract all URLs first
+      const urls = [...(cleaned.matchAll(URL_RE))].map(m => m[0]);
+      // Remove URLs from string to get remaining tokens
+      let remainder = cleaned.replace(URL_RE, "|||URL|||");
+      const tokens = remainder.split(/\s*-\s*|\|\|\|URL\|\|\|/).map(s => s.trim()).filter(Boolean);
 
-      // Check next line for description (indented with spaces or starts with specific chars)
-      if (i + 1 < lines.length) {
-        const next = lines[i + 1];
-        if (next.startsWith("  ") && !next.trim().startsWith("•") && !/^\d+\./.test(next.trim())) {
-          company.description = next.trim();
-          i++; // consume description line
+      // First non-empty, non-URL token is the name
+      company.name = tokens[0] || "";
+
+      // Classify each URL
+      for (const url of urls) {
+        if (MAPS_RE.test(url)) {
+          company.mapUrl = url;
+        } else if (INSTAGRAM_RE.test(url)) {
+          const match = url.match(INSTAGRAM_RE);
+          company.instagram = match ? match[1] : url;
+        } else {
+          // Generic website — skip maps.app.goo.gl already caught above
+          if (!company.website) company.website = url;
         }
       }
 
-      companies.push(company);
-    } else {
-      if (!inCompanies) {
-        preamble.push(lines[i]);
-      } else {
-        postamble.push(lines[i]);
+      // Find phone number in remaining tokens (skip name and URLs)
+      for (let k = 1; k < tokens.length; k++) {
+        const t = tokens[k];
+        if (!t || t.startsWith("http")) continue;
+        const phoneMatch = t.match(/^[\+\d][\d\s\-().]{5,18}$/);
+        if (phoneMatch && !company.phone) {
+          company.phone = t.trim();
+        }
       }
+    }
+
+    return company;
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    const isBullet =
+      trimmed.startsWith("•") ||
+      trimmed.startsWith("-") ||
+      /^\d+[.)]\s/.test(trimmed);
+
+    // Also catch plain lines that contain a company-like name followed by dash+url/phone
+    const looksLikeCompany =
+      isBullet ||
+      (!inCompanies && /^[A-Z].*?\s+-\s+(https?:\/\/|\+?\d)/.test(trimmed));
+
+    if (looksLikeCompany && trimmed.length > 3) {
+      inCompanies = true;
+      const parsed = parseLine(trimmed);
+      if (parsed.name) {
+        // Check next line for indented description
+        if (i + 1 < lines.length) {
+          const next = lines[i + 1].trim();
+          const isNextCompany =
+            next.startsWith("•") ||
+            next.startsWith("-") ||
+            /^\d+[.)]\s/.test(next) ||
+            /^[A-Z].*?\s+-\s+(https?:\/\/|\+?\d)/.test(next);
+          if (!isNextCompany && next && next.length < 200) {
+            parsed.description = next;
+            i++;
+          }
+        }
+        companies.push(parsed);
+      }
+    } else {
+      if (!inCompanies) preamble.push(line);
+      else postamble.push(line);
     }
   }
 
   if (companies.length === 0) return null;
-  return { preamble: preamble.join("\n").trim(), companies, postamble: postamble.join("\n").trim() };
+  return {
+    preamble: preamble.join("\n").trim(),
+    companies,
+    postamble: postamble.join("\n").trim(),
+  };
 }
 
 function CompanyCard({ company }) {
   const hasPhone = !!company.phone;
   const hasWebsite = !!company.website;
   const hasInstagram = !!company.instagram;
-  const hasLocation = !!company.location;
+  const hasMap = !!(company.mapUrl || company.location);
 
   const phoneHref = company.phone
     ? `tel:${company.phone.replace(/\s+/g, "")}`
@@ -90,10 +144,14 @@ function CompanyCard({ company }) {
     : company.website ? `https://${company.website}` : null;
   const instagramHref = company.instagram?.startsWith("http")
     ? company.instagram
-    : company.instagram ? `https://instagram.com/${company.instagram.replace("@", "")}` : null;
-  const mapHref = company.location
-    ? `https://maps.google.com/?q=${encodeURIComponent(company.location)}`
-    : null;
+    : company.instagram
+      ? `https://instagram.com/${company.instagram.replace("@", "").replace(/\/$/, "")}`
+      : null;
+  const mapHref = company.mapUrl
+    ? company.mapUrl
+    : company.location
+      ? `https://maps.google.com/?q=${encodeURIComponent(company.location)}`
+      : null;
 
   return (
     <div
@@ -167,7 +225,7 @@ function CompanyCard({ company }) {
           </a>
         )}
 
-        {hasLocation && (
+        {hasMap && (
           <a href={mapHref} target="_blank" rel="noopener noreferrer" style={btnStyle("#6b7280")}>
             {/* Map pin icon */}
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
