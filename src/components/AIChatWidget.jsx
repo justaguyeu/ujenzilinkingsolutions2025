@@ -429,7 +429,7 @@ export default function AIChatWidget() {
                 {/* ── Bubble: flex:1 + minWidth:0 ensures text wraps, never overflows ── */}
                 <div style={{ flex: 1, minWidth: 0, background: WHITE, borderRadius: "0 12px 12px 12px", padding: "10px 12px", boxShadow: "0 1px 4px rgba(0,0,0,0.08)", fontSize: 13, wordBreak: "break-word" }}>
                   <p style={{ fontWeight: 600, color: "#25D366", marginBottom: 4 }}>Ujenzi Linking Solutions</p>
-                  <p style={{ color: BLACK, marginBottom: 4 }}>Hello! 👋 Welcome to Ujenzi.</p>
+                  <p style={{ color: BLACK, marginBottom: 4 }}>Hello! Welcome to Ujenzi.</p>
                   <p style={{ color: BLACK, lineHeight: 1.5 }}>Type your message and we'll reply on WhatsApp.</p>
                 </div>
               </div>
@@ -495,7 +495,7 @@ export default function AIChatWidget() {
                     <ChatBubbleIcon size={28} color={GOLD}/>
                   </div>
                   <div>
-                    <p style={{ fontWeight: 700, fontSize: 15, color: BLACK }}>Hello! 👋</p>
+                    <p style={{ fontWeight: 700, fontSize: 15, color: BLACK }}>Hello!</p>
                     <p style={{ fontSize: 13, marginTop: 6, color: GRAY_TEXT, lineHeight: 1.5 }}>Ask me anything about Ujenzi Linking Solutions — in any language.</p>
                   </div>
                 </div>
