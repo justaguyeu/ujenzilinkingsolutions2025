@@ -11,30 +11,29 @@ const BLACK       = "#000000";
 const GRAY_TEXT   = "#444444";
 const BORDER      = "#e8c97a";
 
-// ── Robust company extractor — handles both pipe and dash-separated AI output ─
+// ── Robust company extractor — handles pipe, dash, and asterisk-separated AI output ─
 function extractCompanies(text) {
-  const lines = text.split("\n");
-  const companies = [];
-  const preamble = [];
-  const postamble = [];
-  let inCompanies = false;
-
-  // Helpers
-  const URL_RE = /https?:\/\/[^\s,|]+/gi;
-  const PHONE_RE = /(?:\+?[\d\s\-().]{7,20})/g;
-  const INSTAGRAM_RE = /instagram\.com\/([^\s/|,]+)/i;
+  const URL_RE = /https?:\/\/[^\s,|]+/g;
   const MAPS_RE = /maps\.(app\.goo\.gl|google\.com)\/[^\s,|]+/i;
+  const INSTAGRAM_RE = /instagram\.com\/([^\s/|,]+)/i;
+
+  function isCompanyLine(s) {
+    // Starts with a bullet marker
+    if (/^[•*\-]\s+\S/.test(s)) return true;
+    // Numbered list
+    if (/^\d+[.)]\s+\S/.test(s)) return true;
+    return false;
+  }
 
   function parseLine(raw) {
-    // Strip leading bullet/number/dot
-    const cleaned = raw.replace(/^[•\-*]\s*|^\d+[.)]\s*/, "").replace(/\*\*/g, "").trim();
-
+    // Strip leading bullet/number
+    const cleaned = raw.replace(/^[•*\-]\s+|^\d+[.)]\s+/, "").replace(/\*\*/g, "").trim();
     const company = { name: "", phone: "", website: "", instagram: "", location: "", mapUrl: "", description: "" };
 
-    // Try pipe-separated first: "Name | 📍 loc | 📞 phone | 🌐 url"
-    if (cleaned.includes("|")) {
+    if (cleaned.includes("|") && (cleaned.includes("📍") || cleaned.includes("📞") || cleaned.includes("🌐"))) {
+      // Pipe-separated with emoji markers
       const parts = cleaned.split("|").map(s => s.trim());
-      company.name = parts[0] || "";
+      company.name = parts[0].replace(/\*\*/g, "").trim();
       for (let j = 1; j < parts.length; j++) {
         const p = parts[j];
         if (p.startsWith("📍")) company.location = p.replace("📍", "").trim();
@@ -43,36 +42,32 @@ function extractCompanies(text) {
         else if (/instagram:/i.test(p)) company.instagram = p.replace(/instagram:/i, "").trim();
       }
     } else {
-      // Dash-separated: "Name - url - phone - url2"
-      // Extract all URLs first
-      const urls = [...(cleaned.matchAll(URL_RE))].map(m => m[0]);
-      // Remove URLs from string to get remaining tokens
-      let remainder = cleaned.replace(URL_RE, "|||URL|||");
-      const tokens = remainder.split(/\s*-\s*|\|\|\|URL\|\|\|/).map(s => s.trim()).filter(Boolean);
-
-      // First non-empty, non-URL token is the name
+      // Dash-separated: extract all URLs, then parse remaining tokens
+      const urls = [...cleaned.matchAll(new RegExp(URL_RE.source, "g"))].map(m => m[0]);
+      let remainder = cleaned;
+      urls.forEach(u => { remainder = remainder.replace(u, ""); });
+      // Split remainder on dashes or pipes
+      const tokens = remainder.split(/\s*[-|]\s*/).map(s => s.trim()).filter(Boolean);
       company.name = tokens[0] || "";
 
-      // Classify each URL
       for (const url of urls) {
         if (MAPS_RE.test(url)) {
           company.mapUrl = url;
         } else if (INSTAGRAM_RE.test(url)) {
-          const match = url.match(INSTAGRAM_RE);
-          company.instagram = match ? match[1] : url;
-        } else {
-          // Generic website — skip maps.app.goo.gl already caught above
-          if (!company.website) company.website = url;
+          const m = url.match(INSTAGRAM_RE);
+          company.instagram = m ? m[1].replace(/\/$/, "") : "";
+        } else if (!company.website) {
+          company.website = url;
         }
       }
 
-      // Find phone number in remaining tokens (skip name and URLs)
+      // Find phone among remaining tokens
       for (let k = 1; k < tokens.length; k++) {
-        const t = tokens[k];
-        if (!t || t.startsWith("http")) continue;
-        const phoneMatch = t.match(/^[\+\d][\d\s\-().]{5,18}$/);
-        if (phoneMatch && !company.phone) {
-          company.phone = t.trim();
+        const t = tokens[k].trim();
+        if (!t) continue;
+        // Phone: starts with + or digit, contains mostly digits/spaces/dashes
+        if (/^[+\d][\d\s\-()+.]{5,}$/.test(t) && !company.phone) {
+          company.phone = t;
         }
       }
     }
@@ -80,33 +75,24 @@ function extractCompanies(text) {
     return company;
   }
 
+  const lines = text.split("\n");
+  const companies = [];
+  const preamble = [];
+  const postamble = [];
+  let inCompanies = false;
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const trimmed = line.trim();
 
-    const isBullet =
-      trimmed.startsWith("•") ||
-      trimmed.startsWith("-") ||
-      /^\d+[.)]\s/.test(trimmed);
-
-    // Also catch plain lines that contain a company-like name followed by dash+url/phone
-    const looksLikeCompany =
-      isBullet ||
-      (!inCompanies && /^[A-Z].*?\s+-\s+(https?:\/\/|\+?\d)/.test(trimmed));
-
-    if (looksLikeCompany && trimmed.length > 3) {
+    if (isCompanyLine(trimmed)) {
       inCompanies = true;
       const parsed = parseLine(trimmed);
       if (parsed.name) {
-        // Check next line for indented description
+        // Look ahead for a description line (non-bullet, non-empty, short)
         if (i + 1 < lines.length) {
           const next = lines[i + 1].trim();
-          const isNextCompany =
-            next.startsWith("•") ||
-            next.startsWith("-") ||
-            /^\d+[.)]\s/.test(next) ||
-            /^[A-Z].*?\s+-\s+(https?:\/\/|\+?\d)/.test(next);
-          if (!isNextCompany && next && next.length < 200) {
+          if (next && !isCompanyLine(next) && next.length < 250 && !/^(Ikiwa|If |Kwa |For |Please|Tafadhali)/i.test(next)) {
             parsed.description = next;
             i++;
           }
